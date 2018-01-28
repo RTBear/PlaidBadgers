@@ -189,7 +189,7 @@ Prefab:
     - target: {fileID: 114085947730972034, guid: 9dba20e3c2a884b488a59ccc1e5c0109,
         type: 2}
       propertyPath: gravitationalPull
-      value: 3
+      value: 120
       objectReference: {fileID: 0}
     - target: {fileID: 114085947730972034, guid: 9dba20e3c2a884b488a59ccc1e5c0109,
         type: 2}

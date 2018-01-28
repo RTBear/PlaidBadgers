@@ -289,6 +289,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Assets\MyAssets\Char_Code.cs" />
+    <Compile Include="Assets\MyAssets\PunchBagBehavior.cs" />
     <Compile Include="Assets\MyAssets\ShericalGravity.cs" />
   </ItemGroup>
   <ItemGroup>
