@@ -26,9 +26,10 @@ GameObject:
   - component: {fileID: 54336167909299082}
   - component: {fileID: 136322922636646842}
   - component: {fileID: 82221338442014830}
+  - component: {fileID: 114022754963849274}
   m_Layer: 0
   m_Name: Charactor 1
-  m_TagString: Untagged
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -194,6 +195,17 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 0
+--- !u!114 &114022754963849274
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1968888369625578}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 17abb2ae109e7b644a37be0bc3b67912, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &114459398681444852
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -215,6 +227,7 @@ MonoBehaviour:
   attack_HitBoxes:
   - {fileID: 65353364473158514}
   whack: {fileID: 8300000, guid: 1435dc11e00c9584dbf51b0fe21a35bd, type: 3}
+  playerNumber: 0
 --- !u!136 &136322922636646842
 CapsuleCollider:
   m_ObjectHideFlags: 1
