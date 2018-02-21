@@ -1,0 +1,14 @@
+fileFormatVersion: 2
+guid: 2d1857a2421b4a842ac0856341e4be1a
+timeCreated: 1518884636
+licenseType: Free
+MonoImporter:
+  externalObjects: {}
+  serializedVersion: 2
+  defaultReferences:
+  - planet: {fileID: 1922922541144426, guid: 9dba20e3c2a884b488a59ccc1e5c0109, type: 2}
+  executionOrder: 0
+  icon: {instanceID: 0}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
