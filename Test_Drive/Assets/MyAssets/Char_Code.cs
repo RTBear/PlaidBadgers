@@ -11,9 +11,9 @@ public class Char_Code : MonoBehaviour {
     public Rigidbody rb;
     public float runForce = 30f;
     public GameObject planet;
-    private bool onGround = false;
+    public bool onGround = false;
     public float maxRunSpeed;
-    public bool airJump = true;
+    public bool canAirJump = false;
     public Collider[] attack_HitBoxes;
     //private bool attackCalled = false;
     public AudioClip whack;
@@ -59,7 +59,7 @@ public class Char_Code : MonoBehaviour {
     void OnCollisionExit(Collision collider)
     {
         onGround = false;
-        airJump = true;
+		canAirJump = true;
     }
 
     private void LaunchAttack(Collider collider)

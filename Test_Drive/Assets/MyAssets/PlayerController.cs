@@ -39,7 +39,7 @@ public class PlayerController : MonoBehaviour {
 			Debug.Log (horizontal + " pressed x");
 
 		//To get the joystick mapping correct the format needs to be "joystick # button 0"
-		if (Input.GetKey("joystick " + player.playerNumber + " button 0") && (onGround | canAirJump) || Input.GetKeyDown(KeyCode.Space) && (onGround | canAirJump)) {
+		if ((Input.GetKeyDown("joystick " + player.playerNumber + " button 0") || Input.GetKeyDown(KeyCode.Space)) && (player.onGround || player.canAirJump)) {
 			Jump ();
 		}
 
@@ -160,25 +160,14 @@ public class PlayerController : MonoBehaviour {
 			//if moving we need to combine the current momentum into the jump
 			rb.velocity = new Vector3(currentSpeed[0] + jumpDirection[0], currentSpeed[1] + jumpDirection[1], 0);
 
-			onGround = false;
+			player.onGround = false;
 
 			// Air jump logic
-			if (canAirJump)
-				canAirJump = false;
+			if (player.canAirJump)
+				player.canAirJump = false;
 		}
 	}
-
-	void OnCollisionEnter(Collision collider)
-	{
-		onGround = true;
-	}
-
-	void OnCollisionExit(Collision collider)
-	{
-		onGround = false;
-		canAirJump = true;
-	}
-
+		
 	/**
 	 * SetController is where the Axes get mapped
 	 * The strings need to match EXACTLY what the InputManager says
