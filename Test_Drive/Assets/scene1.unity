@@ -268,6 +268,10 @@ Prefab:
       propertyPath: m_RootOrder
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 1259422325058780, guid: d771c7455330cac48bcf1e35b3cc0f1a, type: 2}
+      propertyPath: m_TagString
+      value: Player
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: d771c7455330cac48bcf1e35b3cc0f1a, type: 2}
   m_IsPrefabParent: 0
@@ -800,6 +804,25 @@ Prefab:
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: f78ed5105145f8340a9d7ce0a4aafd48, type: 3}
   m_IsPrefabParent: 0
+--- !u!1 &950225084 stripped
+GameObject:
+  m_PrefabParentObject: {fileID: 1922922541144426, guid: 9dba20e3c2a884b488a59ccc1e5c0109,
+    type: 2}
+  m_PrefabInternal: {fileID: 201664117}
+--- !u!114 &950225091
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 950225084}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 03b329dd6967ca447a5934718cfe6e85, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  planet: {fileID: 950225084}
+  gravitationalPull: 200
+  range: 0
 --- !u!54 &978102048 stripped
 Rigidbody:
   m_PrefabParentObject: {fileID: 54336167909299082, guid: 6d6b9d4dbe0fc844a8b7dfce09d8454c,
