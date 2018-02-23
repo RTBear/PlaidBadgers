@@ -39,7 +39,7 @@ public class PlayerController : MonoBehaviour {
 			Debug.Log (horizontal + " pressed x");
 
 		//To get the joystick mapping correct the format needs to be "joystick # button 0"
-		if (Input.GetKey("joystick " + player.playerNumber + " button 0") || Input.GetKeyDown(KeyCode.Space) && (onGround | canAirJump)) {
+		if (Input.GetKey("joystick " + player.playerNumber + " button 0") && (onGround | canAirJump) || Input.GetKeyDown(KeyCode.Space) && (onGround | canAirJump)) {
 			Jump ();
 		}
 
