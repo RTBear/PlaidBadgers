@@ -185,6 +185,10 @@ Prefab:
       propertyPath: m_Layer
       value: 10
       objectReference: {fileID: 0}
+    - target: {fileID: 1259422325058780, guid: d771c7455330cac48bcf1e35b3cc0f1a, type: 2}
+      propertyPath: m_TagString
+      value: Item
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: d771c7455330cac48bcf1e35b3cc0f1a, type: 2}
   m_IsPrefabParent: 0
@@ -764,6 +768,10 @@ Prefab:
       propertyPath: m_Layer
       value: 10
       objectReference: {fileID: 0}
+    - target: {fileID: 1259422325058780, guid: d771c7455330cac48bcf1e35b3cc0f1a, type: 2}
+      propertyPath: m_TagString
+      value: Item
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: d771c7455330cac48bcf1e35b3cc0f1a, type: 2}
   m_IsPrefabParent: 0
@@ -869,8 +877,7 @@ GameObject:
 --- !u!114 &1112467560
 MonoBehaviour:
   m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 114085947730972034, guid: 9dba20e3c2a884b488a59ccc1e5c0109,
-    type: 2}
+  m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1112467559}
   m_Enabled: 1
@@ -1061,8 +1068,7 @@ MonoBehaviour:
 --- !u!114 &1467262964
 MonoBehaviour:
   m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 114085947730972034, guid: 9dba20e3c2a884b488a59ccc1e5c0109,
-    type: 2}
+  m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1467262962}
   m_Enabled: 1
