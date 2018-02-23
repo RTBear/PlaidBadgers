@@ -42,7 +42,7 @@ public class SphericalGravity : MonoBehaviour {
     void Start () {
 		players = GameObject.FindGameObjectsWithTag("Player");
 		//Uncomment this next line when we have items
-		//items = GameObject.FindGameObjectsWithTag("Item");
+		items = GameObject.FindGameObjectsWithTag("Item");
 	}
 	
 	// Update is called once per frame
