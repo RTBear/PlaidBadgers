@@ -42,17 +42,7 @@ public class PlayerController : Char_Code {
 		
 		//tether firing
 		if (Input.GetAxisRaw ("RightTrigger") == 1) {
-			tetherEmitter.isFiring = true;
-		}
-		if (Input.GetAxisRaw ("RightTrigger") == 0) {
-			tetherEmitter.isFiring = false;
-		}
-		if (Input.GetMouseButtonDown (0)) {
-			tetherEmitter.isFiring = true;
-		}
-
-		if (Input.GetMouseButtonUp (0)) {
-			tetherEmitter.isFiring = false;
+			tetherEmitter.launchTether();
 		}
 
 		//To get the joystick mapping correct the format needs to be "joystick # button 0"

@@ -9,9 +9,13 @@ public class TetherEmitterController : MonoBehaviour {
 
 	public TetherController tether;
 	public float tetherSpeed;
+	public float tetherLaunchForce;
 
-	public float timeBetweenShots;
-	private float shotCounter; //countdown until I can fire again
+	public float expirationTime; // time a tether can stay active
+	private float currentExpirationTimer; // timer until active tether expires
+
+	public float cooldownTime; //cooldown timer max (time between tether launches)
+	private float currentCooldownTimer; //current cooldown time
 
 	public Transform firePoint;
 
@@ -23,14 +27,30 @@ public class TetherEmitterController : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
 		if (isFiring) {
-			shotCounter -= Time.deltaTime;
-			if (shotCounter <= 0) {
-				shotCounter = timeBetweenShots;
-				TetherController newTether = Instantiate (tether, firePoint.position, firePoint.rotation) as TetherController;
-				newTether.speed = tetherSpeed;
+			currentCooldownTimer -= Time.deltaTime;
+			if (currentCooldownTimer <= 0) {
+				currentCooldownTimer = cooldownTime;
+				launchTether ();
 			}
 		} else {
-			shotCounter = 0;
+			currentCooldownTimer = 0;
+		}
+	}
+
+	public void launchTether(){
+		if (!tetherActive) {
+			tetherActive = true;
+			tether = Instantiate (tether, firePoint.position, firePoint.rotation) as TetherController;
+			//newTether.speed = tetherSpeed;
+			Rigidbody tempRigidBody = tether.GetComponent<Rigidbody>();
+
+			tempRigidBody.AddForce (transform.up * tetherLaunchForce);
+
+		} else {
+			currentExpirationTimer -= Time.deltaTime;
+			if (currentExpirationTimer <= 0) {
+				Destroy (tether);
+			}
 		}
 	}
 }
