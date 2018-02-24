@@ -8,7 +8,7 @@ public class PlayerController : Char_Code {
 	//float jumpVel = 25.0f;
 	bool canAirJump = true;
 	//Rigidbody rb;
-	//GameObject planet;
+	GameObject planet;
 	string horizontal;
 	string vertical;
 	Char_Code player;

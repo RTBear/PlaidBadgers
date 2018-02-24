@@ -348,6 +348,11 @@ Prefab:
       propertyPath: playerNumber
       value: 2
       objectReference: {fileID: 0}
+    - target: {fileID: 114022754963849274, guid: 6d6b9d4dbe0fc844a8b7dfce09d8454c,
+        type: 2}
+      propertyPath: planet
+      value: 
+      objectReference: {fileID: 1112467559}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 6d6b9d4dbe0fc844a8b7dfce09d8454c, type: 2}
   m_IsPrefabParent: 0
@@ -1477,6 +1482,11 @@ Prefab:
       propertyPath: playerNumber
       value: 3
       objectReference: {fileID: 0}
+    - target: {fileID: 114022754963849274, guid: 6d6b9d4dbe0fc844a8b7dfce09d8454c,
+        type: 2}
+      propertyPath: planet
+      value: 
+      objectReference: {fileID: 1112467559}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 6d6b9d4dbe0fc844a8b7dfce09d8454c, type: 2}
   m_IsPrefabParent: 0
