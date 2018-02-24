@@ -23,7 +23,7 @@ GameObject:
   - component: {fileID: 136684003323044850}
   - component: {fileID: 23605865140606830}
   - component: {fileID: 136216477297847404}
-  - component: {fileID: 114085947730972034}
+  - component: {fileID: 114796198580415806}
   m_Layer: 0
   m_Name: Simple_Ground
   m_TagString: Untagged
@@ -85,7 +85,7 @@ MeshFilter:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1922922541144426}
   m_Mesh: {fileID: 10206, guid: 0000000000000000e000000000000000, type: 0}
---- !u!114 &114085947730972034
+--- !u!114 &114796198580415806
 MonoBehaviour:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
@@ -93,15 +93,11 @@ MonoBehaviour:
   m_GameObject: {fileID: 1922922541144426}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8ae215e324ec8be4686a1730ad31b0fd, type: 3}
+  m_Script: {fileID: 11500000, guid: 03b329dd6967ca447a5934718cfe6e85, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  objects:
-  - {fileID: 0}
-  - {fileID: 0}
-  planet: {fileID: 1922922541144426}
-  singlePlanet: 0
-  gravitationalPull: 100
+  gravitationalPull: 20
+  range: 20
 --- !u!136 &136216477297847404
 CapsuleCollider:
   m_ObjectHideFlags: 1
