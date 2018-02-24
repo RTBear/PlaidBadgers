@@ -4,14 +4,12 @@ using UnityEngine;
 
 
 
-public class Char_Code : MonoBehaviour {
+public class Char_Code : GameObjectScript {
 
-    public float jumpVel = 2.0f;
+    public float jumpVel = 25.0f;
     public Vector3 jump;
-    public Rigidbody rb;
     public float runForce = 30f;
-    public GameObject planet;
-    private bool onGround = false;
+    protected bool onGround = false;
     public float maxRunSpeed;
     public bool airJump = true;
     public Collider[] attack_HitBoxes;
@@ -66,17 +64,29 @@ public class Char_Code : MonoBehaviour {
     {
         Collider[] cols = Physics.OverlapBox(collider.bounds.center, collider.bounds.extents, collider.transform.rotation, LayerMask.GetMask("HitBox"));
 		if(cols.Length <= 0)
-			Debug.LogWarning("No colliders");
+			Debug.LogWarning("No colliders. Hi mom!");
 		foreach (Collider c in cols)
 		{
 			if (c.transform.parent == c)
 				print("I hit myself");
 			else
 			{
-				print("You hit " + c.name);
-				//if(c.gameObject == punchBag)
-				c.GetComponent<Rigidbody>().AddForce((this.transform.position - c.transform.position).normalized * -1000);
-				audio.Play();
+				
+                var objectsScript = c.GetComponent<GameObjectScript>();
+                print(objectsScript);
+                if (objectsScript != null)
+                {
+                    audio.Play();
+
+                    Vector2 knockDir = (c.transform.position - this.transform.position).normalized;
+                    Attack basicAttack = new Attack(10, knockDir, 10);
+
+                    objectsScript.attacked(basicAttack);
+
+                }       
+                else
+				    c.GetComponent<Rigidbody>().AddForce((this.transform.position - c.transform.position).normalized * -1000);
+				
 
 			}
 		}
