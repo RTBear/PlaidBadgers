@@ -25,7 +25,7 @@ GameObject:
   - component: {fileID: 54439261968101978}
   - component: {fileID: 65373052126919342}
   - component: {fileID: 114369459575323002}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: punchBag
   m_TagString: Untagged
   m_Icon: {fileID: 0}

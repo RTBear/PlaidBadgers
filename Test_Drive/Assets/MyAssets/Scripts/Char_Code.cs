@@ -58,6 +58,7 @@ public class Char_Code : GameObjectScript {
     {
         onGround = false;
         airJump = true;
+   
     }
 
     private void LaunchAttack(Collider collider)
