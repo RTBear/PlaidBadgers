@@ -8,14 +8,14 @@ public class PlayerController : Char_Code {
 	//float jumpVel = 25.0f;
 	bool canAirJump = true;
 	//Rigidbody rb;
-	GameObject planet;
+	//GameObject planet;
 	string horizontal;
 	string vertical;
 	Char_Code player;
 
 	// Use this for initialization
 	void Start () {
-		planet = GameObject.Find ("Simple_Ground");
+		//planet = GameObject.Find ("Simple_Ground");
 		player = GetComponentInParent<Char_Code> ();
 		rb = player.GetComponent<Rigidbody>();
         
