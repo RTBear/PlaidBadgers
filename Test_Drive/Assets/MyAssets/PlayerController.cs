@@ -7,6 +7,7 @@ public class PlayerController : MonoBehaviour {
 	float runForce = 30f;
 	float jumpVel = 25.0f;
 	bool canAirJump = true;
+	float canSprint = 1f;
 	Rigidbody rb;
 	GameObject planet;
 	string horizontal;
@@ -42,6 +43,10 @@ public class PlayerController : MonoBehaviour {
 		if (Input.GetKey("joystick " + player.playerNumber + " button 0") || Input.GetKeyDown(KeyCode.Space) && (onGround | canAirJump)) {
 			Jump ();
 		}
+
+		if (Input.GetKeyDown (KeyCode.LeftShift)) {
+			canSprint = 2f;
+		} else { canSprint = 1f; }
 
 	}
 
@@ -80,16 +85,16 @@ public class PlayerController : MonoBehaviour {
 			if (angleChar>angleRunDir)
 			{
 				if (angleChar - angleRunDir < 180)
-					rb.AddRelativeForce(Vector3.right * runForce*moveMod);
+					rb.AddRelativeForce(Vector3.right * runForce*moveMod*canSprint);
 				else
-					rb.AddRelativeForce(Vector3.left * runForce*moveMod);
+					rb.AddRelativeForce(Vector3.left * runForce*moveMod*canSprint);
 			}
 			else
 			{
 				if(angleRunDir - angleChar < 180)
-					rb.AddRelativeForce(Vector3.left * runForce*moveMod);
+					rb.AddRelativeForce(Vector3.left * runForce*moveMod*canSprint);
 				else
-					rb.AddRelativeForce(Vector3.right * runForce*moveMod);
+					rb.AddRelativeForce(Vector3.right * runForce*moveMod*canSprint);
 
 			}
 		}
