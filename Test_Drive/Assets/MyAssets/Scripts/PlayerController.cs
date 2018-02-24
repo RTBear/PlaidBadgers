@@ -38,8 +38,8 @@ public class PlayerController : Char_Code {
 			Debug.Log (horizontal + " pressed x");
 
 		//To get the joystick mapping correct the format needs to be "joystick # button 0"
-		if ((Input.GetKey("joystick " + player.playerNumber + " button 0") | Input.GetKey(KeyCode.Space)) && (onGround | canAirJump)) {
-			Jump ();
+		if ((Input.GetKeyDown("joystick " + player.playerNumber + " button 0") | Input.GetKey(KeyCode.Space)) && (onGround | canAirJump)) {
+            Jump ();
 		}
 
 	}
@@ -123,6 +123,8 @@ public class PlayerController : Char_Code {
 	{
 		onGround = false;
 		canAirJump = true;
+       
+
 	}
 
 	/**
