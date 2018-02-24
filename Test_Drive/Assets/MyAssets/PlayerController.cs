@@ -13,6 +13,9 @@ public class PlayerController : Char_Code {
 	string vertical;
 	Char_Code player;
 
+	public TetherEmitterController tetherEmitter;
+
+
 	// Use this for initialization
 	void Start () {
 		planet = GameObject.Find ("Simple_Ground");
@@ -36,6 +39,21 @@ public class PlayerController : Char_Code {
 
 		if (Input.GetKeyDown ("joystick button 2"))
 			Debug.Log (horizontal + " pressed x");
+		
+		//tether firing
+		if (Input.GetAxisRaw ("RightTrigger") == 1) {
+			tetherEmitter.isFiring = true;
+		}
+		if (Input.GetAxisRaw ("RightTrigger") == 0) {
+			tetherEmitter.isFiring = false;
+		}
+		if (Input.GetMouseButtonDown (0)) {
+			tetherEmitter.isFiring = true;
+		}
+
+		if (Input.GetMouseButtonUp (0)) {
+			tetherEmitter.isFiring = false;
+		}
 
 		//To get the joystick mapping correct the format needs to be "joystick # button 0"
 		if (Input.GetKey("joystick " + player.playerNumber + " button 0") && (onGround | canAirJump)) {

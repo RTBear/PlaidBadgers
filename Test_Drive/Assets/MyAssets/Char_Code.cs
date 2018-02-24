@@ -19,6 +19,7 @@ public class Char_Code : GameObjectScript {
 	public int playerNumber;
 	PlayerController pc;
 
+
     // Use this for initialization
     void Start () {
      
@@ -33,10 +34,9 @@ public class Char_Code : GameObjectScript {
 		
         SetMaxRunSpeed();
   
-        if (Input.GetKeyUp("joystick button 2"))
-        {
-			Debug.LogWarning("Pressed attack");
-			LaunchAttack(attack_HitBoxes[0]);
+		if (Input.GetKeyUp ("joystick button 2")) {
+			Debug.LogWarning ("Pressed attack");
+			LaunchAttack (attack_HitBoxes [0]);
 		}
 	}
 
