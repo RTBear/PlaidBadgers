@@ -51,14 +51,14 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-     <Compile Include="Assets\MyAssets\Attack.cs" />
-     <Compile Include="Assets\MyAssets\Char_Code.cs" />
-     <Compile Include="Assets\MyAssets\GameObjectScript.cs" />
-     <Compile Include="Assets\MyAssets\PlayerController.cs" />
-     <Compile Include="Assets\MyAssets\PunchBagBehavior.cs" />
+     <Compile Include="Assets\MyAssets\Scripts\Attack.cs" />
+     <Compile Include="Assets\MyAssets\Scripts\Char_Code.cs" />
+     <Compile Include="Assets\MyAssets\Scripts\GameObjectScript.cs" />
+     <Compile Include="Assets\MyAssets\Scripts\PlayerController.cs" />
+     <Compile Include="Assets\MyAssets\Scripts\PunchBagBehavior.cs" />
+     <Compile Include="Assets\MyAssets\Scripts\SphericalGravity.cs" />
      <Compile Include="Assets\MyAssets\Scripts\TetherController.cs" />
      <Compile Include="Assets\MyAssets\Scripts\TetherEmitterController.cs" />
-     <Compile Include="Assets\MyAssets\ShericalGravity.cs" />
  <Reference Include="UnityEngine.UI">
  <HintPath>C:/Program Files/Unity/Editor/Data/UnityExtensions/Unity/GUISystem/UnityEngine.UI.dll</HintPath>
  </Reference>
