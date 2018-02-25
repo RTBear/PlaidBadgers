@@ -8,27 +8,27 @@ public class PlayerController : Char_Code {
 	//float jumpVel = 25.0f;
 	bool canAirJump = true;
 	//Rigidbody rb;
-	//GameObject planet;
 	string horizontal;
 	string vertical;
 	Char_Code player;
+	private Vector2 relativePos;
+	private int jmpForce = 7000;
 
 	// Use this for initialization
 	void Start () {
-		//planet = GameObject.Find ("Simple_Ground");
 		player = GetComponentInParent<Char_Code> ();
 		rb = player.GetComponent<Rigidbody>();
-        
+		relativePos = new Vector3 (0,0,0);
+	}
+
+	public void setUprightAngle(Vector2 pos){
+		float angleChar = getAngle(pos);
+		transform.eulerAngles = new Vector3(0, 0, angleChar);
+		relativePos = pos;
 	}
 
 	// Update is called once per frame
 	void Update () {
-
-		//This will force the character to stand upright
-		Vector2 relativePosition = transform.position - planet.transform.position;
-		float angleChar = getAngle(relativePosition);
-		transform.eulerAngles = new Vector3 (0, 0, angleChar);
-
 		//Check if the user has applied input on their controller
 		if (Input.GetAxis(horizontal) != 0 || Input.GetAxis(vertical) != 0) {
 			Move ();
@@ -46,13 +46,8 @@ public class PlayerController : Char_Code {
 
 	void Move()
 	{
-		if (planet == null)
-			return;
-
-		Vector2 relativePosition = transform.position - planet.transform.position;
-
 		// This is how our charactor will move with analog sticks
-		float angleChar = getAngle(relativePosition);
+		float angleChar = getAngle(relativePos);
 
 		Vector2 directionRun = new Vector2(Input.GetAxisRaw(horizontal), Input.GetAxisRaw(vertical));
 		float angleRunDir = getAngle(directionRun);
@@ -69,49 +64,24 @@ public class PlayerController : Char_Code {
 			if (!onGround)
 				moveMod = 0.5f;
 
-
-			if (angleChar>angleRunDir)
-			{
-				if (angleChar - angleRunDir < 180)
-					rb.AddRelativeForce(Vector3.right * runForce*moveMod);
-				else
-					rb.AddRelativeForce(Vector3.left * runForce*moveMod);
-			}
+			float angleDiff = angleRunDir - angleChar;
+			if (angleDiff < 0)
+				angleDiff += 360;
+			if (angleDiff < 180 && angleDiff > 0)
+				rb.AddRelativeForce(Vector3.left * runForce*moveMod);
 			else
-			{
-				if(angleRunDir - angleChar < 180)
-					rb.AddRelativeForce(Vector3.left * runForce*moveMod);
-				else
-					rb.AddRelativeForce(Vector3.right * runForce*moveMod);
-
-			}
+				rb.AddRelativeForce(Vector3.right * runForce*moveMod);
 		}
-		transform.eulerAngles = new Vector3(0, 0, angleChar);
 	}
 
 
 	void Jump()
 	{
-		{
-			//determine where on planet the Char is
-			Vector3 relative_position = rb.transform.position - planet.transform.position;
-			//DELETE AFTER USE// float magnitude = Mathf.Sqrt(relative_position[0] * relative_position[0] + relative_position[1] * relative_position[1]);
-			Vector2 jumpUnitVector = getUnitVector(relative_position[0], relative_position[1]);
-			// jumpDirection is the direction normal to the surface
-			Vector3 jumpDirection = new Vector3(jumpUnitVector[0]*jumpVel, jumpUnitVector[1]*jumpVel, 0);
-
-			// Get current speed of Char
-			Vector3 currentSpeed = rb.velocity;
-
-			//if moving we need to combine the current momentum into the jump
-			rb.velocity = new Vector3(currentSpeed[0] + jumpDirection[0], currentSpeed[1] + jumpDirection[1], 0);
-
-			onGround = false;
-
-			// Air jump logic
-			if (canAirJump)
-				canAirJump = false;
-		}
+		rb.AddForce (relativePos* jmpForce);
+		onGround = false;
+		// Air jump logic
+		if (canAirJump)
+			canAirJump = false;
 	}
 
 	void OnCollisionEnter(Collision collider)
@@ -123,8 +93,6 @@ public class PlayerController : Char_Code {
 	{
 		onGround = false;
 		canAirJump = true;
-       
-
 	}
 
 	/**

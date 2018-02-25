@@ -1,16 +1,18 @@
-﻿<Properties StartupItem="Assembly-CSharp.csproj">
+﻿<Properties StartupItem="Test_Drive.Plugins.csproj">
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" PreferredExecutionTarget="Unity.Instance.Unity Editor" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\MyAssets\Scripts\PlayerController.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\MyAssets\Scripts\SphericalGravity.cs">
     <Files>
-      <File FileName="Assets\MyAssets\Scripts\SphericalGravity.cs" Line="1" Column="1" />
-      <File FileName="Assets\MyAssets\Scripts\Char_Code.cs" Line="1" Column="1" />
-      <File FileName="Assets\MyAssets\Scripts\PlayerController.cs" Line="11" Column="2" />
+      <File FileName="Assets\MyAssets\Scripts\SphericalGravity.cs" Line="41" Column="1" />
+      <File FileName="Assets\MyAssets\Scripts\PlayerController.cs" Line="25" Column="2" />
+      <File FileName="Assets\MyAssets\Scripts\Char_Code.cs" Line="20" Column="22" />
+      <File FileName="Assets\MyAssets\Scripts\GameObjectScript.cs" Line="57" Column="6" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
     <BreakpointStore>
       <Breakpoint file="C:\Users\Rigdon\Documents\GitHub\PlaidBadgers\Test_Drive\Assets\MyAssets\PlayerController.cs" line="64" column="1" />
       <Breakpoint file="C:\Users\Rigdon\Documents\GitHub\PlaidBadgers\Test_Drive\Assets\MyAssets\PlayerController.cs" line="60" column="1" />
+      <Breakpoint file="C:\Users\Kylie\Documents\Class\Software Engineering\PlaidBadgers\Test_Drive\Assets\MyAssets\Scripts\PlayerController.cs" line="23" column="7" />
     </BreakpointStore>
   </MonoDevelop.Ide.DebuggingService.Breakpoints>
   <MonoDevelop.Ide.DebuggingService.PinnedWatches />
