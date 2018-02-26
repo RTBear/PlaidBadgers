@@ -1117,11 +1117,6 @@ Prefab:
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: d771c7455330cac48bcf1e35b3cc0f1a, type: 2}
   m_IsPrefabParent: 0
---- !u!54 &978102048 stripped
-Rigidbody:
-  m_PrefabParentObject: {fileID: 54336167909299082, guid: 6d6b9d4dbe0fc844a8b7dfce09d8454c,
-    type: 2}
-  m_PrefabInternal: {fileID: 1578018294}
 --- !u!1 &1065767113
 GameObject:
   m_ObjectHideFlags: 0
@@ -1552,7 +1547,7 @@ Prefab:
         type: 2}
       propertyPath: rb
       value: 
-      objectReference: {fileID: 978102048}
+      objectReference: {fileID: 0}
     - target: {fileID: 4690145208053032, guid: 6d6b9d4dbe0fc844a8b7dfce09d8454c, type: 2}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 1.866
@@ -1605,7 +1600,7 @@ Prefab:
         type: 2}
       propertyPath: planet
       value: 
-      objectReference: {fileID: 0}
+      objectReference: {fileID: 1112467559}
     - target: {fileID: 114022754963849274, guid: 6d6b9d4dbe0fc844a8b7dfce09d8454c,
         type: 2}
       propertyPath: maxRunSpeed
@@ -1629,7 +1624,7 @@ Prefab:
         type: 2}
       propertyPath: planet
       value: 
-      objectReference: {fileID: 1467262962}
+      objectReference: {fileID: 0}
     - target: {fileID: 114459398681444852, guid: 6d6b9d4dbe0fc844a8b7dfce09d8454c,
         type: 2}
       propertyPath: whack

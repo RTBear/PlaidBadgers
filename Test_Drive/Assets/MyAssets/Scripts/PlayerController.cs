@@ -7,6 +7,7 @@ public class PlayerController : Char_Code {
 	//float runForce = 30f;
 	//float jumpVel = 25.0f;
 	bool canAirJump = true;
+	float sprintForce = 1f;
 	//Rigidbody rb;
 	//GameObject planet;
 	string horizontal;
@@ -33,6 +34,13 @@ public class PlayerController : Char_Code {
 		//Check if the user has applied input on their controller
 		if (Input.GetAxis(horizontal) != 0 || Input.GetAxis(vertical) != 0 || Input.GetAxis(keyboardHorizontal) != 0 || Input.GetAxis(keyboardVertical) != 0) {
 			Move ();
+		}
+
+		if (Input.GetKey (KeyCode.LeftShift)) {
+			sprintForce = 45f;
+			Debug.Log ("I pushed the shift" + sprintForce.ToString ());
+		} else {
+			sprintForce = 1f;
 		}
 
 		if (Input.GetKeyDown ("joystick button 2"))
@@ -80,9 +88,9 @@ public class PlayerController : Char_Code {
 			if (angleChar>angleRunDir)
 			{
 				if (angleChar - angleRunDir < 180)
-					rb.AddRelativeForce(Vector3.right * runForce*moveMod);
+					rb.AddRelativeForce(Vector3.right * runForce*moveMod*sprintForce);
 				else
-					rb.AddRelativeForce(Vector3.left * runForce*moveMod);
+					rb.AddRelativeForce(Vector3.left * runForce*moveMod*sprintForce);
 			}
 			else
 			{
