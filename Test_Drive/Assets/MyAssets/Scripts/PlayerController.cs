@@ -2,13 +2,8 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PlayerController : MonoBehaviour {
-	bool onGround = true;
-	float runForce = 30f;
-	float jumpVel = 25.0f;
-	bool canAirJump = true;
-	Rigidbody rb;
-	GameObject planet;
+public class PlayerController : Char_Code {
+
 	string horizontal;
 	string vertical;
 	string keyboardHorizontal;
@@ -39,10 +34,9 @@ public class PlayerController : MonoBehaviour {
 			Debug.Log (horizontal + " pressed x");
 
 		//To get the joystick mapping correct the format needs to be "joystick # button 0"
-		if ((Input.GetKeyDown("joystick " + player.playerNumber + " button 0") || Input.GetKeyDown(KeyCode.Space)) && (player.onGround || player.canAirJump)) {
+		if ((Input.GetKeyDown("joystick " + player.playerNumber + " button 0") || Input.GetKeyDown(KeyCode.Space)) && (onGround || canAirJump)) {
 			Jump ();
 		}
-
 	}
 
 	void Move()
@@ -96,53 +90,6 @@ public class PlayerController : MonoBehaviour {
 		transform.eulerAngles = new Vector3(0, 0, angleChar);
 	}
 
-	float getAngle(Vector2 vector)
-	{
-		float angle;
-
-		if (vector[0] == 0)
-		{
-			if (vector[1] > 0)
-			{
-				angle = 0;
-			}
-			else
-			{
-				angle = 180;
-			}
-		}
-		else if (vector[0] > 0)       //check if char is to right of planet
-		{
-			if (vector[1] > 0) //   Quadrant I
-			{
-				angle = 270 + (Mathf.Atan(vector[1] / vector[0]) * 180) / Mathf.PI;
-			}
-			else   // Quadrant II
-			{
-				angle = 270 + (Mathf.Atan(vector[1] / vector[0]) * 180) / Mathf.PI;
-			}
-
-		}
-		else
-		{
-			if (vector[1] > 0) //   Quadrant IIV
-			{
-				angle = 90 + (Mathf.Atan(vector[1] / vector[0]) * 180) / Mathf.PI;
-			}
-			else  // Quadrand III
-			{
-				angle = 90 + (Mathf.Atan(vector[1] / vector[0]) * 180) / Mathf.PI;
-			}
-		}
-		return angle;
-	}
-
-	Vector2 getUnitVector(float x, float y)
-	{
-		float magnitude = Mathf.Sqrt(x * x + y * y);
-
-		return new Vector2(x / magnitude, y / magnitude);
-	}
 
 	void Jump()
 	{
@@ -160,11 +107,11 @@ public class PlayerController : MonoBehaviour {
 			//if moving we need to combine the current momentum into the jump
 			rb.velocity = new Vector3(currentSpeed[0] + jumpDirection[0], currentSpeed[1] + jumpDirection[1], 0);
 
-			player.onGround = false;
+			onGround = false;
 
 			// Air jump logic
-			if (player.canAirJump)
-				player.canAirJump = false;
+			if (canAirJump)
+				canAirJump = false;
 		}
 	}
 		

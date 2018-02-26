@@ -27,7 +27,7 @@ GameObject:
   - component: {fileID: 136322922636646842}
   - component: {fileID: 82221338442014830}
   - component: {fileID: 114022754963849274}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: Charactor 1
   m_TagString: Player
   m_Icon: {fileID: 0}
@@ -206,6 +206,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 17abb2ae109e7b644a37be0bc3b67912, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  health: 0
+  planet: {fileID: 0}
+  rb: {fileID: 0}
+  jumpVel: 25
+  jump: {x: 0, y: 0, z: 0}
+  runForce: 30
+  maxRunSpeed: 0
+  airJump: 1
+  attack_HitBoxes: []
+  whack: {fileID: 0}
+  playerNumber: 0
 --- !u!114 &114459398681444852
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -217,11 +228,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: aa69cd54d633a0847b2ddf26c288392b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  health: 0
+  planet: {fileID: 1922922541144426, guid: 9dba20e3c2a884b488a59ccc1e5c0109, type: 2}
+  rb: {fileID: 0}
   jumpVel: 500
   jump: {x: 0, y: 0, z: 0}
-  rb: {fileID: 0}
   runForce: 90
-  planet: {fileID: 1922922541144426, guid: 9dba20e3c2a884b488a59ccc1e5c0109, type: 2}
   maxRunSpeed: 10
   airJump: 1
   attack_HitBoxes:
