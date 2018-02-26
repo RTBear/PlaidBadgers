@@ -34,7 +34,7 @@ public class Char_Code : GameObjectScript {
 	
 	// Update is called once per frame
 	void Update () {
-		setHealthText ();
+		setHealthText();
         SetMaxRunSpeed();
   
         if (Input.GetKeyUp("joystick button 2"))
@@ -62,6 +62,7 @@ public class Char_Code : GameObjectScript {
     {
         onGround = false;
         airJump = true;
+   
     }
 
     private void LaunchAttack(Collider collider)
