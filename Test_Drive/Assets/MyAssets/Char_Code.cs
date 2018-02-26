@@ -1,7 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
+using UnityEngine.UI;
 
 
 public class Char_Code : GameObjectScript {
@@ -18,19 +18,23 @@ public class Char_Code : GameObjectScript {
     AudioSource audio;
 	public int playerNumber;
 	PlayerController pc;
+	public Text healthText;
+
 
     // Use this for initialization
     void Start () {
-     
+		health = 0f;
+		setHealthText ();
         rb = GetComponent<Rigidbody>();
         audio = GetComponent<AudioSource>();
 		pc = GetComponent<PlayerController> ();
 		pc.SetController (playerNumber);
+
     }
 	
 	// Update is called once per frame
 	void Update () {
-		
+		setHealthText ();
         SetMaxRunSpeed();
   
         if (Input.GetKeyUp("joystick button 2"))
@@ -92,5 +96,7 @@ public class Char_Code : GameObjectScript {
 		}
     }
 
-
+	void setHealthText(){
+		healthText.text = health.ToString () + "%";
+	}
 }

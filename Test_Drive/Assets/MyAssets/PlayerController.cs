@@ -20,7 +20,6 @@ public class PlayerController : Char_Code {
 		planet = GameObject.Find ("Simple_Ground");
 		player = GetComponentInParent<Char_Code> ();
 		rb = player.GetComponent<Rigidbody>();
-        
 	}
 
 	// Update is called once per frame
@@ -43,10 +42,6 @@ public class PlayerController : Char_Code {
 		if (Input.GetKey("joystick " + player.playerNumber + " button 0") || Input.GetKeyDown(KeyCode.Space) && (onGround | canAirJump)) {
 			Jump ();
 		}
-
-		if (Input.GetKeyDown (KeyCode.LeftShift)) {
-			canSprint = 2f;
-		} else { canSprint = 1f; }
 
 	}
 
@@ -85,16 +80,16 @@ public class PlayerController : Char_Code {
 			if (angleChar>angleRunDir)
 			{
 				if (angleChar - angleRunDir < 180)
-					rb.AddRelativeForce(Vector3.right * runForce*moveMod*canSprint);
+					rb.AddRelativeForce(Vector3.right * runForce*moveMod);
 				else
-					rb.AddRelativeForce(Vector3.left * runForce*moveMod*canSprint);
+					rb.AddRelativeForce(Vector3.left * runForce*moveMod);
 			}
 			else
 			{
 				if(angleRunDir - angleChar < 180)
-					rb.AddRelativeForce(Vector3.left * runForce*moveMod*canSprint);
+					rb.AddRelativeForce(Vector3.left * runForce*moveMod);
 				else
-					rb.AddRelativeForce(Vector3.right * runForce*moveMod*canSprint);
+					rb.AddRelativeForce(Vector3.right * runForce*moveMod);
 
 			}
 		}
