@@ -3,13 +3,8 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class PlayerController : Char_Code {
-	//bool onGround = true;
-	//float runForce = 30f;
-	//float jumpVel = 25.0f;
 	bool canAirJump = true;
 	float sprintForce = 1f;
-	//Rigidbody rb;
-	//GameObject planet;
 	string horizontal;
 	string vertical;
 	string keyboardHorizontal;
@@ -18,8 +13,8 @@ public class PlayerController : Char_Code {
 
 	// Use this for initialization
 	void Start () {
-		//planet = GameObject.Find ("Simple_Ground");
-		player = GetComponentInParent<Char_Code> ();
+		planet = GameObject.Find ("Simple_Ground");
+		player = GetComponent<Char_Code> ();
 		rb = player.GetComponent<Rigidbody>();
 	}
 
@@ -47,10 +42,9 @@ public class PlayerController : Char_Code {
 			Debug.Log (horizontal + " pressed x");
 
 		//To get the joystick mapping correct the format needs to be "joystick # button 0"
-		if ((Input.GetKeyDown("joystick " + player.playerNumber + " button 0") | Input.GetKey(KeyCode.Space)) && (onGround | canAirJump)) {
-            Jump ();
+		if ((Input.GetKeyDown("joystick " + player.playerNumber + " button 0") || Input.GetKeyDown(KeyCode.Space)) && (onGround || canAirJump)) {
+			Jump ();
 		}
-
 	}
 
 	void Move()
@@ -128,20 +122,7 @@ public class PlayerController : Char_Code {
 				canAirJump = false;
 		}
 	}
-
-	void OnCollisionEnter(Collision collider)
-	{
-		onGround = true;
-	}
-
-	void OnCollisionExit(Collision collider)
-	{
-		onGround = false;
-		canAirJump = true;
-       
-
-	}
-
+		
 	/**
 	 * SetController is where the Axes get mapped
 	 * The strings need to match EXACTLY what the InputManager says
