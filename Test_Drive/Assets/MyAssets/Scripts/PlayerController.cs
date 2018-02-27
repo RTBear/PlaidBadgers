@@ -37,7 +37,7 @@ public class PlayerController : Char_Code {
 		}
 
 		if (Input.GetKey (KeyCode.LeftShift)) {
-			sprintForce = 45f;
+			sprintForce = 30f;
 			Debug.Log ("I pushed the shift" + sprintForce.ToString ());
 		} else {
 			sprintForce = 1f;
@@ -95,9 +95,9 @@ public class PlayerController : Char_Code {
 			else
 			{
 				if(angleRunDir - angleChar < 180)
-					rb.AddRelativeForce(Vector3.left * runForce*moveMod);
+					rb.AddRelativeForce(Vector3.left * runForce*moveMod*sprintForce);
 				else
-					rb.AddRelativeForce(Vector3.right * runForce*moveMod);
+					rb.AddRelativeForce(Vector3.right * runForce*moveMod*sprintForce);
 
 			}
 		}
