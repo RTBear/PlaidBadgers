@@ -28,7 +28,7 @@ GameObject:
   - component: {fileID: 82221338442014830}
   - component: {fileID: 114022754963849274}
   m_Layer: 10
-  m_Name: Charactor 1
+  m_Name: Character 1
   m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -217,6 +217,7 @@ MonoBehaviour:
   attack_HitBoxes: []
   whack: {fileID: 0}
   playerNumber: 0
+  tetherEmitter: {fileID: 0}
 --- !u!114 &114459398681444852
 MonoBehaviour:
   m_ObjectHideFlags: 1

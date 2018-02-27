@@ -25,28 +25,36 @@ public class SphericalGravity : MonoBehaviour {
 		}
     }
 
+
+
 	void ApplyGravity(GameObject o)
 	{
 		//in range
-		Vector3 dir = (transform.position - o.transform.position);
-		if(dir.magnitude <= range)
-		{
-			if (o.GetComponent<Rigidbody> () != null) {
-				o.GetComponent<Rigidbody> ().AddForce (
-					dir.normalized * gravitationalPull);
+		if (o) {
+			Vector3 dir = (transform.position - o.transform.position);
+			if (dir.magnitude <= range) {
+				if (o.GetComponent<Rigidbody> () != null) {
+					o.GetComponent<Rigidbody> ().AddForce (
+						dir.normalized * gravitationalPull);
+				}
 			}
 		}
+	}
+
+
+	public void getItems(){
+		items = GameObject.FindGameObjectsWithTag("Item");
 	}
 
     // Use this for initialization
     void Start () {
 		players = GameObject.FindGameObjectsWithTag("Player");
 		//Uncomment this next line when we have items
-		items = GameObject.FindGameObjectsWithTag("Item");
+		getItems();
 	}
 	
 	// Update is called once per frame
 	void Update () {
-		
+		getItems ();
 	}
 }

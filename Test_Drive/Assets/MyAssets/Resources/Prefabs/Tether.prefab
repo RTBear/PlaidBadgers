@@ -23,9 +23,11 @@ GameObject:
   - component: {fileID: 135225878139621046}
   - component: {fileID: 23622488318987018}
   - component: {fileID: 114811079407193662}
-  m_Layer: 0
+  - component: {fileID: 54546582001345360}
+  - component: {fileID: 114993666063185000}
+  m_Layer: 10
   m_Name: Tether
-  m_TagString: Untagged
+  m_TagString: Item
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -84,6 +86,21 @@ MeshFilter:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1117666588794986}
   m_Mesh: {fileID: 10207, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!54 &54546582001345360
+Rigidbody:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1117666588794986}
+  serializedVersion: 2
+  m_Mass: 1
+  m_Drag: 1
+  m_AngularDrag: 1
+  m_UseGravity: 0
+  m_IsKinematic: 0
+  m_Interpolate: 0
+  m_Constraints: 8
+  m_CollisionDetection: 0
 --- !u!114 &114811079407193662
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -96,6 +113,20 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   speed: 0
+--- !u!114 &114993666063185000
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1117666588794986}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2d1857a2421b4a842ac0856341e4be1a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  health: 0
+  planet: {fileID: 1922922541144426, guid: 9dba20e3c2a884b488a59ccc1e5c0109, type: 2}
+  rb: {fileID: 54546582001345360}
 --- !u!135 &135225878139621046
 SphereCollider:
   m_ObjectHideFlags: 1
