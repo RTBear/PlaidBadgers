@@ -8,6 +8,8 @@ public class TetherEmitterController : MonoBehaviour {
 	private bool tetherActive = false;
 	private bool tetherCollide = false;
 
+	public Renderer rend = new Renderer();
+
 	public GameObject tetherPrefab; //stores the template of a tether object
 	public TetherController tether; //the tether script
 
@@ -20,6 +22,7 @@ public class TetherEmitterController : MonoBehaviour {
 	//private float currentCooldownTimer; //current cooldown time
 
 	public Transform firePoint;
+	public GameObject crosshair;
 
 	// Use this for initialization
 	void Start () {
@@ -55,7 +58,7 @@ public class TetherEmitterController : MonoBehaviour {
 
 			Rigidbody tempRigidBody = tether.prefab.GetComponent<Rigidbody>();
 			//SphericalGravity.getItems(); //TODO: OPTIMIZATION: Add new tether to planet upon creation
-			tempRigidBody.AddForce (transform.right * tetherLaunchForce);
+			tempRigidBody.AddForce (transform.up * tetherLaunchForce);
 		}
 	}
 }

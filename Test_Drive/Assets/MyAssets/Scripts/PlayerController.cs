@@ -37,6 +37,11 @@ public class PlayerController : Char_Code {
 			Move ();
 		}
 
+		//Check if the user has applied input to their right analog stick
+		if (Input.GetAxis("RightAnalogHorizontal") != 0 || Input.GetAxis("RightAnalogVertical") != 0) {
+			Aim ();
+		}
+
 		if (Input.GetKeyDown ("joystick button 2"))
 			Debug.Log (horizontal + " pressed x");
 		
@@ -50,6 +55,13 @@ public class PlayerController : Char_Code {
             Jump ();
 		}
 
+	}
+
+	void Aim(){
+		Vector2 relativePosition = this.tetherEmitter.firePoint.position - transform.GetComponent<Renderer> ().bounds.center;
+		Vector2 directionAim = new Vector2 (Input.GetAxisRaw ("RightAnalogHorizontal"), Input.GetAxisRaw ("RightAnalogVertical"));
+		float angleCrosshair = getAngle (directionAim);
+		this.tetherEmitter.transform.eulerAngles = new Vector3(0, 0, angleCrosshair);
 	}
 
 	void Move()
