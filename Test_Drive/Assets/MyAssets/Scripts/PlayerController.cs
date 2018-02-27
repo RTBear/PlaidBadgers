@@ -12,7 +12,8 @@ public class PlayerController : Char_Code {
 	string vertical;
 	Char_Code player;
 	private Vector2 relativePos;
-	private int jmpForce = 7000;
+	public int jmpForce;
+	bool isOnPlanet;
 
 	// Use this for initialization
 	void Start () {
@@ -22,9 +23,14 @@ public class PlayerController : Char_Code {
 	}
 
 	public void setUprightAngle(Vector2 pos){
-		float angleChar = getAngle(pos);
-		transform.eulerAngles = new Vector3(0, 0, angleChar);
+		isOnPlanet = true;
+		float angleChar = getAngle (pos);
+		transform.eulerAngles = new Vector3 (0, 0, angleChar);
 		relativePos = pos;
+	}
+
+	public void notOnPlanet(){
+		isOnPlanet = false;
 	}
 
 	// Update is called once per frame
@@ -46,6 +52,8 @@ public class PlayerController : Char_Code {
 
 	void Move()
 	{
+		if (!isOnPlanet)
+			return;
 		// This is how our charactor will move with analog sticks
 		float angleChar = getAngle(relativePos);
 
@@ -77,6 +85,8 @@ public class PlayerController : Char_Code {
 
 	void Jump()
 	{
+		if (!isOnPlanet)
+			return;
 		rb.AddForce (relativePos* jmpForce);
 		onGround = false;
 		// Air jump logic
