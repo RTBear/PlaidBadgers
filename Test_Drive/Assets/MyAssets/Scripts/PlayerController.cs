@@ -7,9 +7,11 @@ public class PlayerController : Char_Code {
 	//float runForce = 30f;
 	//float jumpVel = 25.0f;
 	bool canAirJump = true;
-	//Rigidbody rb;
+	Rigidbody rb;
 	string horizontal;
 	string vertical;
+	string keyboardHorizontal;
+	string keyboardVertical;
 	Char_Code player;
 	private Vector2 relativePos;
 	public int jmpForce;
@@ -36,7 +38,7 @@ public class PlayerController : Char_Code {
 	// Update is called once per frame
 	void Update () {
 		//Check if the user has applied input on their controller
-		if (Input.GetAxis(horizontal) != 0 || Input.GetAxis(vertical) != 0) {
+		if (Input.GetAxis(horizontal) != 0 || Input.GetAxis(vertical) != 0 || Input.GetAxis(keyboardHorizontal) != 0 || Input.GetAxis(keyboardVertical) != 0) {
 			Move ();
 		}
 
@@ -44,10 +46,9 @@ public class PlayerController : Char_Code {
 			Debug.Log (horizontal + " pressed x");
 
 		//To get the joystick mapping correct the format needs to be "joystick # button 0"
-		if ((Input.GetKeyDown("joystick " + player.playerNumber + " button 0") | Input.GetKey(KeyCode.Space)) && (onGround | canAirJump)) {
-            Jump ();
+		if ((Input.GetKeyDown("joystick " + player.playerNumber + " button 0") || Input.GetKeyDown(KeyCode.Space)) && (onGround || canAirJump)) {
+			Jump ();
 		}
-
 	}
 
 	void Move()
@@ -57,7 +58,13 @@ public class PlayerController : Char_Code {
 		// This is how our charactor will move with analog sticks
 		float angleChar = getAngle(relativePos);
 
-		Vector2 directionRun = new Vector2(Input.GetAxisRaw(horizontal), Input.GetAxisRaw(vertical));
+		Vector2 directionRun = new Vector2(0, 0);
+
+		if(Input.GetAxis(horizontal) != 0 || Input.GetAxis(vertical) != 0)
+			directionRun = new Vector2(Input.GetAxisRaw(horizontal), Input.GetAxisRaw(vertical));
+		else if(Input.GetAxis(keyboardHorizontal) != 0 || Input.GetAxis(keyboardVertical) != 0)
+			directionRun = new Vector2(Input.GetAxisRaw(keyboardHorizontal), Input.GetAxisRaw(keyboardVertical));
+		
 		float angleRunDir = getAngle(directionRun);
 
 		//check if they desired location is the same as current location
@@ -93,18 +100,7 @@ public class PlayerController : Char_Code {
 		if (canAirJump)
 			canAirJump = false;
 	}
-
-	void OnCollisionEnter(Collision collider)
-	{
-		onGround = true;
-	}
-
-	void OnCollisionExit(Collision collider)
-	{
-		onGround = false;
-		canAirJump = true;
-	}
-
+		
 	/**
 	 * SetController is where the Axes get mapped
 	 * The strings need to match EXACTLY what the InputManager says
@@ -113,5 +109,7 @@ public class PlayerController : Char_Code {
 	{
 		horizontal = "Joystick" + number + "Horizontal";
 		vertical = "Joystick" + number + "Vertical";
+		keyboardHorizontal = "Keyboard" + number + "Horizontal";
+		keyboardVertical = "Keyboard" + number + "Vertical";
 	}
 }
