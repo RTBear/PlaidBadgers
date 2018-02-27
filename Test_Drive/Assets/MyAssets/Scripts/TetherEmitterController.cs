@@ -8,7 +8,6 @@ public class TetherEmitterController : MonoBehaviour {
 	private bool tetherActive = false;
 	private bool tetherCollide = false;
 
-	public Renderer rend = new Renderer();
 
 	public GameObject tetherPrefab; //stores the template of a tether object
 	public TetherController tether; //the tether script

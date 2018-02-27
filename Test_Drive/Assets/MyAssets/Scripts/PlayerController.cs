@@ -14,7 +14,7 @@ public class PlayerController : Char_Code {
 	Char_Code player;
 
 	public TetherEmitterController tetherEmitter;
-
+	public LayerMask tetherMask;
 
 	// Use this for initialization
 	void Start () {

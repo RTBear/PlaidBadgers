@@ -4,11 +4,12 @@ using UnityEngine;
 
 public class TetherController : MonoBehaviour {
 
-	public float speed;
 	public GameObject prefab;
+	public float speed;
+
 	// Use this for initialization
 	void Start () {
-		prefab = Resources.Load ("Prefabs/Tether") as GameObject;
+		
 	}
 	
 	// Update is called once per frame
