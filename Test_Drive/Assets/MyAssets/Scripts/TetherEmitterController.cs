@@ -4,8 +4,9 @@ using UnityEngine;
 
 public class TetherEmitterController : MonoBehaviour {
 
-	public bool isFiring;
-	private bool tetherActive;
+	//public bool isFiring = false;
+	private bool tetherActive = false;
+	private bool tetherCollide = false;
 
 	public GameObject tetherPrefab; //stores the template of a tether object
 	public TetherController tether; //the tether script
@@ -30,7 +31,7 @@ public class TetherEmitterController : MonoBehaviour {
 
 		if (tetherActive) {
 			currentExpirationTimer -= Time.deltaTime;
-			if (currentExpirationTimer <= 0) {
+			if (currentExpirationTimer <= 0 || (Input.GetAxisRaw ("RightTrigger") == 0) && !tetherCollide) {//if tether expires or if trigger is released before tether expires
 				Destroy(tether.prefab);
 				if (!tether.prefab) {//make sure tether is actually deleted
 					tetherActive = false;
