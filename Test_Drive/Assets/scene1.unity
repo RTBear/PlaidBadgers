@@ -944,8 +944,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   players: []
   items: []
-  gravitationalPull: 1
-  range: 5
+  gravitationalPull: 100
+  range: 7
 --- !u!136 &1112467561
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -1077,12 +1077,12 @@ Prefab:
     - target: {fileID: 114796198580415806, guid: 9dba20e3c2a884b488a59ccc1e5c0109,
         type: 2}
       propertyPath: gravitationalPull
-      value: 0
+      value: 100
       objectReference: {fileID: 0}
     - target: {fileID: 114796198580415806, guid: 9dba20e3c2a884b488a59ccc1e5c0109,
         type: 2}
       propertyPath: range
-      value: 0
+      value: 7
       objectReference: {fileID: 0}
     - target: {fileID: 1922922541144426, guid: 9dba20e3c2a884b488a59ccc1e5c0109, type: 2}
       propertyPath: m_TagString

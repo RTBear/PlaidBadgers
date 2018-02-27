@@ -41,6 +41,7 @@ public class GameManager : MonoBehaviour {
 		foreach(GameObject p in planets){
 			var planet = p.GetComponent<SphericalGravity>();
 			//think of a better way later
+			planet.players.Clear();
 			planet.items.Clear();
 		}
 
