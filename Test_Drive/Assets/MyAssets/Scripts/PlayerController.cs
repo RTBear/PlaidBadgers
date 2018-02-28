@@ -2,69 +2,61 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PlayerController : Char_Code {
-	//bool onGround = true;
-	//float runForce = 30f;
-	//float jumpVel = 25.0f;
-	bool canAirJump = true;
+public class PlayerController : GameObjectScript {
 	Rigidbody rb;
-	string horizontal;
-	string vertical;
-	string keyboardHorizontal;
-	string keyboardVertical;
-	Char_Code player;
+
+	bool inPlanetGravity;
 	private Vector2 relativePos;
+
 	public int jmpForce;
-	bool isOnPlanet;
+	public float jumpVel = 25.0f;
+	bool canAirJump = true;
+	bool onGround = false;
+
+	public float runForce = 30f;
+	public float maxRunSpeed;
+
+	public AudioClip whack;
 
 	// Use this for initialization
 	void Start () {
-		player = GetComponentInParent<Char_Code> ();
-		rb = player.GetComponent<Rigidbody>();
+		rb = GetComponentInParent<Rigidbody>();
 		relativePos = new Vector3 (0,0,0);
 	}
 
+	//Methods for outside access
+	//These affect player movement
 	public void setUprightAngle(Vector2 pos){
-		isOnPlanet = true;
+		inPlanetGravity = true;
 		float angleChar = getAngle (pos);
 		transform.eulerAngles = new Vector3 (0, 0, angleChar);
 		relativePos = pos;
 	}
 
 	public void notOnPlanet(){
-		isOnPlanet = false;
+		inPlanetGravity = false;
 	}
 
-	// Update is called once per frame
-	void Update () {
-		//Check if the user has applied input on their controller
-		if (Input.GetAxis(horizontal) != 0 || Input.GetAxis(vertical) != 0 || Input.GetAxis(keyboardHorizontal) != 0 || Input.GetAxis(keyboardVertical) != 0) {
-			Move ();
-		}
-
-		if (Input.GetKeyDown ("joystick button 2"))
-			Debug.Log (horizontal + " pressed x");
-
-		//To get the joystick mapping correct the format needs to be "joystick # button 0"
-		if ((Input.GetKeyDown("joystick " + player.playerNumber + " button 0") || Input.GetKeyDown(KeyCode.Space)) && (onGround || canAirJump)) {
-			Jump ();
-		}
-	}
-
-	void Move()
+	void OnCollisionEnter(Collision collider)
 	{
-		if (!isOnPlanet)
-			return;
+		onGround = true;
+	}
+
+	void OnCollisionExit(Collision collider)
+	{
+		onGround = false;
+		canAirJump = true;
+	}
+
+	//can make this more complex, set methods for is paralized, ect
+	public bool canMove(){
+		return inPlanetGravity;
+	}
+		
+	public void Move(Vector2 directionRun)
+	{
 		// This is how our charactor will move with analog sticks
 		float angleChar = getAngle(relativePos);
-
-		Vector2 directionRun = new Vector2(0, 0);
-
-		if(Input.GetAxis(horizontal) != 0 || Input.GetAxis(vertical) != 0)
-			directionRun = new Vector2(Input.GetAxisRaw(horizontal), Input.GetAxisRaw(vertical));
-		else if(Input.GetAxis(keyboardHorizontal) != 0 || Input.GetAxis(keyboardVertical) != 0)
-			directionRun = new Vector2(Input.GetAxisRaw(keyboardHorizontal), Input.GetAxisRaw(keyboardVertical));
-		
 		float angleRunDir = getAngle(directionRun);
 
 		//check if they desired location is the same as current location
@@ -87,29 +79,60 @@ public class PlayerController : Char_Code {
 			else
 				rb.AddRelativeForce(Vector3.right * runForce*moveMod);
 		}
+		SetMaxRunSpeed ();
 	}
 
-
-	void Jump()
+	// This controls the run speed. This will also play havock on 
+	void SetMaxRunSpeed()
 	{
-		if (!isOnPlanet)
-			return;
+		if(rb.velocity.magnitude > maxRunSpeed)
+		{
+			rb.velocity =  rb.velocity.normalized * maxRunSpeed;
+		}
+	}
+
+	public bool canJump(){
+		return inPlanetGravity && (onGround || canAirJump);
+	}
+		
+	public void Jump()
+	{
 		rb.AddForce (relativePos* jmpForce);
 		onGround = false;
 		// Air jump logic
 		if (canAirJump)
 			canAirJump = false;
 	}
-		
-	/**
-	 * SetController is where the Axes get mapped
-	 * The strings need to match EXACTLY what the InputManager says
-	 * */
-	public void SetController(int number)
+
+	public Collider GetAttackCollider(Collider collider){
+		Collider[] cols = Physics.OverlapBox(collider.bounds.center, collider.bounds.extents, collider.transform.rotation, LayerMask.GetMask("HitBox"));
+		if (cols.Length <= 0) {
+			Debug.LogWarning ("No colliders. Hi mom!");
+			return null;
+		}
+		//not sure I fixed this right
+		foreach (Collider c in cols) {
+			if (c.transform.parent == c) {
+				print ("I hit myself");
+				return null;
+			}
+			else {
+				return c;
+			}
+		}
+		return null;
+	}
+
+	public void LaunchAttack(Collider c)
 	{
-		horizontal = "Joystick" + number + "Horizontal";
-		vertical = "Joystick" + number + "Vertical";
-		keyboardHorizontal = "Keyboard" + number + "Horizontal";
-		keyboardVertical = "Keyboard" + number + "Vertical";
+		var objectsScript = c.GetComponent<GameObjectScript> ();
+		if (objectsScript != null) {
+			Vector2 knockDir = (c.transform.position - this.transform.position).normalized;
+			Attack basicAttack = new Attack(10, knockDir, 10);
+			objectsScript.attacked(basicAttack);
+		} else {
+			c.GetComponent<Rigidbody> ()
+				.AddForce ((this.transform.position - c.transform.position).normalized * -1000);
+		}
 	}
 }

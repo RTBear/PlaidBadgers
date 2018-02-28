@@ -6,19 +6,11 @@ using UnityEngine;
 
 public class Char_Code : GameObjectScript {
 
-    public float jumpVel = 25.0f;
-    public Vector3 jump;
-    public float runForce = 30f;
-    //public GameObject planet;
-    protected bool onGround = false;
-    public float maxRunSpeed;
-    public bool canAirJump = true;
-    public Collider[] attack_HitBoxes;
-    //private bool attackCalled = false;
-    public AudioClip whack;
     AudioSource audio;
 	public int playerNumber;
 	PlayerController pc;
+	PlayerInput input;
+	public Collider[] attack_HitBoxes;
 
     // Use this for initialization
     void Start () {
@@ -26,72 +18,46 @@ public class Char_Code : GameObjectScript {
         rb = GetComponent<Rigidbody>();
         audio = GetComponent<AudioSource>();
 		pc = GetComponent<PlayerController> ();
-		pc.SetController (playerNumber);
+		input = GetComponent<PlayerInput>();
+		input.SetController(playerNumber);
     }
 	
 	// Update is called once per frame
 	void Update () {
-		
-        SetMaxRunSpeed();
-  
-        if (Input.GetKeyUp("joystick button 2"))
-        {
-			Debug.LogWarning("Pressed attack");
-			LaunchAttack(attack_HitBoxes[0]);
-		}
+		RespondToInputs();
 	}
 
-    // This controls the run speed. This will also play havock on 
-    void SetMaxRunSpeed()
-    {
-        if(GetComponent<Rigidbody>().velocity.magnitude > maxRunSpeed)
-        {
-            GetComponent<Rigidbody>().velocity =  GetComponent<Rigidbody>().velocity.normalized * maxRunSpeed;
-        }
-    }
-		
-    void OnCollisionEnter(Collision collider)
-    {
-        onGround = true;
-    }
-		
-    void OnCollisionExit(Collision collider)
-    {
-        onGround = false;
-		canAirJump = true;
-    }
+	// Update is called once per frame
+	void RespondToInputs () {
+		//add tether here? ect?
 
-    private void LaunchAttack(Collider collider)
-    {
-        Collider[] cols = Physics.OverlapBox(collider.bounds.center, collider.bounds.extents, collider.transform.rotation, LayerMask.GetMask("HitBox"));
-		if(cols.Length <= 0)
-			Debug.LogWarning("No colliders. Hi mom!");
-		foreach (Collider c in cols)
+		//Check if the user has applied input on their controller
+		if (input.MoveTriggered()) {
+			pc.Move(input.GetMoveAxis());
+		}
+
+		//if (Input.GetKeyDown ("joystick button 2"))
+		//	Debug.Log (horizontal + " pressed x");
+		
+		//To get the joystick mapping correct the format needs to be "joystick # button 0"
+		if (input.JumpTriggered()) {
+			//sound effect here
+			//animation here
+			//ect
+			//ect
+			pc.Jump();
+		}
+
+		if (input.AttackTriggered())
 		{
-			if (c.transform.parent == c)
-				print("I hit myself");
-			else
-			{
-				
-                var objectsScript = c.GetComponent<GameObjectScript>();
-                print(objectsScript);
-                if (objectsScript != null)
-                {
-                    audio.Play();
-
-                    Vector2 knockDir = (c.transform.position - this.transform.position).normalized;
-                    Attack basicAttack = new Attack(10, knockDir, 10);
-
-                    objectsScript.attacked(basicAttack);
-
-                }       
-                else
-				    c.GetComponent<Rigidbody>().AddForce((this.transform.position - c.transform.position).normalized * -1000);
-				
-
+			Debug.LogWarning("Pressed attack");
+			Collider collider = pc.GetAttackCollider(attack_HitBoxes[0]);
+			if (collider != null) {
+				//sound effect
+				//ect
+				pc.LaunchAttack(collider);
 			}
 		}
-    }
-
+	}
 
 }
