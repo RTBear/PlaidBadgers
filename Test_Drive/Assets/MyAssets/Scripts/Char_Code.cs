@@ -14,8 +14,6 @@ public class Char_Code : GameObjectScript {
 
     // Use this for initialization
     void Start () {
-     
-        rb = GetComponent<Rigidbody>();
         audio = GetComponent<AudioSource>();
 		pc = GetComponent<PlayerController> ();
 		input = GetComponent<PlayerInput>();
@@ -23,6 +21,7 @@ public class Char_Code : GameObjectScript {
     }
 	
 	// Update is called once per frame
+	// this is the central update class for the character
 	void Update () {
 		RespondToInputs();
 	}
@@ -32,7 +31,7 @@ public class Char_Code : GameObjectScript {
 		//add tether here? ect?
 
 		//Check if the user has applied input on their controller
-		if (input.MoveTriggered()) {
+		if (input.MoveTriggered() && pc.canMove()) {
 			pc.Move(input.GetMoveAxis());
 		}
 
@@ -40,7 +39,7 @@ public class Char_Code : GameObjectScript {
 		//	Debug.Log (horizontal + " pressed x");
 		
 		//To get the joystick mapping correct the format needs to be "joystick # button 0"
-		if (input.JumpTriggered()) {
+		if (input.JumpTriggered() && pc.canJump()) {
 			//sound effect here
 			//animation here
 			//ect

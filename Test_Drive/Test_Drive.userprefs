@@ -1,19 +1,16 @@
 ﻿<Properties StartupItem="Assembly-CSharp.csproj">
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" PreferredExecutionTarget="Unity.Instance.Unity Editor" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\MyAssets\Scripts\GameManager.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\MyAssets\Scripts\Char_Code.cs">
     <Files>
-      <File FileName="Assets\MyAssets\Scripts\SphericalGravity.cs" Line="1" Column="1" />
-      <File FileName="Assets\MyAssets\Scripts\PlayerController.cs" Line="11" Column="13" />
-      <File FileName="Assets\MyAssets\Scripts\Char_Code.cs" Line="66" Column="25" NotebookId="1" />
-      <File FileName="Assets\MyAssets\Scripts\GameObjectScript.cs" Line="57" Column="6" NotebookId="1" />
-      <File FileName="Assets\MyAssets\Scripts\GameManager.cs" Line="33" Column="7" NotebookId="1" />
+      <File FileName="Assets\MyAssets\Scripts\PlayerController.cs" Line="17" Column="2" />
+      <File FileName="Assets\MyAssets\Scripts\PlayerInput.cs" Line="29" Column="3" />
+      <File FileName="Assets\MyAssets\Scripts\Char_Code.cs" Line="14" Column="2" NotebookId="1" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
     <BreakpointStore>
       <Breakpoint file="C:\Users\Rigdon\Documents\GitHub\PlaidBadgers\Test_Drive\Assets\MyAssets\PlayerController.cs" line="64" column="1" />
       <Breakpoint file="C:\Users\Rigdon\Documents\GitHub\PlaidBadgers\Test_Drive\Assets\MyAssets\PlayerController.cs" line="60" column="1" />
-      <Breakpoint file="C:\Users\Kylie\Documents\Class\Software Engineering\PlaidBadgers\Test_Drive\Assets\MyAssets\Scripts\PlayerController.cs" line="24" column="7" />
     </BreakpointStore>
   </MonoDevelop.Ide.DebuggingService.Breakpoints>
   <MonoDevelop.Ide.DebuggingService.PinnedWatches />

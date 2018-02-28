@@ -8,8 +8,7 @@ public class PlayerController : GameObjectScript {
 	bool inPlanetGravity;
 	private Vector2 relativePos;
 
-	public int jmpForce;
-	public float jumpVel = 25.0f;
+	int jmpForce = 3000;
 	bool canAirJump = true;
 	bool onGround = false;
 
