@@ -12,6 +12,7 @@ public class TetherEmitterController : MonoBehaviour {
 	public GameObject tetherPrefab; //stores the template of a tether object
 	public TetherController tether; //the tether script
 
+
 	private float tetherLaunchForce = 2000; //force applied to tether at launch
 
 	public float expirationTime; // time a tether can stay active
@@ -37,8 +38,8 @@ public class TetherEmitterController : MonoBehaviour {
 				Destroy(tether.prefab);
 				if (!tether.prefab) {//make sure tether is actually deleted
 					tetherActive = false;
-				}
 					Debug.Log ("destroyed tether");
+				}
 			}
 		}
 	}
@@ -54,6 +55,11 @@ public class TetherEmitterController : MonoBehaviour {
 			if (tether.prefab) {
 				tetherActive = true;
 			}
+			tether.prefab.layer = 11;
+
+			//tether.prefab.layer = tetherMask.value; 
+			//Debug.Log("tetherMask: " + tetherMask.value);
+			//Debug.Log("pn: " + playerNumber);
 
 			Rigidbody tempRigidBody = tether.prefab.GetComponent<Rigidbody>();
 			//SphericalGravity.getItems(); //TODO: OPTIMIZATION: Add new tether to planet upon creation

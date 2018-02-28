@@ -14,13 +14,14 @@ public class PlayerController : Char_Code {
 	Char_Code player;
 
 	public TetherEmitterController tetherEmitter;
-	public LayerMask tetherMask;
+	//public LayerMask tetherMask = 11;
 
 	// Use this for initialization
 	void Start () {
 		//planet = GameObject.Find ("Simple_Ground");
 		player = GetComponentInParent<Char_Code> ();
 		rb = player.GetComponent<Rigidbody>();
+		tetherEmitter.transform.position = transform.GetComponent<Renderer> ().bounds.center;
         
 	}
 
@@ -58,11 +59,39 @@ public class PlayerController : Char_Code {
 	}
 
 	void Aim(){
-		Vector2 relativePosition = this.tetherEmitter.firePoint.position - transform.GetComponent<Renderer> ().bounds.center;
+		//Vector2 relativePosition = tetherEmitter.firePoint.position - transform.GetComponent<Renderer> ().bounds.center;
 		Vector2 directionAim = new Vector2 (Input.GetAxisRaw ("RightAnalogHorizontal"), Input.GetAxisRaw ("RightAnalogVertical"));
 		float angleCrosshair = getAngle (directionAim);
-		this.tetherEmitter.transform.eulerAngles = new Vector3(0, 0, angleCrosshair);
+		tetherEmitter.transform.eulerAngles = new Vector3(0, 0, angleCrosshair);
 	}
+
+	/*
+	  public void setPlayerMask(int number){
+		Debug.Log ("number(mask): " + number);
+		int maskNum = 0;
+		switch (number) {
+			case 1:
+				maskNum = 11;
+				break;
+			case 2:
+				maskNum = 12;
+				break;
+			case 3:
+				maskNum = 13;
+				break;
+			case 4:
+				maskNum = 14;
+				break;
+			default:
+				maskNum = 0;
+				break;
+		}
+		if (maskNum != 0) {
+			tetherMask = maskNum;
+			Debug.Log ("set tether mask: " + tetherMask.value);
+		}
+	}
+	*/
 
 	void Move()
 	{

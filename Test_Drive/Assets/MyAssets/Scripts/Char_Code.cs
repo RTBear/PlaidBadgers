@@ -6,6 +6,8 @@ using UnityEngine;
 
 public class Char_Code : GameObjectScript {
 
+	private static int playerCounter = 1;
+
     public float jumpVel = 25.0f;
     public Vector3 jump;
     public float runForce = 30f;
@@ -21,11 +23,15 @@ public class Char_Code : GameObjectScript {
 
     // Use this for initialization
     void Start () {
-     
+		playerNumber = playerCounter;
+		playerCounter++;
+
         rb = GetComponent<Rigidbody>();
         audio = GetComponent<AudioSource>();
 		pc = GetComponent<PlayerController> ();
+
 		pc.SetController (playerNumber);
+		//pc.setPlayerMask (playerNumber);
     }
 	
 	// Update is called once per frame

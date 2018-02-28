@@ -8,7 +8,7 @@ public class GameObjectScript : MonoBehaviour {
     public Rigidbody rb;
 
     // Use this for initialization
-    void Start () {
+	void Start () {
     }
 	
 	// Update is called once per frame
