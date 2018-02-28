@@ -12,8 +12,8 @@ public class PlayerController : GameObjectScript {
 	bool canAirJump = true;
 	bool onGround = false;
 
-	public float runForce = 30f;
-	public float maxRunSpeed;
+	float runForce = 30f;
+	float maxRunSpeed = 100;
 
 	public AudioClip whack;
 
