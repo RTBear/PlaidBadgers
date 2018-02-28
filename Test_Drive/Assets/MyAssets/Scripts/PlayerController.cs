@@ -31,9 +31,9 @@ public class PlayerController : Char_Code {
 			Move ();
 		}
 
-		if (Input.GetKey (KeyCode.LeftShift)) {
+		if (Input.GetKey (KeyCode.LeftShift) || Input.GetKey("joystick " + player.playerNumber + " button 5")) {
 			sprintForce = 30f;
-			Debug.Log ("I pushed the shift" + sprintForce.ToString ());
+			Debug.Log ("I pushed sprint" + sprintForce.ToString ());
 		} else {
 			sprintForce = 1f;
 		}
