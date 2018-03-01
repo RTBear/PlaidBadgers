@@ -8,6 +8,9 @@ public class PlayerController : Char_Code {
 	string vertical;
 	string keyboardHorizontal;
 	string keyboardVertical;
+	string aimHorizontal;
+	string aimVertical;
+	string fireTether;
 	Char_Code player;
 
 	public TetherEmitterController tetherEmitter;
@@ -36,15 +39,20 @@ public class PlayerController : Char_Code {
 		}
 
 		//Check if the user has applied input to their right analog stick
-		if (Input.GetAxis("RightAnalogHorizontal") != 0 || Input.GetAxis("RightAnalogVertical") != 0) {
+		if (Input.GetAxis(aimHorizontal) != 0 || Input.GetAxis(aimVertical) != 0) {
 			Aim ();
+		}
+
+		//check if trigger is pulled to fire tether
+		if (tetherEmitter.currentExpirationTimer <= 0 || (Input.GetAxisRaw (fireTether) == 0) && !tetherEmitter.tetherCollide) {
+			tetherEmitter.isFiring = false;
 		}
 
 		if (Input.GetKeyDown ("joystick button 2"))
 			Debug.Log (horizontal + " pressed x");
 		
 		//tether firing
-		if (Input.GetAxisRaw ("RightTrigger") == 1) {
+		if (Input.GetAxisRaw (fireTether) == 1) {
 			tetherEmitter.launchTether(); 
 		}
 
@@ -187,5 +195,9 @@ public class PlayerController : Char_Code {
 		vertical = "Joystick" + number + "Vertical";
 		keyboardHorizontal = "Keyboard" + number + "Horizontal";
 		keyboardVertical = "Keyboard" + number + "Vertical";
+		aimHorizontal = "Joystick" + number + "AimHorizontal";
+		aimVertical = "Joystick" + number + "AimVertical";
+		fireTether = "Joystick" + number + "FireTether";
+
 	}
 }
