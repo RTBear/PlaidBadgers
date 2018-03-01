@@ -65,7 +65,7 @@ public class PlayerController : Char_Code {
 
 	void Aim(){
 		//Vector2 relativePosition = tetherEmitter.firePoint.position - transform.GetComponent<Renderer> ().bounds.center;
-		Vector2 directionAim = new Vector2 (Input.GetAxisRaw ("RightAnalogHorizontal"), Input.GetAxisRaw ("RightAnalogVertical"));
+		Vector2 directionAim = new Vector2 (Input.GetAxisRaw (aimHorizontal), Input.GetAxisRaw (aimVertical));
 		float angleCrosshair = getAngle (directionAim);
 		tetherEmitter.transform.eulerAngles = new Vector3(0, 0, angleCrosshair);
 	}

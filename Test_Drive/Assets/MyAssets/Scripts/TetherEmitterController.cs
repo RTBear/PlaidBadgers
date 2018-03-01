@@ -45,8 +45,7 @@ public class TetherEmitterController : MonoBehaviour {
 	}
 
 	public void launchTether(){
-
-
+		isFiring = true;
 		if (!tetherActive) {
 			currentExpirationTimer = expirationTime;
 			tether.prefab = Instantiate (tetherPrefab, firePoint.position, firePoint.rotation) as GameObject;
