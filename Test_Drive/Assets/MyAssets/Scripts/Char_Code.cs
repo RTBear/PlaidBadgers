@@ -6,14 +6,13 @@ using UnityEngine;
 
 public class Char_Code : GameObjectScript {
 
-	private static int playerCounter = 1;
-
     public float jumpVel = 25.0f;
     public Vector3 jump;
     public float runForce = 30f;
+    //public GameObject planet;
     protected bool onGround = false;
     public float maxRunSpeed;
-    public bool airJump = true;
+    public bool canAirJump = true;
     public Collider[] attack_HitBoxes;
     //private bool attackCalled = false;
     public AudioClip whack;
@@ -23,15 +22,11 @@ public class Char_Code : GameObjectScript {
 
     // Use this for initialization
     void Start () {
-		playerNumber = playerCounter;
-		playerCounter++;
-
+     
         rb = GetComponent<Rigidbody>();
         audio = GetComponent<AudioSource>();
 		pc = GetComponent<PlayerController> ();
-
 		pc.SetController (playerNumber);
-		//pc.setPlayerMask (playerNumber);
     }
 	
 	// Update is called once per frame
@@ -63,8 +58,7 @@ public class Char_Code : GameObjectScript {
     void OnCollisionExit(Collision collider)
     {
         onGround = false;
-        airJump = true;
-   
+		canAirJump = true;
     }
 
     private void LaunchAttack(Collider collider)
