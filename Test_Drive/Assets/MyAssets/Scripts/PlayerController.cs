@@ -103,7 +103,10 @@ public class PlayerController : GameObjectScript {
 			canAirJump = false;
 	}
 
-	public Collider GetAttackCollider(Collider collider){
+	//would be nice to seperate so we can split it apart for
+	//sound effects, ect,
+	//but idk how it works well enough yet
+	/*public Collider GetAttackCollider(Collider collider){
 		Collider[] cols = Physics.OverlapBox(collider.bounds.center, collider.bounds.extents, collider.transform.rotation, LayerMask.GetMask("HitBox"));
 		if (cols.Length <= 0) {
 			Debug.LogWarning ("No colliders. Hi mom!");
@@ -113,25 +116,45 @@ public class PlayerController : GameObjectScript {
 		foreach (Collider c in cols) {
 			if (c.transform.parent == c) {
 				print ("I hit myself");
-				return null;
 			}
 			else {
 				return c;
 			}
 		}
 		return null;
-	}
-
-	public void LaunchAttack(Collider c)
+	}*/
+	
+	public void LaunchAttack(Collider collider)
 	{
-		var objectsScript = c.GetComponent<GameObjectScript> ();
-		if (objectsScript != null) {
-			Vector2 knockDir = (c.transform.position - this.transform.position).normalized;
-			Attack basicAttack = new Attack(10, knockDir, 10);
-			objectsScript.attacked(basicAttack);
-		} else {
-			c.GetComponent<Rigidbody> ()
-				.AddForce ((this.transform.position - c.transform.position).normalized * -1000);
+		Collider[] cols = Physics.OverlapBox(collider.bounds.center, collider.bounds.extents, collider.transform.rotation, LayerMask.GetMask("HitBox"));
+		if(cols.Length <= 0)
+			Debug.LogWarning("No colliders. Hi mom!");
+		foreach (Collider c in cols)
+		{
+			if (c.transform.parent == c)
+			{
+				print ("I hit myself");
+			}
+			else
+			{
+
+				var objectsScript = c.GetComponent<GameObjectScript>();
+				print(objectsScript);
+				if (objectsScript != null) {
+					//audio.Play();
+
+					Vector2 knockDir = (c.transform.position - this.transform.position).normalized;
+					Attack basicAttack = new Attack (10, knockDir, 10);
+
+					objectsScript.attacked (basicAttack);
+
+				} else {
+					c.GetComponent<Rigidbody> ().
+					AddForce ((this.transform.position - c.transform.position).normalized * -1000);
+				}
+
+			}
 		}
 	}
 }
+

@@ -18,6 +18,7 @@ public class Char_Code : GameObjectScript {
 		pc = GetComponent<PlayerController> ();
 		input = GetComponent<PlayerInput>();
 		input.SetController(playerNumber);
+		rb = GetComponent<Rigidbody> ();
     }
 	
 	// Update is called once per frame
@@ -50,12 +51,12 @@ public class Char_Code : GameObjectScript {
 		if (input.AttackTriggered())
 		{
 			Debug.LogWarning("Pressed attack");
-			Collider collider = pc.GetAttackCollider(attack_HitBoxes[0]);
-			if (collider != null) {
+			//Collider collider = pc.GetAttackCollider(attack_HitBoxes[0]);
+			//if (collider != null) {
 				//sound effect
 				//ect
-				pc.LaunchAttack(collider);
-			}
+			pc.LaunchAttack(attack_HitBoxes[0]);
+			//}
 		}
 	}
 
