@@ -12,7 +12,7 @@ public class Attack {
     {
         m_Damage = damage;
         m_launchDir = launchDirection.normalized;
-        m_attackForce = attackForce * 10;
+        m_attackForce = attackForce * 300;
     }
 
     public float getDamage()
