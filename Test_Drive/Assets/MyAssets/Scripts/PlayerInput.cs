@@ -7,6 +7,9 @@ public class PlayerInput : MonoBehaviour {
 	string vertical;
 	string keyboardHorizontal;
 	string keyboardVertical;
+	string aimHorizontal;
+	string aimVertical;
+	string fireTether;
 
 	int playerNumber;
 
@@ -25,7 +28,33 @@ public class PlayerInput : MonoBehaviour {
 		vertical = "Joystick" + number + "Vertical";
 		keyboardHorizontal = "Keyboard" + number + "Horizontal";
 		keyboardVertical = "Keyboard" + number + "Vertical";
+		aimHorizontal = "Joystick" + number + "AimHorizontal";
+		aimVertical = "Joystick" + number + "AimVertical";
+		fireTether = "Joystick" + number + "FireTether";
 		playerNumber = number;
+	}
+
+	//check if input is still being received from the player
+	public bool isReceivingTetherFiringInput(){
+		return (Input.GetAxisRaw (fireTether) == 1);
+	}
+
+
+
+	public bool fireTetherTriggered(){
+		return (Input.GetAxisRaw (fireTether) == 1);
+	}
+
+	public bool AimTriggered(){
+		return (Input.GetAxis (aimHorizontal) != 0 || Input.GetAxis (aimVertical) != 0);
+	}
+
+	public Vector2 GetAimAxis(){
+		if (Input.GetAxis (aimHorizontal) != 0 || Input.GetAxis (aimVertical) != 0) {
+			return new Vector2 (Input.GetAxisRaw (aimHorizontal), Input.GetAxisRaw (aimVertical));
+		} else {
+			return new Vector2 (0,0);
+		}
 	}
 
 	public bool MoveTriggered(){

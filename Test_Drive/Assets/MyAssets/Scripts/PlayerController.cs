@@ -8,6 +8,9 @@ public class PlayerController : GameObjectScript {
 	bool inPlanetGravity;
 	private Vector2 relativePos;
 
+	public TetherEmitterController tetherEmitter;
+	//public LayerMask tetherMask = 11;
+
 	int jmpForce = 3000;
 	bool canAirJump = true;
 	bool onGround = false;
@@ -21,6 +24,7 @@ public class PlayerController : GameObjectScript {
 	void Start () {
 		rb = GetComponentInParent<Rigidbody>();
 		relativePos = new Vector3 (0,0,0);
+		tetherEmitter.transform.position = transform.GetComponent<Renderer> ().bounds.center;
 	}
 
 	//Methods for outside access
@@ -51,7 +55,14 @@ public class PlayerController : GameObjectScript {
 	public bool canMove(){
 		return inPlanetGravity;
 	}
-		
+
+
+
+	public void Aim(Vector2 directionAim){
+		float angleCrosshair = getAngle (directionAim);
+		tetherEmitter.transform.eulerAngles = new Vector3(0, 0, angleCrosshair);
+	}
+
 	public void Move(Vector2 directionRun)
 	{
 		// This is how our charactor will move with analog sticks
@@ -126,7 +137,7 @@ public class PlayerController : GameObjectScript {
 	
 	public void LaunchAttack(Collider collider)
 	{
-		Collider[] cols = Physics.OverlapBox(collider.bounds.center, collider.bounds.extents, collider.transform.rotation, LayerMask.GetMask("HitBox"));
+		Collider[] cols = Physics.OverlapBox(collider.bounds.center, collider.bounds.extents, collider.transform.rotation, LayerMask.GetMask("HitBox", "Player 1", "Player 2", "Player 3", "Player 4"));
 		if(cols.Length <= 0)
 			Debug.LogWarning("No colliders. Hi mom!");
 		foreach (Collider c in cols)
@@ -157,4 +168,3 @@ public class PlayerController : GameObjectScript {
 		}
 	}
 }
-
