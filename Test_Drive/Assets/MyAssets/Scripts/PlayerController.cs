@@ -55,7 +55,14 @@ public class PlayerController : GameObjectScript {
 	public bool canMove(){
 		return inPlanetGravity;
 	}
-		
+
+
+
+	public void Aim(Vector2 directionAim){
+		float angleCrosshair = getAngle (directionAim);
+		tetherEmitter.transform.eulerAngles = new Vector3(0, 0, angleCrosshair);
+	}
+
 	public void Move(Vector2 directionRun)
 	{
 		// This is how our charactor will move with analog sticks

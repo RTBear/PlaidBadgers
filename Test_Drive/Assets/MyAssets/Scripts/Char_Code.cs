@@ -8,8 +8,8 @@ public class Char_Code : GameObjectScript {
 
     AudioSource audio;
 	public int playerNumber;
-	PlayerController pc;
-	PlayerInput input;
+	protected PlayerController pc;
+	protected PlayerInput input;
 	public Collider[] attack_HitBoxes;
 
     // Use this for initialization
@@ -29,11 +29,23 @@ public class Char_Code : GameObjectScript {
 
 	// Update is called once per frame
 	void RespondToInputs () {
-		//add tether here? ect?
+		//is thether currently in the act of being fired
+		if (pc.tetherEmitter.currentExpirationTimer <= 0 || !input.isReceivingTetherFiringInput () && !pc.tetherEmitter.tetherCollide) {
+			pc.tetherEmitter.isFiring = false;
+		}
 
 		//Check if the user has applied input on their controller
 		if (input.MoveTriggered() && pc.canMove()) {
 			pc.Move(input.GetMoveAxis());
+		}
+
+		//Check if the user has applied aim input
+		if (input.AimTriggered ()) {
+			pc.Aim (input.GetAimAxis ());
+		}
+
+		if (input.fireTetherTriggered ()) {
+			pc.tetherEmitter.launchTether ();
 		}
 
 		//if (Input.GetKeyDown ("joystick button 2"))

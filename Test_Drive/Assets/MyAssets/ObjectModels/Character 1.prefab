@@ -210,12 +210,8 @@ MonoBehaviour:
   health: 0
   planet: {fileID: 0}
   rb: {fileID: 0}
-  whack: {fileID: 0}
-<<<<<<< HEAD:Test_Drive/Assets/MyAssets/ObjectModels/Character 1.prefab
-  playerNumber: 0
   tetherEmitter: {fileID: 0}
-=======
->>>>>>> 908285109b271ca5af6a5dff4a3fb2a50ecaa999:Test_Drive/Assets/MyAssets/ObjectModels/Charactor 1.prefab
+  whack: {fileID: 0}
 --- !u!114 &114459398681444852
 MonoBehaviour:
   m_ObjectHideFlags: 1

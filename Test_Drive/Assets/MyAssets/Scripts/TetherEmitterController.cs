@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class TetherEmitterController : MonoBehaviour {
+public class TetherEmitterController : Char_Code {
 
 	public bool isFiring = false;
 	private bool tetherActive = false;
@@ -54,7 +54,7 @@ public class TetherEmitterController : MonoBehaviour {
 			if (tether.prefab) {
 				tetherActive = true;
 			}
-			tether.prefab.layer = 11;
+			tether.prefab.layer = LayerMask.NameToLayer("Player " + (playerNumber + 1));//convert player number to player number layer
 
 			//tether.prefab.layer = tetherMask.value; 
 			//Debug.Log("tetherMask: " + tetherMask.value);
