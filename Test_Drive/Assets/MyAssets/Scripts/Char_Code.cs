@@ -2,8 +2,6 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-
-
 public class Char_Code : GameObjectScript {
 
     AudioSource audio;
@@ -76,5 +74,4 @@ public class Char_Code : GameObjectScript {
 			pc.RemoveSprint ();
 		}
 	}
-
 }

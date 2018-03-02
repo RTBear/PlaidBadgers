@@ -82,6 +82,7 @@ public class PlayerController : GameObjectScript {
 			if (!onGround)
 				moveMod = 0.5f;
 
+<<<<<<< HEAD
 			float angleDiff = angleRunDir - angleChar;
 			if (angleDiff < 0)
 				angleDiff += 360;
