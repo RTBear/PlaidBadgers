@@ -10,6 +10,7 @@ public class PlayerInput : MonoBehaviour {
 	string aimHorizontal;
 	string aimVertical;
 	string fireTether;
+	string sprint;
 
 	int playerNumber;
 
@@ -31,6 +32,7 @@ public class PlayerInput : MonoBehaviour {
 		aimHorizontal = "Joystick" + number + "AimHorizontal";
 		aimVertical = "Joystick" + number + "AimVertical";
 		fireTether = "Joystick" + number + "FireTether";
+		sprint = "Joystick" + number + "Sprint";
 		playerNumber = number;
 	}
 
@@ -81,5 +83,9 @@ public class PlayerInput : MonoBehaviour {
 
 	public bool AttackTriggered(){
 		return Input.GetKeyUp ("joystick button 2") && playerNumber == 1;
+	}
+
+	public bool SprintTriggered(){
+		return (Input.GetKey ("joystick " + playerNumber + " button 5") || Input.GetKey (KeyCode.LeftShift));
 	}
 }

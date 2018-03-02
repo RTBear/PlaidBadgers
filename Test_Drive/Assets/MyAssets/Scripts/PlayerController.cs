@@ -17,6 +17,7 @@ public class PlayerController : GameObjectScript {
 
 	float runForce = 30f;
 	float maxRunSpeed = 100;
+	float sprintForce = 1f;
 
 	public AudioClip whack;
 
@@ -80,14 +81,13 @@ public class PlayerController : GameObjectScript {
 			float moveMod = 1f;
 			if (!onGround)
 				moveMod = 0.5f;
-
 			float angleDiff = angleRunDir - angleChar;
 			if (angleDiff < 0)
 				angleDiff += 360;
 			if (angleDiff < 180 && angleDiff > 0)
-				rb.AddRelativeForce(Vector3.left * runForce*moveMod);
+				rb.AddRelativeForce(Vector3.left * runForce*moveMod*sprintForce);
 			else
-				rb.AddRelativeForce(Vector3.right * runForce*moveMod);
+				rb.AddRelativeForce(Vector3.right * runForce*moveMod*sprintForce);
 		}
 		SetMaxRunSpeed ();
 	}
@@ -166,5 +166,14 @@ public class PlayerController : GameObjectScript {
 
 			}
 		}
+	}
+
+	public void AddSprint(){
+		sprintForce = 10f;
+		rb.AddRelativeForce (Vector3.down*250);
+	}
+
+	public void RemoveSprint(){
+		sprintForce = 1f;
 	}
 }
