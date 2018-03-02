@@ -8,7 +8,7 @@ public class GameObjectScript : MonoBehaviour {
     public Rigidbody rb;
 
     // Use this for initialization
-	void Start () {
+    void Start () {
     }
 	
 	// Update is called once per frame
@@ -77,8 +77,8 @@ public class GameObjectScript : MonoBehaviour {
 
         // apply new velocity to char when hit
         Vector3 currentSpeed = rb.velocity;
-        rb.velocity = new Vector3(currentSpeed[0] + LaunchDir[0]*attackForce*launchModifier, currentSpeed[1] + LaunchDir[1]*attackForce*launchModifier, 0);
-        //rb.AddRelativeForce(LaunchDir[0] * attackForce * launchModifier, LaunchDir[0] * attackForce * launchModifier, 0);
+        //rb.velocity = new Vector3(currentSpeed[0] + LaunchDir[0]*attackForce*launchModifier, currentSpeed[1] + LaunchDir[1]*attackForce*launchModifier, 0);
+        rb.AddForce(LaunchDir[0] * attackForce * launchModifier, LaunchDir[1] * attackForce * launchModifier, 0);
     }
 
 

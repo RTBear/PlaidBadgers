@@ -4,8 +4,8 @@ using UnityEngine;
 
 public class SphericalGravity : MonoBehaviour {
 
-    GameObject[] players;
-	GameObject[] items;
+    public List<GameObject> players;
+	public List<GameObject> items;
 
     public float gravitationalPull;
 	public float range;
@@ -15,46 +15,38 @@ public class SphericalGravity : MonoBehaviour {
 		//apply spherical gravity to selected objects (set the objects in editor)
         foreach (GameObject o in players)
         {
-			ApplyGravity(o);
+			ApplyGravity (o);
+			//Let the character know it's standing
+			Vector2 relativePosition = (o.transform.position - transform.position).normalized;
+			o.GetComponent<PlayerController> ().setUprightAngle (relativePosition);
         }
 		//not garunteed to have items
-		if (items != null) {
-			foreach (GameObject o in items) {
+		foreach (GameObject o in items) {
+			if (inRange (o)) {
 				ApplyGravity (o);
 			}
 		}
     }
 
-
+	public bool inRange(GameObject o){
+		Vector3 dir = (transform.position - o.transform.position);
+		return dir.magnitude <= range;
+	}
 
 	void ApplyGravity(GameObject o)
 	{
-		//in range
-		if (o) {
+		if (o.GetComponent<Rigidbody> () != null) {
 			Vector3 dir = (transform.position - o.transform.position);
-			if (dir.magnitude <= range) {
-				if (o.GetComponent<Rigidbody> () != null) {
-					o.GetComponent<Rigidbody> ().AddForce (
-						dir.normalized * gravitationalPull);
-				}
-			}
+			o.GetComponent<Rigidbody>().AddForce(dir.normalized * gravitationalPull);
 		}
-	}
-
-
-	public void getItems(){
-		items = GameObject.FindGameObjectsWithTag("Item");
 	}
 
     // Use this for initialization
     void Start () {
-		players = GameObject.FindGameObjectsWithTag("Player");
-		//Uncomment this next line when we have items
-		getItems();
 	}
 	
 	// Update is called once per frame
 	void Update () {
-		getItems ();
+		
 	}
 }

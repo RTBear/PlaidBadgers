@@ -27,6 +27,7 @@ GameObject:
   - component: {fileID: 136322922636646842}
   - component: {fileID: 82221338442014830}
   - component: {fileID: 114022754963849274}
+  - component: {fileID: 114952920782377906}
   m_Layer: 10
   m_Name: Character 1
   m_TagString: Player
@@ -209,15 +210,12 @@ MonoBehaviour:
   health: 0
   planet: {fileID: 0}
   rb: {fileID: 0}
-  jumpVel: 25
-  jump: {x: 0, y: 0, z: 0}
-  runForce: 30
-  maxRunSpeed: 0
-  airJump: 1
-  attack_HitBoxes: []
   whack: {fileID: 0}
+<<<<<<< HEAD:Test_Drive/Assets/MyAssets/ObjectModels/Character 1.prefab
   playerNumber: 0
   tetherEmitter: {fileID: 0}
+=======
+>>>>>>> 908285109b271ca5af6a5dff4a3fb2a50ecaa999:Test_Drive/Assets/MyAssets/ObjectModels/Charactor 1.prefab
 --- !u!114 &114459398681444852
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -232,15 +230,20 @@ MonoBehaviour:
   health: 0
   planet: {fileID: 1922922541144426, guid: 9dba20e3c2a884b488a59ccc1e5c0109, type: 2}
   rb: {fileID: 0}
-  jumpVel: 500
-  jump: {x: 0, y: 0, z: 0}
-  runForce: 90
-  maxRunSpeed: 10
-  airJump: 1
+  playerNumber: 0
   attack_HitBoxes:
   - {fileID: 65353364473158514}
-  whack: {fileID: 8300000, guid: 1435dc11e00c9584dbf51b0fe21a35bd, type: 3}
-  playerNumber: 0
+--- !u!114 &114952920782377906
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1968888369625578}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e86a9e682ca5dcf48ae12fa02db387f2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!136 &136322922636646842
 CapsuleCollider:
   m_ObjectHideFlags: 1

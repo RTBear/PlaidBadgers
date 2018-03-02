@@ -2,119 +2,64 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PlayerController : Char_Code {
+public class PlayerController : GameObjectScript {
+	Rigidbody rb;
 
-	string horizontal;
-	string vertical;
-	string keyboardHorizontal;
-	string keyboardVertical;
-	string aimHorizontal;
-	string aimVertical;
-	string fireTether;
-	Char_Code player;
+	bool inPlanetGravity;
+	private Vector2 relativePos;
 
 	public TetherEmitterController tetherEmitter;
 	//public LayerMask tetherMask = 11;
 
+	int jmpForce = 3000;
+	bool canAirJump = true;
+	bool onGround = false;
+
+	float runForce = 30f;
+	float maxRunSpeed = 100;
+
+	public AudioClip whack;
+
 	// Use this for initialization
 	void Start () {
-		planet = GameObject.Find ("Simple_Ground");
-		player = GetComponent<Char_Code> ();
-		rb = player.GetComponent<Rigidbody>();
+		rb = GetComponentInParent<Rigidbody>();
+		relativePos = new Vector3 (0,0,0);
 		tetherEmitter.transform.position = transform.GetComponent<Renderer> ().bounds.center;
-        
 	}
 
-	// Update is called once per frame
-	void Update () {
-
-		//This will force the character to stand upright
-		Vector2 relativePosition = transform.position - planet.transform.position;
-		float angleChar = getAngle(relativePosition);
+	//Methods for outside access
+	//These affect player movement
+	public void setUprightAngle(Vector2 pos){
+		inPlanetGravity = true;
+		float angleChar = getAngle (pos);
 		transform.eulerAngles = new Vector3 (0, 0, angleChar);
-
-		//Check if the user has applied input on their controller
-		if (Input.GetAxis(horizontal) != 0 || Input.GetAxis(vertical) != 0 || Input.GetAxis(keyboardHorizontal) != 0 || Input.GetAxis(keyboardVertical) != 0) {
-			Move ();
-		}
-
-		//Check if the user has applied input to their right analog stick
-		if (Input.GetAxis(aimHorizontal) != 0 || Input.GetAxis(aimVertical) != 0) {
-			Aim ();
-		}
-
-		//check if trigger is pulled to fire tether
-		if (tetherEmitter.currentExpirationTimer <= 0 || (Input.GetAxisRaw (fireTether) == 0) && !tetherEmitter.tetherCollide) {
-			tetherEmitter.isFiring = false;
-		}
-
-		if (Input.GetKeyDown ("joystick button 2"))
-			Debug.Log (horizontal + " pressed x");
-		
-		//tether firing
-		if (Input.GetAxisRaw (fireTether) == 1) {
-			tetherEmitter.launchTether(); 
-		}
-
-		//To get the joystick mapping correct the format needs to be "joystick # button 0"
-		if ((Input.GetKeyDown("joystick " + player.playerNumber + " button 0") || Input.GetKeyDown(KeyCode.Space)) && (onGround || canAirJump)) {
-			Jump ();
-		}
-
+		relativePos = pos;
 	}
 
-	void Aim(){
-		//Vector2 relativePosition = tetherEmitter.firePoint.position - transform.GetComponent<Renderer> ().bounds.center;
-		Vector2 directionAim = new Vector2 (Input.GetAxisRaw (aimHorizontal), Input.GetAxisRaw (aimVertical));
-		float angleCrosshair = getAngle (directionAim);
-		tetherEmitter.transform.eulerAngles = new Vector3(0, 0, angleCrosshair);
+	public void notOnPlanet(){
+		inPlanetGravity = false;
 	}
 
-	/*
-	  public void setPlayerMask(int number){
-		Debug.Log ("number(mask): " + number);
-		int maskNum = 0;
-		switch (number) {
-			case 1:
-				maskNum = 11;
-				break;
-			case 2:
-				maskNum = 12;
-				break;
-			case 3:
-				maskNum = 13;
-				break;
-			case 4:
-				maskNum = 14;
-				break;
-			default:
-				maskNum = 0;
-				break;
-		}
-		if (maskNum != 0) {
-			tetherMask = maskNum;
-			Debug.Log ("set tether mask: " + tetherMask.value);
-		}
-	}
-	*/
-
-	void Move()
+	void OnCollisionEnter(Collision collider)
 	{
-		if (planet == null)
-			return;
+		onGround = true;
+	}
 
-		Vector2 relativePosition = transform.position - planet.transform.position;
+	void OnCollisionExit(Collision collider)
+	{
+		onGround = false;
+		canAirJump = true;
+	}
 
-		// This is how our charactor will move with analog sticks
-		float angleChar = getAngle(relativePosition);
-
-		Vector2 directionRun = new Vector2(0, 0);
-
-		if(Input.GetAxis(horizontal) != 0 || Input.GetAxis(vertical) != 0)
-			directionRun = new Vector2(Input.GetAxisRaw(horizontal), Input.GetAxisRaw(vertical));
-		else if(Input.GetAxis(keyboardHorizontal) != 0 || Input.GetAxis(keyboardVertical) != 0)
-			directionRun = new Vector2(Input.GetAxisRaw(keyboardHorizontal), Input.GetAxisRaw(keyboardVertical));
+	//can make this more complex, set methods for is paralized, ect
+	public bool canMove(){
+		return inPlanetGravity;
+	}
 		
+	public void Move(Vector2 directionRun)
+	{
+		// This is how our charactor will move with analog sticks
+		float angleChar = getAngle(relativePos);
 		float angleRunDir = getAngle(directionRun);
 
 		//check if they desired location is the same as current location
@@ -129,75 +74,90 @@ public class PlayerController : Char_Code {
 			if (!onGround)
 				moveMod = 0.5f;
 
+			float angleDiff = angleRunDir - angleChar;
+			if (angleDiff < 0)
+				angleDiff += 360;
+			if (angleDiff < 180 && angleDiff > 0)
+				rb.AddRelativeForce(Vector3.left * runForce*moveMod);
+			else
+				rb.AddRelativeForce(Vector3.right * runForce*moveMod);
+		}
+		SetMaxRunSpeed ();
+	}
 
-			if (angleChar>angleRunDir)
+	// This controls the run speed. This will also play havock on 
+	void SetMaxRunSpeed()
+	{
+		if(rb.velocity.magnitude > maxRunSpeed)
+		{
+			rb.velocity =  rb.velocity.normalized * maxRunSpeed;
+		}
+	}
+
+	public bool canJump(){
+		return inPlanetGravity && (onGround || canAirJump);
+	}
+		
+	public void Jump()
+	{
+		rb.AddForce (relativePos* jmpForce);
+		onGround = false;
+		// Air jump logic
+		if (canAirJump)
+			canAirJump = false;
+	}
+
+	//would be nice to seperate so we can split it apart for
+	//sound effects, ect,
+	//but idk how it works well enough yet
+	/*public Collider GetAttackCollider(Collider collider){
+		Collider[] cols = Physics.OverlapBox(collider.bounds.center, collider.bounds.extents, collider.transform.rotation, LayerMask.GetMask("HitBox"));
+		if (cols.Length <= 0) {
+			Debug.LogWarning ("No colliders. Hi mom!");
+			return null;
+		}
+		//not sure I fixed this right
+		foreach (Collider c in cols) {
+			if (c.transform.parent == c) {
+				print ("I hit myself");
+			}
+			else {
+				return c;
+			}
+		}
+		return null;
+	}*/
+	
+	public void LaunchAttack(Collider collider)
+	{
+		Collider[] cols = Physics.OverlapBox(collider.bounds.center, collider.bounds.extents, collider.transform.rotation, LayerMask.GetMask("HitBox"));
+		if(cols.Length <= 0)
+			Debug.LogWarning("No colliders. Hi mom!");
+		foreach (Collider c in cols)
+		{
+			if (c.transform.parent == c)
 			{
-				if (angleChar - angleRunDir < 180)
-					rb.AddRelativeForce(Vector3.right * runForce*moveMod);
-				else
-					rb.AddRelativeForce(Vector3.left * runForce*moveMod);
+				print ("I hit myself");
 			}
 			else
 			{
-				if(angleRunDir - angleChar < 180)
-					rb.AddRelativeForce(Vector3.left * runForce*moveMod);
-				else
-					rb.AddRelativeForce(Vector3.right * runForce*moveMod);
+
+				var objectsScript = c.GetComponent<GameObjectScript>();
+				print(objectsScript);
+				if (objectsScript != null) {
+					//audio.Play();
+
+					Vector2 knockDir = (c.transform.position - this.transform.position).normalized;
+					Attack basicAttack = new Attack (10, knockDir, 10);
+
+					objectsScript.attacked (basicAttack);
+
+				} else {
+					c.GetComponent<Rigidbody> ().
+					AddForce ((this.transform.position - c.transform.position).normalized * -1000);
+				}
 
 			}
 		}
-		transform.eulerAngles = new Vector3(0, 0, angleChar);
-	}
-
-
-	void Jump()
-	{
-		{
-			//determine where on planet the Char is
-			Vector3 relative_position = rb.transform.position - planet.transform.position;
-			//DELETE AFTER USE// float magnitude = Mathf.Sqrt(relative_position[0] * relative_position[0] + relative_position[1] * relative_position[1]);
-			Vector2 jumpUnitVector = getUnitVector(relative_position[0], relative_position[1]);
-			// jumpDirection is the direction normal to the surface
-			Vector3 jumpDirection = new Vector3(jumpUnitVector[0]*jumpVel, jumpUnitVector[1]*jumpVel, 0);
-
-			// Get current speed of Char
-			Vector3 currentSpeed = rb.velocity;
-
-			//if moving we need to combine the current momentum into the jump
-			rb.velocity = new Vector3(currentSpeed[0] + jumpDirection[0], currentSpeed[1] + jumpDirection[1], 0);
-
-			onGround = false;
-
-			// Air jump logic
-			if (canAirJump)
-				canAirJump = false;
-		}
-	}
-
-	void OnCollisionEnter(Collision collider)
-	{
-		onGround = true;
-	}
-
-	void OnCollisionExit(Collision collider)
-	{
-		onGround = false;
-		canAirJump = true;
-	}
-
-	/**
-	 * SetController is where the Axes get mapped
-	 * The strings need to match EXACTLY what the InputManager says
-	 * */
-	public void SetController(int number)
-	{
-		horizontal = "Joystick" + number + "Horizontal";
-		vertical = "Joystick" + number + "Vertical";
-		keyboardHorizontal = "Keyboard" + number + "Horizontal";
-		keyboardVertical = "Keyboard" + number + "Vertical";
-		aimHorizontal = "Joystick" + number + "AimHorizontal";
-		aimVertical = "Joystick" + number + "AimVertical";
-		fireTether = "Joystick" + number + "FireTether";
-
 	}
 }
