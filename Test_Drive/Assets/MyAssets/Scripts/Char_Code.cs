@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class Char_Code : GameObjectScript {
 
@@ -9,6 +10,7 @@ public class Char_Code : GameObjectScript {
 	protected PlayerController pc;
 	protected PlayerInput input;
 	public Collider[] attack_HitBoxes;
+	public Text healthText;
 
     // Use this for initialization
     void Start () {
@@ -23,6 +25,7 @@ public class Char_Code : GameObjectScript {
 	// this is the central update class for the character
 	void Update () {
 		RespondToInputs();
+		SetHealthText ();
 	}
 
 	// Update is called once per frame
@@ -73,5 +76,9 @@ public class Char_Code : GameObjectScript {
 		} else {
 			pc.RemoveSprint ();
 		}
+	}
+
+	void SetHealthText() {
+		healthText.text = health.ToString() + "%";
 	}
 }
