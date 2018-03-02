@@ -35,8 +35,8 @@ public class Char_Code : GameObjectScript {
 		}
 
 		//Check if the user has applied input on their controller
-		if (input.MoveTriggered() && pc.canMove()) {
-			pc.Move(input.GetMoveAxis());
+		if (input.MoveTriggered () && pc.canMove ()) {
+			pc.Move (input.GetMoveAxis ());
 		}
 
 		//Check if the user has applied aim input
@@ -52,23 +52,28 @@ public class Char_Code : GameObjectScript {
 		//	Debug.Log (horizontal + " pressed x");
 		
 		//To get the joystick mapping correct the format needs to be "joystick # button 0"
-		if (input.JumpTriggered() && pc.canJump()) {
+		if (input.JumpTriggered () && pc.canJump ()) {
 			//sound effect here
 			//animation here
 			//ect
 			//ect
-			pc.Jump();
+			pc.Jump ();
 		}
 
-		if (input.AttackTriggered())
-		{
-			Debug.LogWarning("Pressed attack");
+		if (input.AttackTriggered ()) {
+			Debug.LogWarning ("Pressed attack");
 			//Collider collider = pc.GetAttackCollider(attack_HitBoxes[0]);
 			//if (collider != null) {
-				//sound effect
-				//ect
-			pc.LaunchAttack(attack_HitBoxes[0]);
+			//sound effect
+			//ect
+			pc.LaunchAttack (attack_HitBoxes [0]);
 			//}
+		}
+
+		if (input.SprintTriggered ()) {
+			pc.AddSprint ();
+		} else {
+			pc.RemoveSprint ();
 		}
 	}
 
