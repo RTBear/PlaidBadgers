@@ -137,7 +137,7 @@ public class PlayerController : GameObjectScript {
 	
 	public void LaunchAttack(Collider collider)
 	{
-		Collider[] cols = Physics.OverlapBox(collider.bounds.center, collider.bounds.extents, collider.transform.rotation, LayerMask.GetMask("HitBox"));
+		Collider[] cols = Physics.OverlapBox(collider.bounds.center, collider.bounds.extents, collider.transform.rotation, LayerMask.GetMask("HitBox", "Player 1", "Player 2", "Player 3", "Player 4"));
 		if(cols.Length <= 0)
 			Debug.LogWarning("No colliders. Hi mom!");
 		foreach (Collider c in cols)
