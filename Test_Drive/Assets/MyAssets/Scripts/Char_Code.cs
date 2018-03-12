@@ -30,7 +30,8 @@ public class Char_Code : GameObjectScript {
 	// Update is called once per frame
 	void RespondToInputs () {
 		//add tether here? ect?
-
+		if (!input)
+			return;
 		//Check if the user has applied input on their controller
 		if (input.MoveTriggered() && pc.canMove()) {
 			pc.Move(input.GetMoveAxis());

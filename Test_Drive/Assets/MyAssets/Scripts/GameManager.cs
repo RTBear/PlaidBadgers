@@ -9,9 +9,13 @@ public class GameManager : MonoBehaviour {
 	public GameObject[] items;
 	public GameObject[] players;
 	public GameObject[]	planets;
+	public GameObject characterPrefab;
+	public Mesh[] meshes;
+	public int numPlayers;
 
 	// Use this for initialization
 	void Awake () {
+		Debug.Log ("Reloading...");
 		if (instance == null)
 			instance = this;
 		else if (instance != this)
@@ -22,9 +26,18 @@ public class GameManager : MonoBehaviour {
 		InitGame();
 	}
 
+	void Start()
+	{
+		
+//		if (spawnPlayers)
+//			SpawnPlayers ();
+	}
+
 	void InitGame () {
 		planets = GameObject.FindGameObjectsWithTag("Planet");
-		players = GameObject.FindGameObjectsWithTag("Player");
+		string[] controllers = Input.GetJoystickNames ();
+		players = new GameObject[controllers.Length];
+		meshes = new Mesh[controllers.Length];
 		items = GameObject.FindGameObjectsWithTag("Item");
 		assignObjectsToPlanets();
 	}
@@ -69,5 +82,32 @@ public class GameManager : MonoBehaviour {
 				}
 			}
 		}
+	}
+
+//	public void SpawnNewPlayers(int numPlayers, Material[] materials)
+//	{
+//		players = new GameObject[numPlayers];
+//		this.materials = materials;
+//	}
+
+	public void SpawnPlayers()
+	{
+		//players = new GameObject[numPlayers];
+
+		for(int i = 0; i < players.Length; i++)
+		{
+			players[i] = (GameObject)Instantiate (characterPrefab, new Vector2 ((i + 1) * 3,(i + 1) * 3), Quaternion.identity);
+			players[i].GetComponent<Char_Code>().playerNumber = i + 1;
+			MeshFilter filter = players [i].GetComponent<MeshFilter> ();
+			if(filter)
+				filter.mesh = meshes [i];
+		}
+		planets = GameObject.FindGameObjectsWithTag("Planet");
+		assignObjectsToPlanets ();
+	}
+
+	public void SetupPlayer(Mesh mesh, int playerNumber)
+	{
+		meshes[playerNumber] = mesh;
 	}
 }

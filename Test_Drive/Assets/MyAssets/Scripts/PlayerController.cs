@@ -152,7 +152,6 @@ public class PlayerController : GameObjectScript {
 					c.GetComponent<Rigidbody> ().
 					AddForce ((this.transform.position - c.transform.position).normalized * -1000);
 				}
-
 			}
 		}
 	}

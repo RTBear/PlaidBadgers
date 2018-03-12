@@ -17,7 +17,7 @@ public class GameObjectScript : MonoBehaviour {
 	}
 
     // Given an vector it will return the angle of that vector
-    protected float getAngle(Vector2 vector)
+    public float getAngle(Vector2 vector)
     {
         float angle;
 
