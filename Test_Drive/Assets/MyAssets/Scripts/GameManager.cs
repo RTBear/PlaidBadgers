@@ -6,10 +6,14 @@ public class GameManager : MonoBehaviour {
 
 	public static GameManager instance = null;
 
+	public enum CharacterType{CUBE, SPHERE, CYLINDAR, PILL};
+	//A dictionary or "map" that you give it the key value of the players id and it will return the players type
+	Dictionary<int, CharacterType> characterMap;
+
 	public GameObject[] items;
 	public GameObject[] players;
 	public GameObject[]	planets;
-	public GameObject characterPrefab;
+	public GameObject cubePrefab, spherePrefab, cylindarPrefab, pillPrefab;
 	public Mesh[] meshes;
 	public int numPlayers;
 
@@ -34,9 +38,11 @@ public class GameManager : MonoBehaviour {
 	}
 
 	void InitGame () {
+		characterMap = new Dictionary<int, CharacterType> ();
 		planets = GameObject.FindGameObjectsWithTag("Planet");
 		string[] controllers = Input.GetJoystickNames ();
-		players = new GameObject[controllers.Length];
+		//players = new GameObject[controllers.Length];
+		players = GameObject.FindGameObjectsWithTag("Player");
 		meshes = new Mesh[controllers.Length];
 		items = GameObject.FindGameObjectsWithTag("Item");
 		assignObjectsToPlanets();
@@ -83,27 +89,54 @@ public class GameManager : MonoBehaviour {
 			}
 		}
 	}
+		
+	public void AssignCharacterType(int id, CharacterType type)
+	{
+		characterMap.Add (id, type);
+	}
 
-//	public void SpawnNewPlayers(int numPlayers, Material[] materials)
-//	{
-//		players = new GameObject[numPlayers];
-//		this.materials = materials;
-//	}
-
-	public void SpawnPlayers()
+	public void InitialSpawnPlayers()
 	{
 		//players = new GameObject[numPlayers];
 
-		for(int i = 0; i < players.Length; i++)
+		for(int i = 0; i < characterMap.Count; i++)
 		{
-			players[i] = (GameObject)Instantiate (characterPrefab, new Vector2 ((i + 1) * 3,(i + 1) * 3), Quaternion.identity);
-			players[i].GetComponent<Char_Code>().playerNumber = i + 1;
-			MeshFilter filter = players [i].GetComponent<MeshFilter> ();
-			if(filter)
-				filter.mesh = meshes [i];
+			GameObject prefab = GetPrefab(characterMap [i + 1]);
+			GameObject temp = (GameObject)Instantiate (prefab, new Vector2 ((i + 1) * 3,(i + 1) * 3), Quaternion.identity);
+			temp.GetComponent<Char_Code>().playerNumber = i + 1;
 		}
+		players = GameObject.FindGameObjectsWithTag("Player");
 		planets = GameObject.FindGameObjectsWithTag("Planet");
 		assignObjectsToPlanets ();
+	}
+
+	public void SpawnPlayer(int playerId)
+	{
+		GameObject prefab = GetPrefab (characterMap [playerId]);
+		GameObject temp = (GameObject)Instantiate (prefab, new Vector2 (0,5), Quaternion.identity);
+		temp.GetComponent<Char_Code> ().playerNumber = playerId;
+		players = GameObject.FindGameObjectsWithTag ("Player");
+		assignObjectsToPlanets ();
+	}
+
+	protected GameObject GetPrefab(CharacterType type)
+	{
+		switch (type) 
+		{
+		case CharacterType.CUBE:
+			return cubePrefab;
+			break;
+		case CharacterType.CYLINDAR:
+			return cylindarPrefab;
+			break;
+		case CharacterType.PILL:
+			return pillPrefab;
+			break;
+		case CharacterType.SPHERE:
+			return spherePrefab;
+			break;
+		}
+		return null;
 	}
 
 	public void SetupPlayer(Mesh mesh, int playerNumber)

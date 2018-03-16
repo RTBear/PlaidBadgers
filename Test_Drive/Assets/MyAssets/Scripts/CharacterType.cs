@@ -2,16 +2,16 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class CharacterSpawn : MonoBehaviour {
+public class CharacterType : MonoBehaviour {
 
+	public GameManager.CharacterType type;
 	// Use this for initialization
 	void Start () {
-		GameManager.instance.InitialSpawnPlayers ();
+		
 	}
 	
 	// Update is called once per frame
 	void Update () {
 		
 	}
-		
 }

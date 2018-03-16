@@ -96,8 +96,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 03b329dd6967ca447a5934718cfe6e85, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  gravitationalPull: 20
-  range: 20
+  players: []
+  items: []
+  gravitationalPull: 100
+  range: 7
 --- !u!136 &136216477297847404
 CapsuleCollider:
   m_ObjectHideFlags: 1

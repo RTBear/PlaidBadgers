@@ -221,6 +221,11 @@ Prefab:
       propertyPath: m_LocalEulerAnglesHint.z
       value: -44.11
       objectReference: {fileID: 0}
+    - target: {fileID: 114099252355455342, guid: 33bc52a5fe8764343b5e097e03d6d60c,
+        type: 2}
+      propertyPath: type
+      value: 3
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 33bc52a5fe8764343b5e097e03d6d60c, type: 2}
   m_IsPrefabParent: 0
@@ -254,8 +259,12 @@ MonoBehaviour:
   items: []
   players: []
   planets: []
-  characterPrefab: {fileID: 1968888369625578, guid: 6d6b9d4dbe0fc844a8b7dfce09d8454c,
+  cubePrefab: {fileID: 1968888369625578, guid: 6cb845ecf4ff37f48887e2429da3a632, type: 2}
+  spherePrefab: {fileID: 1968888369625578, guid: 6660eaa698f4bb044b0b96f99772424b,
     type: 2}
+  cylindarPrefab: {fileID: 1968888369625578, guid: ef2c95b2d5f92a9468ec59744417d57e,
+    type: 2}
+  pillPrefab: {fileID: 1968888369625578, guid: c65e88f9106b8d947a45107e116340f9, type: 2}
   meshes: []
   numPlayers: 0
 --- !u!4 &544311143
@@ -463,6 +472,11 @@ Prefab:
       propertyPath: m_Mesh
       value: 
       objectReference: {fileID: 10207, guid: 0000000000000000e000000000000000, type: 0}
+    - target: {fileID: 114099252355455342, guid: 33bc52a5fe8764343b5e097e03d6d60c,
+        type: 2}
+      propertyPath: type
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 33bc52a5fe8764343b5e097e03d6d60c, type: 2}
   m_IsPrefabParent: 0
@@ -525,6 +539,11 @@ Prefab:
     - target: {fileID: 4690145208053032, guid: 33bc52a5fe8764343b5e097e03d6d60c, type: 2}
       propertyPath: m_LocalEulerAnglesHint.y
       value: -9.312
+      objectReference: {fileID: 0}
+    - target: {fileID: 114099252355455342, guid: 33bc52a5fe8764343b5e097e03d6d60c,
+        type: 2}
+      propertyPath: type
+      value: 2
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 33bc52a5fe8764343b5e097e03d6d60c, type: 2}

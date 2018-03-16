@@ -22,6 +22,7 @@ GameObject:
   - component: {fileID: 33731024537546042}
   - component: {fileID: 23676652569336416}
   - component: {fileID: 54336167909299082}
+  - component: {fileID: 114099252355455342}
   m_Layer: 10
   m_Name: Character Selection
   m_TagString: Player
@@ -98,3 +99,16 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 56
   m_CollisionDetection: 0
+--- !u!114 &114099252355455342
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1968888369625578}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ff27eef1edbcf5c4bbeb46a0fd7a6425, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  charType: 0
+  types: 1

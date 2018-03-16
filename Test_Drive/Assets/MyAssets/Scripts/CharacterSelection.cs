@@ -8,9 +8,14 @@ public class CharacterSelection : GameObjectScript {
 	string joystick1Vertical = "Joystick1Vertical";
 	string joystick2Horizontal = "Joystick2Horizontal";
 	string joystick2Vertical = "Joystick2Vertical"; 
+	string joystick3Horizontal = "Joystick3Horizontal";
+	string joystick3Vertical = "Joystick3Vertical";
+	string joystick4Horizontal = "Joystick4Horizontal";
+	string joystick4Vertical = "Joystick4Vertical"; 
 	public GameObject[] players;
 	public GameObject[] newPlayers;
 	string[] controllers;
+	bool[] playersSelected;
 	int numPlayers;
 	int charactersSelected;
 	MeshFilter[] meshes;
@@ -20,6 +25,7 @@ public class CharacterSelection : GameObjectScript {
 		controllers = Input.GetJoystickNames ();
 		numPlayers = controllers.Length;
 		players = GameObject.FindGameObjectsWithTag("Player");
+		playersSelected = new bool[numPlayers];
 		Debug.Log ("Number of players: " + players.Length);
 		newPlayers = new GameObject[numPlayers];
 		meshes = new MeshFilter[numPlayers];
@@ -28,30 +34,38 @@ public class CharacterSelection : GameObjectScript {
 	
 	// Update is called once per frame
 	void Update () {
-		if (Input.GetAxis (joystick1Horizontal) != 0 || Input.GetAxis (joystick1Vertical) != 0) 
+		if (Input.GetAxis (joystick1Horizontal) != 0 || Input.GetAxis (joystick1Vertical) != 0 && !playersSelected[0]) 
 		{
-			float controllerAngle1 = getAngle(new Vector2(Input.GetAxisRaw(joystick1Horizontal), Input.GetAxisRaw(joystick1Vertical)));
-			Debug.Log ("Conroller Angle: " + controllerAngle1);
-			newPlayers[0] = FindClosestCharacter (controllerAngle1);
-			//if(newPlayers[0])
-				//ChangePlayerColor (newPlayers [0]);
+			float controllerAngle = getAngle(new Vector2(Input.GetAxisRaw(joystick1Horizontal), Input.GetAxisRaw(joystick1Vertical)));
+			newPlayers[0] = FindClosestCharacter (controllerAngle);
 		}
-		if (Input.GetAxis (joystick2Horizontal) != 0 || Input.GetAxis (joystick2Vertical) != 0) 
+		if (Input.GetAxis (joystick2Horizontal) != 0 || Input.GetAxis (joystick2Vertical) != 0 && !playersSelected[1]) 
 		{
-			float controllerAngle2 = getAngle(new Vector2(Input.GetAxisRaw(joystick2Horizontal), Input.GetAxisRaw(joystick2Vertical)));
-			newPlayers [1] = FindClosestCharacter (controllerAngle2);
+			float controllerAngle = getAngle(new Vector2(Input.GetAxisRaw(joystick2Horizontal), Input.GetAxisRaw(joystick2Vertical)));
+			newPlayers [1] = FindClosestCharacter (controllerAngle);
 		}
-		if (Input.GetKeyDown ("joystick 1 button 0")) {
-			if (newPlayers [0]) {
-				meshes [0] = newPlayers [0].GetComponent<MeshFilter> ();
-				GameManager.instance.SetupPlayer (meshes [0].mesh, 0);
-				charactersSelected++;
+		if (Input.GetAxis (joystick3Horizontal) != 0 || Input.GetAxis (joystick3Vertical) != 0 && !playersSelected[2]) 
+		{
+			float controllerAngle = getAngle(new Vector2(Input.GetAxisRaw(joystick3Horizontal), Input.GetAxisRaw(joystick3Vertical)));
+			newPlayers[2] = FindClosestCharacter (controllerAngle);
+		}
+		if (Input.GetAxis (joystick4Horizontal) != 0 || Input.GetAxis (joystick4Vertical) != 0 && !playersSelected[3]) 
+		{
+			float controllerAngle = getAngle(new Vector2(Input.GetAxisRaw(joystick4Horizontal), Input.GetAxisRaw(joystick4Vertical)));
+			newPlayers [3] = FindClosestCharacter (controllerAngle);
+		}
+
+		for (int i = 0; i < numPlayers; i++) 
+		{
+			if (Input.GetKeyDown ("joystick " + (i + 1) + " button 0")) 
+			{
+				if (newPlayers [i]) {
+					playersSelected [i] = true;
+					GameManager.CharacterType type = newPlayers [i].GetComponent<CharacterType> ().type;
+					GameManager.instance.AssignCharacterType (i + 1, type);
+					charactersSelected++;
+				}
 			}
-		}
-		if (Input.GetKeyDown ("joystick 2 button 0")) {
-			meshes [1] = newPlayers [1].GetComponent<MeshFilter>();
-			GameManager.instance.SetupPlayer (meshes[1].mesh, 1);
-			charactersSelected++;
 		}
 
 		if(numPlayers == charactersSelected)
@@ -78,6 +92,7 @@ public class CharacterSelection : GameObjectScript {
 		return returnPlayer;
 	}
 
+	//This could possibly be of some help when setting the players skins
 	void ChangePlayerColor(GameObject player)
 	{
 		Renderer renderer = player.GetComponent<Renderer> ();
@@ -90,10 +105,5 @@ public class CharacterSelection : GameObjectScript {
 	void UpdateScene()
 	{
 		EditorSceneManager.LoadScene ("NewMap");
-	}
-
-	void SelectCharacter()
-	{
-
 	}
 }
