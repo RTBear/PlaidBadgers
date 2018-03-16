@@ -12,32 +12,35 @@ public class CharacterSelection : GameObjectScript {
 	string joystick3Vertical = "Joystick3Vertical";
 	string joystick4Horizontal = "Joystick4Horizontal";
 	string joystick4Vertical = "Joystick4Vertical"; 
-	public GameObject[] players;
-	public GameObject[] newPlayers;
+	public GameObject[] players, newPlayers;
 	string[] controllers;
 	bool[] playersSelected;
 	int numPlayers;
 	int charactersSelected;
-	MeshFilter[] meshes;
-	bool characterSelected = false;
 	// Use this for initialization
 	void Start () {
+		//controllers returns an array of strings. That is how we can find out how many players there are.
 		controllers = Input.GetJoystickNames ();
 		numPlayers = controllers.Length;
 		players = GameObject.FindGameObjectsWithTag("Player");
 		playersSelected = new bool[numPlayers];
-		Debug.Log ("Number of players: " + players.Length);
 		newPlayers = new GameObject[numPlayers];
-		meshes = new MeshFilter[numPlayers];
 		Debug.Log ("Numbers of controllers attached: " + numPlayers);
 	}
 	
 	// Update is called once per frame
 	void Update () {
+		//get player input for all players there has to be a better way to handle this but I just can't think of it at this moment
 		if (Input.GetAxis (joystick1Horizontal) != 0 || Input.GetAxis (joystick1Vertical) != 0 && !playersSelected[0]) 
 		{
 			float controllerAngle = getAngle(new Vector2(Input.GetAxisRaw(joystick1Horizontal), Input.GetAxisRaw(joystick1Vertical)));
+			GameObject tempPlayer = newPlayers [0];
 			newPlayers[0] = FindClosestCharacter (controllerAngle);
+			//if they have changed their selection then reset the other mesh color
+			if (newPlayers [0])
+				ChangePlayerColor (newPlayers [0], Color.red);
+			if (tempPlayer && newPlayers [0] && tempPlayer != newPlayers [0])
+				ResetPlayerColor (tempPlayer);
 		}
 		if (Input.GetAxis (joystick2Horizontal) != 0 || Input.GetAxis (joystick2Vertical) != 0 && !playersSelected[1]) 
 		{
@@ -53,6 +56,20 @@ public class CharacterSelection : GameObjectScript {
 		{
 			float controllerAngle = getAngle(new Vector2(Input.GetAxisRaw(joystick4Horizontal), Input.GetAxisRaw(joystick4Vertical)));
 			newPlayers [3] = FindClosestCharacter (controllerAngle);
+		}
+
+		//check if the player has selected a character and disable them from selecting another one
+		for (int i = 0; i < numPlayers; i++) 
+		{
+			if (Input.GetKeyDown ("joystick " + (i + 1) + " button 0")) 
+			{
+				if (newPlayers [i]) {
+					playersSelected [i] = true;
+					GameManager.CharacterType type = newPlayers [i].GetComponent<CharacterType> ().type;
+					GameManager.instance.AssignCharacterType (i + 1, type);
+					charactersSelected++;
+				}
+			}
 		}
 
 		for (int i = 0; i < numPlayers; i++) 
@@ -93,10 +110,20 @@ public class CharacterSelection : GameObjectScript {
 	}
 
 	//This could possibly be of some help when setting the players skins
-	void ChangePlayerColor(GameObject player)
+	void ChangePlayerColor(GameObject player, Color color)
 	{
 		Renderer renderer = player.GetComponent<Renderer> ();
-		renderer.material.color = Color.red;
+		renderer.material.color = color;
+		MeshRenderer mesh_renderer = player.GetComponent<MeshRenderer> ();
+		if(mesh_renderer)
+			mesh_renderer.material = renderer.material;
+	}
+
+	//This could possibly be of some help when setting the players skins
+	void ResetPlayerColor(GameObject player)
+	{
+		Renderer renderer = player.GetComponent<Renderer> ();
+		renderer.material.color = Color.white;
 		MeshRenderer mesh_renderer = player.GetComponent<MeshRenderer> ();
 		if(mesh_renderer)
 			mesh_renderer.material = renderer.material;

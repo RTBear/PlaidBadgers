@@ -14,8 +14,6 @@ public class GameManager : MonoBehaviour {
 	public GameObject[] players;
 	public GameObject[]	planets;
 	public GameObject cubePrefab, spherePrefab, cylindarPrefab, pillPrefab;
-	public Mesh[] meshes;
-	public int numPlayers;
 
 	// Use this for initialization
 	void Awake () {
@@ -32,18 +30,13 @@ public class GameManager : MonoBehaviour {
 
 	void Start()
 	{
-		
-//		if (spawnPlayers)
-//			SpawnPlayers ();
+
 	}
 
 	void InitGame () {
 		characterMap = new Dictionary<int, CharacterType> ();
 		planets = GameObject.FindGameObjectsWithTag("Planet");
-		string[] controllers = Input.GetJoystickNames ();
-		//players = new GameObject[controllers.Length];
 		players = GameObject.FindGameObjectsWithTag("Player");
-		meshes = new Mesh[controllers.Length];
 		items = GameObject.FindGameObjectsWithTag("Item");
 		assignObjectsToPlanets();
 	}
@@ -97,8 +90,6 @@ public class GameManager : MonoBehaviour {
 
 	public void InitialSpawnPlayers()
 	{
-		//players = new GameObject[numPlayers];
-
 		for(int i = 0; i < characterMap.Count; i++)
 		{
 			GameObject prefab = GetPrefab(characterMap [i + 1]);
@@ -137,10 +128,5 @@ public class GameManager : MonoBehaviour {
 			break;
 		}
 		return null;
-	}
-
-	public void SetupPlayer(Mesh mesh, int playerNumber)
-	{
-		meshes[playerNumber] = mesh;
 	}
 }
