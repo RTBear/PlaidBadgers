@@ -1,8 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
-
+using UnityEngine.UI;
 
 public class Char_Code : GameObjectScript {
 
@@ -11,6 +10,7 @@ public class Char_Code : GameObjectScript {
 	protected PlayerController pc;
 	protected PlayerInput input;
 	public Collider[] attack_HitBoxes;
+	public Text healthText;
 
     // Use this for initialization
     void Start () {
@@ -25,6 +25,7 @@ public class Char_Code : GameObjectScript {
 	// this is the central update class for the character
 	void Update () {
 		RespondToInputs();
+		SetHealthText ();
 	}
 
 	// Update is called once per frame
@@ -35,8 +36,8 @@ public class Char_Code : GameObjectScript {
 		}
 
 		//Check if the user has applied input on their controller
-		if (input.MoveTriggered() && pc.canMove()) {
-			pc.Move(input.GetMoveAxis());
+		if (input.MoveTriggered () && pc.canMove ()) {
+			pc.Move (input.GetMoveAxis ());
 		}
 
 		//Check if the user has applied aim input
@@ -52,24 +53,32 @@ public class Char_Code : GameObjectScript {
 		//	Debug.Log (horizontal + " pressed x");
 		
 		//To get the joystick mapping correct the format needs to be "joystick # button 0"
-		if (input.JumpTriggered() && pc.canJump()) {
+		if (input.JumpTriggered () && pc.canJump ()) {
 			//sound effect here
 			//animation here
 			//ect
 			//ect
-			pc.Jump();
+			pc.Jump ();
 		}
 
-		if (input.AttackTriggered())
-		{
-			Debug.LogWarning("Pressed attack");
+		if (input.AttackTriggered ()) {
+			Debug.LogWarning ("Pressed attack");
 			//Collider collider = pc.GetAttackCollider(attack_HitBoxes[0]);
 			//if (collider != null) {
-				//sound effect
-				//ect
-			pc.LaunchAttack(attack_HitBoxes[0]);
+			//sound effect
+			//ect
+			pc.LaunchAttack (attack_HitBoxes [0]);
 			//}
+		}
+
+		if (input.SprintTriggered ()) {
+			pc.AddSprint ();
+		} else {
+			pc.RemoveSprint ();
 		}
 	}
 
+	void SetHealthText() {
+		healthText.text = health.ToString() + "%";
+	}
 }
