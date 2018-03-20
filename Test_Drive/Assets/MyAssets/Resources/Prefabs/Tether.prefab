@@ -27,7 +27,7 @@ GameObject:
   - component: {fileID: 114993666063185000}
   m_Layer: 10
   m_Name: Tether
-  m_TagString: Item
+  m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -113,7 +113,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   prefab: {fileID: 0}
-  speed: 0
+  speed: 10
+  tetherCollide: 0
 --- !u!114 &114993666063185000
 MonoBehaviour:
   m_ObjectHideFlags: 1

@@ -395,7 +395,7 @@ Transform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 506062040}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 1.71, y: 4, z: 0}
+  m_LocalPosition: {x: 5.42, y: 3.94, z: 0}
   m_LocalScale: {x: 0.7, y: 0.7, z: 0.7}
   m_Children:
   - {fileID: 785772157}
@@ -691,7 +691,6 @@ MonoBehaviour:
   attack_HitBoxes: []
   healthText: {fileID: 0}
   isFiring: 0
-  tetherCollide: 0
   tetherPrefab: {fileID: 0}
   tether: {fileID: 114811079407193662, guid: f1210bd6dbdacf44789721a34e327f1a, type: 2}
   expirationTime: 2
@@ -1335,7 +1334,6 @@ MonoBehaviour:
   attack_HitBoxes: []
   healthText: {fileID: 0}
   isFiring: 0
-  tetherCollide: 0
   tetherPrefab: {fileID: 0}
   tether: {fileID: 114811079407193662, guid: f1210bd6dbdacf44789721a34e327f1a, type: 2}
   expirationTime: 2
@@ -1624,7 +1622,6 @@ MonoBehaviour:
   attack_HitBoxes: []
   healthText: {fileID: 0}
   isFiring: 0
-  tetherCollide: 0
   tetherPrefab: {fileID: 0}
   tether: {fileID: 114811079407193662, guid: f1210bd6dbdacf44789721a34e327f1a, type: 2}
   expirationTime: 2
@@ -2392,7 +2389,6 @@ MonoBehaviour:
   attack_HitBoxes: []
   healthText: {fileID: 0}
   isFiring: 0
-  tetherCollide: 0
   tetherPrefab: {fileID: 0}
   tether: {fileID: 114811079407193662, guid: f1210bd6dbdacf44789721a34e327f1a, type: 2}
   expirationTime: 2

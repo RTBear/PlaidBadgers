@@ -4,10 +4,10 @@ using UnityEngine;
 
 public class PlayerController : GameObjectScript {
 	Rigidbody rb;
-
 	bool inPlanetGravity;
 	private Vector2 relativePos;
 
+	public bool tethered = false; // track if has been hit by a tether
 	public TetherEmitterController tetherEmitter;
 	//public LayerMask tetherMask = 11;
 
@@ -54,7 +54,11 @@ public class PlayerController : GameObjectScript {
 
 	//can make this more complex, set methods for is paralized, ect
 	public bool canMove(){
-		return inPlanetGravity;
+		if (inPlanetGravity && !tethered) {
+			return true;
+		} else {
+			return false;
+		}
 	}
 
 

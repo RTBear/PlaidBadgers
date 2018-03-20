@@ -38,13 +38,8 @@ public class PlayerInput : MonoBehaviour {
 
 	//check if input is still being received from the player
 	public bool isReceivingTetherFiringInput(){
-		return (Input.GetAxisRaw (fireTether) == 1);
-	}
-
-
-
-	public bool fireTetherTriggered(){
-		return (Input.GetAxisRaw (fireTether) == 1);
+		//Debug.Log (Input.GetAxisRaw (fireTether) == 1);
+		return (Input.GetAxis (fireTether) != 0);
 	}
 
 	public bool AimTriggered(){

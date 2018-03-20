@@ -30,9 +30,27 @@ public class Char_Code : GameObjectScript {
 
 	// Update is called once per frame
 	void RespondToInputs () {
-		//is thether currently in the act of being fired
-		if (pc.tetherEmitter.currentExpirationTimer <= 0 || !input.isReceivingTetherFiringInput () && !pc.tetherEmitter.tetherCollide) {
-			pc.tetherEmitter.isFiring = false;
+		//is thether currently in the act of being fired?
+//		if (input.isReceivingTetherFiringInput () == true) {
+//			pc.tetherEmitter.tether.isFiring = true;
+//		}
+//		if (input.isReceivingTetherFiringInput() == false && pc.tetherEmitter.tether.isFiring == true && pc.tetherEmitter.tether.tetherAttached == false) {
+//			//if (!pc.tetherEmitter.tether.tetherAttached) {
+//				Debug.Log ("no trigger and not attached"); 
+//				pc.tetherEmitter.tether.isFiring = false;
+//				pc.tetherEmitter.tether.tetherActive = false; 
+//			//}
+//		} else if (input.isReceivingTetherFiringInput() == false && pc.tetherEmitter.tether.isFiring == true && pc.tetherEmitter.tether.tetherAttached == true) {
+//				Debug.Log ("trigger and attached");
+//				pc.tetherEmitter.tether.isFiring = false;
+//		}
+
+		if (input.isReceivingTetherFiringInput() == true) {
+			if (pc.tetherEmitter.tether.tetherAttached == false) {
+				pc.tetherEmitter.tether.isFiring = false;
+			} else {
+				//pc.tetherEmitter.tether.isFiring = true;
+			}
 		}
 
 		//Check if the user has applied input on their controller
@@ -45,7 +63,7 @@ public class Char_Code : GameObjectScript {
 			pc.Aim (input.GetAimAxis ());
 		}
 
-		if (input.fireTetherTriggered ()) {
+		if (input.isReceivingTetherFiringInput ()) {
 			pc.tetherEmitter.launchTether ();
 		}
 
