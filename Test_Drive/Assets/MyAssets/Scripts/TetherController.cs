@@ -5,9 +5,12 @@ using UnityEngine;
 public class TetherController : GameObjectScript {
 
 	public GameObject prefab;
-	private float m_speed = 35;
+	private float m_speed = 50;
 	private Collider m_collider;
 	private Rigidbody m_rb;
+
+	public LineRenderer LR;
+	public Vector3 p_firePoint;
 
 	private GameObject collisionParent;
 
@@ -21,10 +24,16 @@ public class TetherController : GameObjectScript {
 		m_collider = GetComponent<Collider> ();
 		m_rb = GetComponent<Rigidbody> ();
 		m_rb.collisionDetectionMode = CollisionDetectionMode.ContinuousDynamic;
+		LR = gameObject.AddComponent<LineRenderer>();
+		LR.startWidth = .2f;
+		LR.endWidth = .2f;
+		Transform p_transform = GetComponentInParent<Transform> ();
+		p_firePoint = p_transform.position;
 	}
 	
 	// Update is called once per frame
 	void Update () {
+
 		if (tetherAttached == false) {
 			transform.Translate (Vector3.up * m_speed * Time.deltaTime);
 		} 
@@ -37,7 +46,7 @@ public class TetherController : GameObjectScript {
 		Debug.Log ("tether collision entered");
 		Debug.Log (collisionParent);
 		tetherAttached = true;
-		transform.SetParent(collisionParent.transform);
+		transform.SetParent(collisionParent.transform);//attach to tetheree
 
 		Rigidbody parent_rb = collisionParent.GetComponent<Rigidbody> ();
 		//parent_rb.constraints = RigidbodyConstraints.FreezeAll;
@@ -45,7 +54,19 @@ public class TetherController : GameObjectScript {
 		parent_pc.tethered = true;
 		//ignore further collisions
 		//rb.detectCollisions = false;
-		Destroy (m_rb);
+
+		LR.enabled = true;
+//		LR.SetPosition (transform.position, collisionParent.transform.position);
+		Debug.Log(p_firePoint);
+		LR.SetPosition (0, p_firePoint);
+		//Vector3 foo = new Vector3(
+		LR.SetPosition (1, collisionParent.transform.position);
+
+//		collisionParent.transform.position = Vector3.Lerp (collisionParent.transform.position, p_firePoint, m_speed * Time.deltaTime / Vector3.Distance (collisionParent.transform.position, p_firePoint));
+		collisionParent.transform.position = Vector3.Lerp (collisionParent.transform.position, p_firePoint,1);
+//		Vector3.ler
+
+		Destroy (m_rb); 
 
 	}
 
@@ -56,7 +77,8 @@ public class TetherController : GameObjectScript {
 			Destroy (prefab);
 		}
 
-		Debug.Log (collisionParent);
+//		Debug.Log (collisionParent);
+
 		//Cleanup parent state
 		if (collisionParent != null) {
 			Debug.Log ("resetting parent");

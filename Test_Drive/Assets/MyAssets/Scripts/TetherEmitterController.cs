@@ -4,14 +4,12 @@ using UnityEngine;
 
 public class TetherEmitterController : Char_Code {
 
-
-
 	public GameObject tetherPrefab; //stores the template of a tether object
 	public TetherController tether; //the tether script
 
 	private float tetherLaunchForce = 2000; //force applied to tether at launch
 
-	private float expirationTime = 3; // time a tether can stay active
+	private float expirationTime = 1; // time a tether can stay active
 	private float currentExpirationTimer; // timer until active tether expires
 
 	//public float cooldownTime; //cooldown timer max (time between tether launches)
@@ -29,6 +27,7 @@ public class TetherEmitterController : Char_Code {
 	
 	// Update is called once per frame
 	void Update () {
+
 		//check if destroy tether
 		if (currentExpirationTimer <= 0) { 
 			tether.tetherActive = false;
@@ -36,6 +35,7 @@ public class TetherEmitterController : Char_Code {
 		if (tether.isFiring == false && tether.tetherAttached == false) {
 			tether.tetherActive = false;
 		}
+
 		//Debug.Log (tether.prefab);
 		if (tether.tetherActive) {
 			Debug.Log ("tether.tetheractive"); 
@@ -53,11 +53,19 @@ public class TetherEmitterController : Char_Code {
 		}
 	}
 
+
+
 	public void launchTether(){
 		tether.isFiring = true;
 		if (!tether.tetherActive) {
 			currentExpirationTimer = expirationTime;
 			tether.prefab = Instantiate (tetherPrefab, firePoint.position, firePoint.rotation) as GameObject;
+			//make sure child knows where parent is
+			//Debug.Log(firePoint.position);
+//			Debug.Log (firePoint.);
+			//tether.p_firePoint = new Vector3(0,3.7f,0);
+//			tether.p_firePoint = firePoint.position;
+
 
 			//make sure tether is actually created
 			Debug.Log("launch tether");
