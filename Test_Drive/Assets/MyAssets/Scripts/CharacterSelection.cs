@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEditor.SceneManagement;
 
 public class CharacterSelection : GameObjectScript {
-	public GameObject[] selectedPlayers, tempPlayer, characters;
+	public GameObject[] selectedPlayers, tempPlayer, characters, textObjects;
 	GUIText text;
 	string[] horizontalAxes, verticalAxes;
 	string[] controllersConnected;
@@ -13,8 +13,6 @@ public class CharacterSelection : GameObjectScript {
 	bool[] isPlayerSelected;
 	int numPlayers;
 	int charactersSelected;
-	GameObject textObj;
-	GUIText txt;
 	// Use this for initialization
 	void Start () {
 		//controllers returns an array of strings. That is how we can find out how many players there are.
@@ -22,13 +20,16 @@ public class CharacterSelection : GameObjectScript {
 		numPlayers = controllersConnected.Length;
 		horizontalAxes = GetJoystickHorizontalAxes ();
 		verticalAxes = GetJoystickVerticalAxes ();
-		textObj = new GameObject ();
 		selectedLocations = new Vector2[4];
 		selectedLocations [0] = new Vector2 (-7, 3);
 		selectedLocations [1] = new Vector2 (7, 3);
 		selectedLocations [2] = new Vector2 (-7, -3);
 		selectedLocations [3] = new Vector2 (7, 3);
 		characters = GameObject.FindGameObjectsWithTag("Player");
+		textObjects = GameObject.FindGameObjectsWithTag ("Text");
+		for (int i = 0; i < (textObjects.Length - numPlayers); i++) {
+			Destroy (textObjects [i]);
+		}
 		isPlayerSelected = new bool[numPlayers];
 		tempPlayer = new GameObject[numPlayers];
 		selectedPlayers = new GameObject[numPlayers];
