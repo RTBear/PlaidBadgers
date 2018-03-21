@@ -88,12 +88,22 @@ public class GameManager : MonoBehaviour {
 		characterMap.Add (id, type);
 	}
 
+	public void RemoveCharacterFromMap(int id)
+	{
+		characterMap.Remove (id);
+	}
+
 	public void InitialSpawnPlayers()
 	{
+		Vector2[] spawnLocations = new Vector2[4];
+		spawnLocations [0] = new Vector2 (0, 3);
+		spawnLocations [1] = new Vector2 (0, -3);
+		spawnLocations [2] = new Vector2 (3, 0);
+		spawnLocations [3] = new Vector2 (-3, 0);
 		for(int i = 0; i < characterMap.Count; i++)
 		{
 			GameObject prefab = GetPrefab(characterMap [i + 1]);
-			GameObject temp = (GameObject)Instantiate (prefab, new Vector2 ((i + 1) * 3,(i + 1) * 3), Quaternion.identity);
+			GameObject temp = (GameObject)Instantiate (prefab, spawnLocations[i], Quaternion.identity);
 			temp.GetComponent<Char_Code>().playerNumber = i + 1;
 			players [i] = temp;
 		}
@@ -115,18 +125,18 @@ public class GameManager : MonoBehaviour {
 	{
 		switch (type) 
 		{
-		case CharacterType.CUBE:
-			return cubePrefab;
-			break;
-		case CharacterType.CYLINDAR:
-			return cylindarPrefab;
-			break;
-		case CharacterType.PILL:
-			return pillPrefab;
-			break;
-		case CharacterType.SPHERE:
-			return spherePrefab;
-			break;
+			case CharacterType.CUBE:
+				return cubePrefab;
+				break;
+			case CharacterType.CYLINDAR:
+				return cylindarPrefab;
+				break;
+			case CharacterType.PILL:
+				return pillPrefab;
+				break;
+			case CharacterType.SPHERE:
+				return spherePrefab;
+				break;
 		}
 		return null;
 	}
