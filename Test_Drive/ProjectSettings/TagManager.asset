@@ -6,6 +6,7 @@ TagManager:
   tags:
   - Item
   - Planet
+  - Text
   layers:
   - Default
   - TransparentFX
