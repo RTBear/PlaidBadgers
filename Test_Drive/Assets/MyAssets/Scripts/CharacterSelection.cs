@@ -4,24 +4,25 @@ using UnityEngine;
 using UnityEditor.SceneManagement;
 
 public class CharacterSelection : GameObjectScript {
-	string joystick1Horizontal = "Joystick1Horizontal";
-	string joystick1Vertical = "Joystick1Vertical";
-	string joystick2Horizontal = "Joystick2Horizontal";
-	string joystick2Vertical = "Joystick2Vertical"; 
-	string joystick3Horizontal = "Joystick3Horizontal";
-	string joystick3Vertical = "Joystick3Vertical";
-	string joystick4Horizontal = "Joystick4Horizontal";
-	string joystick4Vertical = "Joystick4Vertical"; 
 	public GameObject[] players, newPlayers;
-	string[] controllers;
+	string[] horizontalAxes, verticalAxes;
+	string[] controllersConnected;
+	Color[] colorArray;
 	bool[] playersSelected;
 	int numPlayers;
 	int charactersSelected;
 	// Use this for initialization
 	void Start () {
 		//controllers returns an array of strings. That is how we can find out how many players there are.
-		controllers = Input.GetJoystickNames ();
-		numPlayers = controllers.Length;
+		controllersConnected = Input.GetJoystickNames ();
+		numPlayers = controllersConnected.Length;
+		horizontalAxes = GetJoystickHorizontalAxes ();
+		verticalAxes = GetJoystickVerticalAxes ();
+		colorArray = new Color[4];
+		colorArray [0] = Color.red;
+		colorArray [1] = Color.blue;
+		colorArray [2] = Color.green;
+		colorArray [3] = Color.yellow;
 		players = GameObject.FindGameObjectsWithTag("Player");
 		playersSelected = new bool[numPlayers];
 		newPlayers = new GameObject[numPlayers];
@@ -31,60 +32,33 @@ public class CharacterSelection : GameObjectScript {
 	// Update is called once per frame
 	void Update () {
 		//get player input for all players there has to be a better way to handle this but I just can't think of it at this moment
-		if (Input.GetAxis (joystick1Horizontal) != 0 || Input.GetAxis (joystick1Vertical) != 0 && !playersSelected[0]) 
+		for (int i = 0; i < numPlayers; i++)
 		{
-			float controllerAngle = getAngle(new Vector2(Input.GetAxisRaw(joystick1Horizontal), Input.GetAxisRaw(joystick1Vertical)));
-			GameObject tempPlayer = newPlayers [0];
-			newPlayers[0] = FindClosestCharacter (controllerAngle);
-			//if they have changed their selection then reset the other mesh color
-			if (newPlayers [0])
-				ChangePlayerColor (newPlayers [0], Color.red);
-			if (tempPlayer && newPlayers [0] && tempPlayer != newPlayers [0])
-				ResetPlayerColor (tempPlayer);
-		}
-		if (Input.GetAxis (joystick2Horizontal) != 0 || Input.GetAxis (joystick2Vertical) != 0 && !playersSelected[1]) 
-		{
-			float controllerAngle = getAngle(new Vector2(Input.GetAxisRaw(joystick2Horizontal), Input.GetAxisRaw(joystick2Vertical)));
-			newPlayers [1] = FindClosestCharacter (controllerAngle);
-		}
-		if (Input.GetAxis (joystick3Horizontal) != 0 || Input.GetAxis (joystick3Vertical) != 0 && !playersSelected[2]) 
-		{
-			float controllerAngle = getAngle(new Vector2(Input.GetAxisRaw(joystick3Horizontal), Input.GetAxisRaw(joystick3Vertical)));
-			newPlayers[2] = FindClosestCharacter (controllerAngle);
-		}
-		if (Input.GetAxis (joystick4Horizontal) != 0 || Input.GetAxis (joystick4Vertical) != 0 && !playersSelected[3]) 
-		{
-			float controllerAngle = getAngle(new Vector2(Input.GetAxisRaw(joystick4Horizontal), Input.GetAxisRaw(joystick4Vertical)));
-			newPlayers [3] = FindClosestCharacter (controllerAngle);
+			if (Input.GetAxis (horizontalAxes [i]) != 0 || Input.GetAxis (verticalAxes [i]) != 0 && !playersSelected [i]) 
+			{
+				float controllerAngle = getAngle(new Vector2(Input.GetAxisRaw(horizontalAxes[i]), Input.GetAxisRaw(verticalAxes[i])));
+				GameObject tempPlayer = newPlayers [i];
+				newPlayers[i] = FindClosestCharacter (controllerAngle);
+				//if they have changed their selection then reset the other mesh color
+				if (newPlayers [i])
+					ChangePlayerColor (newPlayers [i], colorArray[i]);
+				if (tempPlayer && newPlayers [i] && tempPlayer != newPlayers [i])
+					ResetPlayerColor (newPlayers[i]);
+			}
 		}
 
 		//check if the player has selected a character and disable them from selecting another one
 		for (int i = 0; i < numPlayers; i++) 
 		{
-			if (Input.GetKeyDown ("joystick " + (i + 1) + " button 0")) 
+			if (Input.GetKeyDown ("joystick " + (i + 1) + " button 0") && newPlayers[i]) 
 			{
-				if (newPlayers [i]) {
-					playersSelected [i] = true;
-					GameManager.CharacterType type = newPlayers [i].GetComponent<CharacterType> ().type;
-					GameManager.instance.AssignCharacterType (i + 1, type);
-					charactersSelected++;
-				}
+				playersSelected [i] = true;
+				GameManager.CharacterType type = newPlayers [i].GetComponent<CharacterType> ().type;
+				GameManager.instance.AssignCharacterType (i + 1, type);
+				charactersSelected++;
 			}
 		}
-
-		for (int i = 0; i < numPlayers; i++) 
-		{
-			if (Input.GetKeyDown ("joystick " + (i + 1) + " button 0")) 
-			{
-				if (newPlayers [i]) {
-					playersSelected [i] = true;
-					GameManager.CharacterType type = newPlayers [i].GetComponent<CharacterType> ().type;
-					GameManager.instance.AssignCharacterType (i + 1, type);
-					charactersSelected++;
-				}
-			}
-		}
-
+			
 		if(numPlayers == charactersSelected)
 			UpdateScene ();
 	}
@@ -132,5 +106,25 @@ public class CharacterSelection : GameObjectScript {
 	void UpdateScene()
 	{
 		EditorSceneManager.LoadScene ("NewMap");
+	}
+
+	string[] GetJoystickHorizontalAxes()
+	{
+		//Hard coding to 4 right now since there will be only be 4 players(
+		string[] joystickArray = new string[4];
+		for (int i = 0; i < joystickArray.Length; i++) {
+			joystickArray [i] = "Joystick" + (i + 1) + "Horizontal";
+		}
+		return joystickArray;
+	}
+
+	string[] GetJoystickVerticalAxes()
+	{
+		//Hard coding to 4 right now since there will be only be 4 players(
+		string[] joystickArray = new string[4];
+		for (int i = 0; i < joystickArray.Length; i++) {
+			joystickArray [i] = "Joystick" + (i + 1) + "Vertical";
+		}
+		return joystickArray;
 	}
 }

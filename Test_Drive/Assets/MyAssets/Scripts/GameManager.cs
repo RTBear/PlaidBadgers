@@ -95,8 +95,9 @@ public class GameManager : MonoBehaviour {
 			GameObject prefab = GetPrefab(characterMap [i + 1]);
 			GameObject temp = (GameObject)Instantiate (prefab, new Vector2 ((i + 1) * 3,(i + 1) * 3), Quaternion.identity);
 			temp.GetComponent<Char_Code>().playerNumber = i + 1;
+			players [i] = temp;
 		}
-		players = GameObject.FindGameObjectsWithTag("Player");
+		//players = GameObject.FindGameObjectsWithTag("Player");
 		planets = GameObject.FindGameObjectsWithTag("Planet");
 		assignObjectsToPlanets ();
 	}
