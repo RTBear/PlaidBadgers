@@ -6,14 +6,14 @@ public class GameManager : MonoBehaviour {
 
 	public static GameManager instance = null;
 
-	public enum CharacterType{CUBE, SPHERE, CYLINDAR, PILL};
+	public enum CharacterType{CUBE, SPHERE, ROBOT, PILL};
 	//A dictionary or "map" that you give it the key value of the players id and it will return the players type
 	Dictionary<int, CharacterType> characterMap;
 
 	public GameObject[] items;
 	public GameObject[] players;
 	public GameObject[]	planets;
-	public GameObject cubePrefab, spherePrefab, cylindarPrefab, pillPrefab;
+	public GameObject cubePrefab, spherePrefab, robotPrefab, pillPrefab;
 
 	// Use this for initialization
 	void Awake () {
@@ -68,7 +68,7 @@ public class GameManager : MonoBehaviour {
 				}
 			}
 			if (!assigned) {
-				player.GetComponent<PlayerController>().notOnPlanet();
+ 				player.GetComponent<PlayerController>().notOnPlanet();
 			}
 		}
 
@@ -127,16 +127,12 @@ public class GameManager : MonoBehaviour {
 		{
 			case CharacterType.CUBE:
 				return cubePrefab;
-				break;
-			case CharacterType.CYLINDAR:
-				return cylindarPrefab;
-				break;
+			case CharacterType.ROBOT:
+				return Resources.Load("Characters/Robot") as GameObject;
 			case CharacterType.PILL:
 				return pillPrefab;
-				break;
 			case CharacterType.SPHERE:
 				return spherePrefab;
-				break;
 		}
 		return null;
 	}
