@@ -137,7 +137,7 @@ public class GameManager : MonoBehaviour {
 			//spawn the text prefab and attach that to a player
 			GameObject tempText = (GameObject)Instantiate (textPrefab,textSpawnLocations [i], Quaternion.identity);
 			tempText.GetComponent<TextMesh> ().characterSize = .5f;
-			temp.GetComponent<Char_Code> ().healthText = tempText;
+			temp.GetComponent<Char_Code> ().SetHealthTextObject(tempText);
 			players [i] = temp;
 		}
 		players = GameObject.FindGameObjectsWithTag("Player");
