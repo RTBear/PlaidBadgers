@@ -10,7 +10,7 @@ public class Char_Code : GameObjectScript {
 	protected PlayerController pc;
 	protected PlayerInput input;
 	public Collider[] attack_HitBoxes;
-	public Text healthText;
+	public GameObject healthText;
 
     // Use this for initialization
     void Start () {
@@ -79,6 +79,6 @@ public class Char_Code : GameObjectScript {
 	}
 
 	void SetHealthText() {
-		healthText.text = health.ToString() + "%";
+		healthText.GetComponent<TextMesh>().text = health.ToString() + "%";
 	}
 }

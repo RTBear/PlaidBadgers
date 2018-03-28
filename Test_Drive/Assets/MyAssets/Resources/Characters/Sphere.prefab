@@ -358,7 +358,7 @@ MonoBehaviour:
   health: 0
   planet: {fileID: 0}
   rb: {fileID: 54336167909299082}
-  playerNumber: 2
+  playerNumber: 0
   attack_HitBoxes:
   - {fileID: 65353364473158514}
   healthText: {fileID: 0}
