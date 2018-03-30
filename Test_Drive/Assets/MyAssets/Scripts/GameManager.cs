@@ -104,10 +104,10 @@ public class GameManager : MonoBehaviour {
 		if (planets [0]) 
 		{
 			Vector3 planetSize = planets [0].GetComponent<Renderer> ().bounds.size;
-			textSpawnLocations [0] = new Vector3 (-planetSize.x / 4f, planetSize.y / 4f, 0);
-			textSpawnLocations [1] = new Vector3 (planetSize.x / 4f, planetSize.y / 4f, 0);
-			textSpawnLocations [2] = new Vector3 (-planetSize.x / 4f, -planetSize.y / 4f, 0);
-			textSpawnLocations [3] = new Vector3 (planetSize.x / 4f, -planetSize.y / 4f, 0);
+			textSpawnLocations [0] = new Vector3 (-planetSize.x / 3f, planetSize.y / 4f, 0);
+			textSpawnLocations [1] = new Vector3 (planetSize.x / 7f, planetSize.y / 4f, 0);
+			textSpawnLocations [2] = new Vector3 (-planetSize.x / 3f, -planetSize.y / 4f, 0);
+			textSpawnLocations [3] = new Vector3 (planetSize.x / 7f, -planetSize.y / 4f, 0);
 
 			spawnLocations [0] = new Vector2 (0, planetSize.y);
 			spawnLocations [1] = new Vector2 (0, -planetSize.y);
@@ -127,6 +127,7 @@ public class GameManager : MonoBehaviour {
 
 			/* 	This is some progress made for the canvas. I am sick of messing with it for so long so I'm going 
 				to do it a little bit different for right now. I will come back to this if we need to (for the radial health)*/
+			
 			//			GameObject canvas = Instantiate (canvasPrefab, new Vector3 (0, 0, -1), Quaternion.identity);
 			//			canvas.transform.localPosition = new Vector3 (0, 0, -1);
 			//			canvas.GetComponent<Canvas> ().worldCamera = Camera.main;
@@ -146,8 +147,15 @@ public class GameManager : MonoBehaviour {
 
 	public void SpawnPlayer(int playerId)
 	{
+		Vector2 spawnLocation = new Vector2(0, 0);
+		if (planets [0]) {
+			//Spawn at the top of the first planet
+			spawnLocation = new Vector2 (0, planets [0].GetComponent<Renderer> ().bounds.size.y);
+		} else {
+			Debug.Log ("There are no planets!");
+		}
 		GameObject prefab = GetPrefab (characterMap [playerId]);
-		GameObject temp = (GameObject)Instantiate (prefab, new Vector2 (0,5), Quaternion.identity);
+		GameObject temp = (GameObject)Instantiate (prefab, spawnLocation, Quaternion.identity);
 		temp.GetComponent<Char_Code> ().playerNumber = playerId;
 		players = GameObject.FindGameObjectsWithTag ("Player");
 		assignObjectsToPlanets ();
