@@ -11,6 +11,7 @@ public class Char_Code : GameObjectScript {
 	protected PlayerInput input;
 	public Collider[] attack_HitBoxes;
 	public Text healthText;
+	SpecialAttack specialAttack;
 
     // Use this for initialization
     void Start () {
@@ -19,6 +20,8 @@ public class Char_Code : GameObjectScript {
 		input = GetComponent<PlayerInput>();
 		input.SetController(playerNumber);
 		rb = GetComponent<Rigidbody> ();
+		//this will be dynamic based on type
+		specialAttack = gameObject.AddComponent<SpecialAttackRobot>();
     }
 	
 	// Update is called once per frame
@@ -69,6 +72,12 @@ public class Char_Code : GameObjectScript {
 			//ect
 			pc.LaunchAttack (attack_HitBoxes [0]);
 			//}
+		}
+
+		if (input.SpecialAttackTriggered ()) {
+			if (specialAttack.canSpecialAttack ()) {
+				specialAttack.specialAttack ();
+			}
 		}
 
 		if (input.SprintTriggered ()) {

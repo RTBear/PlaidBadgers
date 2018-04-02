@@ -19,6 +19,9 @@ public class PlayerController : GameObjectScript {
 	float maxRunSpeed = 100;
 	float sprintForce = 1f;
 
+	//give time till death and object to destroy
+	DestroyTimer deathTimer;
+
 	public AudioClip whack;
 
 	// Use this for initialization
@@ -26,19 +29,31 @@ public class PlayerController : GameObjectScript {
 		rb = GetComponentInParent<Rigidbody>();
 		relativePos = new Vector3 (0,0,0);
 		tetherEmitter.transform.position = transform.GetComponent<Renderer> ().bounds.center;
+		deathTimer = new DestroyTimer (3f, gameObject);
 	}
 
 	//Methods for outside access
 	//These affect player movement
 	public void setUprightAngle(Vector2 pos){
-		inPlanetGravity = true;
 		float angleChar = getAngle (pos);
 		transform.eulerAngles = new Vector3 (0, 0, angleChar);
 		relativePos = pos;
+		if (!inPlanetGravity) {
+			inPlanetGravity = true;
+		}
 	}
 
 	public void notOnPlanet(){
-		inPlanetGravity = false;
+		if (inPlanetGravity) {
+			inPlanetGravity = false;
+			deathTimer.reset();
+		}
+	}
+
+	void Update(){
+		if (!inPlanetGravity) {
+			deathTimer.run();
+		}
 	}
 
 	void OnCollisionEnter(Collision collider)

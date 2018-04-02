@@ -88,4 +88,9 @@ public class PlayerInput : MonoBehaviour {
 	public bool SprintTriggered(){
 		return (Input.GetKey ("joystick " + playerNumber + " button 5") || Input.GetKey (KeyCode.LeftShift));
 	}
+
+	public bool SpecialAttackTriggered(){
+		//for now
+		return Input.GetKeyDown(KeyCode.M);
+	}
 }

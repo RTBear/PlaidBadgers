@@ -31,13 +31,13 @@ public class GameManager : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
+		//Modify this later
+		items = GameObject.FindGameObjectsWithTag("Item");
+		players = GameObject.FindGameObjectsWithTag("Player");
 		assignObjectsToPlanets();
 	}
 
 	void assignObjectsToPlanets () {
-		//Modify this later
-		items = GameObject.FindGameObjectsWithTag("Item");
-
 		foreach(GameObject p in planets){
 			var planet = p.GetComponent<SphericalGravity>();
 			//think of a better way later
