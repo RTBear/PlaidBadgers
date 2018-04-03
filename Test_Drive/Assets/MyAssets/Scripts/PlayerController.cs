@@ -14,6 +14,7 @@ public class PlayerController : GameObjectScript {
 	int jmpForce = 3000;
 	bool canAirJump = true;
 	bool onGround = false;
+	bool facingClockwise = true;
 
 	float runForce = 30f;
 	float maxRunSpeed = 100;
@@ -33,9 +34,19 @@ public class PlayerController : GameObjectScript {
 	public void setUprightAngle(Vector2 pos){
 		inPlanetGravity = true;
 		float angleChar = getAngle (pos);
-		transform.eulerAngles = new Vector3 (0, 0, angleChar);
-		relativePos = pos;
-	}
+
+        if (facingClockwise)
+            transform.eulerAngles = new Vector3(0, 0, angleChar);
+        else
+        {
+            // MUST BE IN THIS ORDER TO WORK PROPERLY!!!
+            transform.eulerAngles = new Vector3(0, 0, angleChar);   // 1. apply global rotation
+            transform.Rotate(0, 180, 0, Space.Self);                // 2. apply local rotation
+        }
+        relativePos = pos;
+    }
+
+	
 
 	public void notOnPlanet(){
 		inPlanetGravity = false;
@@ -88,12 +99,19 @@ public class PlayerController : GameObjectScript {
 			float angleDiff = angleRunDir - angleChar;
 			if (angleDiff < 0)
 				angleDiff += 360;
-			if (angleDiff < 180 && angleDiff > 0)
-				rb.AddRelativeForce(Vector3.left * runForce*moveMod*sprintForce);
-			else
-				rb.AddRelativeForce(Vector3.right * runForce*moveMod*sprintForce);
-		}
-		SetMaxRunSpeed ();
+            if (angleDiff < 180 && angleDiff > 0)
+            {
+                facingClockwise = false;
+                //rb.AddRelativeForce(Vector3.left * runForce * moveMod);
+            }
+            else
+            {
+                facingClockwise = true;
+                //rb.AddRelativeForce(Vector3.right * runForce * moveMod);
+            }
+            rb.AddRelativeForce(Vector3.right * runForce * moveMod);
+        }
+        SetMaxRunSpeed ();
 	}
 
 	// This controls the run speed. This will also play havock on 

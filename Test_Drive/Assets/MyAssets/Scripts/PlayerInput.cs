@@ -77,7 +77,7 @@ public class PlayerInput : MonoBehaviour {
 	}
 
 	public bool AttackTriggered(){
-		return Input.GetKeyUp ("joystick button 2") && playerNumber == 1;
+		return Input.GetKeyUp ("joystick " + playerNumber + " button 2");
 	}
 
 	public bool SprintTriggered(){

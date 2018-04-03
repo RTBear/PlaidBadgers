@@ -78,7 +78,7 @@ GameObject:
   - component: {fileID: 114022754963849274}
   - component: {fileID: 114952920782377906}
   m_Layer: 12
-  m_Name: Character 1
+  m_Name: Sphere
   m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -90,8 +90,8 @@ Transform:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1853790869821754}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 5.4778104, y: -0.5955808, z: 0.3095967}
+  m_LocalRotation: {x: -0, y: -0, z: 0.7918994, w: -0.6106516}
+  m_LocalPosition: {x: 5.414285, y: -0.08307184, z: 0.8651774}
   m_LocalScale: {x: 2.0408137, y: 2.0408137, z: 2.0408137}
   m_Children:
   - {fileID: 4513540005837544}
@@ -220,7 +220,7 @@ MeshFilter:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1968888369625578}
-  m_Mesh: {fileID: 10208, guid: 0000000000000000e000000000000000, type: 0}
+  m_Mesh: {fileID: 10207, guid: 0000000000000000e000000000000000, type: 0}
 --- !u!54 &54336167909299082
 Rigidbody:
   m_ObjectHideFlags: 1
@@ -358,7 +358,7 @@ MonoBehaviour:
   health: 0
   planet: {fileID: 0}
   rb: {fileID: 54336167909299082}
-  playerNumber: 2
+  playerNumber: 0
   attack_HitBoxes:
   - {fileID: 65353364473158514}
   healthText: {fileID: 0}
