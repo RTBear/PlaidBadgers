@@ -15,6 +15,7 @@ public class GameManager : MonoBehaviour {
 	public GameObject[] items;
 	public GameObject[] players;
 	public GameObject[]	planets;
+	int numPlayers = 4;
 
 	// Use this for initialization
 	void Awake () {
@@ -46,13 +47,34 @@ public class GameManager : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
+		//Modify this later
+		items = GameObject.FindGameObjectsWithTag("Item");
+		players = GameObject.FindGameObjectsWithTag ("Player");
+		//change to be dynamic with number of players
+		if (players.Length < numPlayers) {
+			int playerId = findMissingPlayerId();
+			if(playerId != 0) SpawnPlayer(playerId);
+		}
 		assignObjectsToPlanets();
 	}
 
-	void assignObjectsToPlanets () {
-		//Modify this later
-		items = GameObject.FindGameObjectsWithTag("Item");
+	private int findMissingPlayerId(){
+		for (int i = 1; i <= numPlayers; i++) {
+			bool found = false;
+			foreach (GameObject player in players){
+				if (player.GetComponent<Char_Code>().playerNumber == i){
+					found = true;
+					break;
+				}
+			}
+			if (!found){
+				return i;
+			}
+		}
+		return 0;
+	}
 
+	void assignObjectsToPlanets () {
 		foreach(GameObject p in planets){
 			var planet = p.GetComponent<SphericalGravity>();
 			//think of a better way later
