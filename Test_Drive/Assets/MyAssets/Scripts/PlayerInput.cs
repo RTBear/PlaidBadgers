@@ -34,6 +34,7 @@ public class PlayerInput : MonoBehaviour {
 		fireTether = "Joystick" + number + "FireTether";
 		sprint = "Joystick" + number + "Sprint";
 		playerNumber = number;
+		Debug.Log ("SetController(" + number + ")");
 	}
 
 	//check if input is still being received from the player

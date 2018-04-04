@@ -42,7 +42,7 @@ public class TetherController : GameObjectScript {
 	void OnCollisionEnter(Collision col)
 	{
 		collisionParent = col.gameObject;
-		Debug.Log(ReferenceEquals (collisionParent, col.gameObject));
+//		Debug.Log(ReferenceEquals (collisionParent, col.gameObject));
 		Debug.Log ("tether collision entered");
 		Debug.Log (collisionParent);
 		tetherAttached = true;
@@ -57,7 +57,7 @@ public class TetherController : GameObjectScript {
 
 		LR.enabled = true;
 //		LR.SetPosition (transform.position, collisionParent.transform.position);
-		Debug.Log(p_firePoint);
+//		Debug.Log(p_firePoint);
 		LR.SetPosition (0, p_firePoint);
 		//Vector3 foo = new Vector3(
 		LR.SetPosition (1, collisionParent.transform.position);

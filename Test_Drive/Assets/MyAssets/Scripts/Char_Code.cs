@@ -7,7 +7,7 @@ public class Char_Code : GameObjectScript {
 
     AudioSource audio;
 	public int playerNumber;
-	protected PlayerController pc;
+	public PlayerController pc;
 	protected PlayerInput input;
 	public Collider[] attack_HitBoxes;
 	public Text healthTextFromCanvas;

@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class TetherEmitterController : Char_Code {
+public class TetherEmitterController : MonoBehaviour {
 
 	public GameObject tetherPrefab; //stores the template of a tether object
 	public TetherController tether; //the tether script
@@ -38,9 +38,9 @@ public class TetherEmitterController : Char_Code {
 
 		//Debug.Log (tether.prefab);
 		if (tether.tetherActive) {
-			Debug.Log ("tether.tetheractive"); 
+//			Debug.Log ("tether.tetheractive"); 
 			currentExpirationTimer -= Time.deltaTime;
-			Debug.Log("time--");
+//			Debug.Log("time--");
 			//if (!tether.isFiring) {//if tether expires or if trigger is released before tether expires
 				//tether.destroySelf();
 				//if (!tether.prefab) {//make sure tether is actually deleted
@@ -74,20 +74,9 @@ public class TetherEmitterController : Char_Code {
 				tether.tetherActive = true;
 			}
 
-//			Debug.Log (LayerMask.NameToLayer ("Player " + (playerNumber + 1)));
-			Debug.Log (LayerMask.NameToLayer ("Player 1"));
+			tether.prefab.layer = LayerMask.NameToLayer("Player " + GetComponentInParent<Char_Code>().playerNumber);//convert player number to player number layer
 
-			Debug.Log ("tether before");
-			Debug.Log (tether.prefab.layer.ToString());
-//			tether.prefab.layer = LayerMask.NameToLayer("Player " + (playerNumber + 1));//convert player number to player number layer
-			tether.prefab.layer = LayerMask.NameToLayer("Player 1");//convert player number to player number layer
-//			tether.prefab.GetComponent<LayerMask>() = LayerMask.NameToLayer("Player " + (playerNumber + 1));
-			Debug.Log("tether after");
-			Debug.Log (tether.prefab.layer.ToString());
-
-			//tether.prefab.layer = tetherMask.value; 
-			//Debug.Log("tetherMask: " + tetherMask.value);
-			Debug.Log("pn: " + playerNumber);
+//			Debug.Log("pn: " + GetComponentInParent<Char_Code>().playerNumber);
 
 
 
