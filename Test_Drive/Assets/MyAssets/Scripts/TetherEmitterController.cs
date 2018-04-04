@@ -73,11 +73,21 @@ public class TetherEmitterController : Char_Code {
 				Debug.Log ("tether active");
 				tether.tetherActive = true;
 			}
-			tether.prefab.layer = LayerMask.NameToLayer("Player " + (playerNumber + 1));//convert player number to player number layer
+
+//			Debug.Log (LayerMask.NameToLayer ("Player " + (playerNumber + 1)));
+			Debug.Log (LayerMask.NameToLayer ("Player 1"));
+
+			Debug.Log ("tether before");
+			Debug.Log (tether.prefab.layer.ToString());
+//			tether.prefab.layer = LayerMask.NameToLayer("Player " + (playerNumber + 1));//convert player number to player number layer
+			tether.prefab.layer = LayerMask.NameToLayer("Player 1");//convert player number to player number layer
+//			tether.prefab.GetComponent<LayerMask>() = LayerMask.NameToLayer("Player " + (playerNumber + 1));
+			Debug.Log("tether after");
+			Debug.Log (tether.prefab.layer.ToString());
 
 			//tether.prefab.layer = tetherMask.value; 
 			//Debug.Log("tetherMask: " + tetherMask.value);
-			//Debug.Log("pn: " + playerNumber);
+			Debug.Log("pn: " + playerNumber);
 
 
 

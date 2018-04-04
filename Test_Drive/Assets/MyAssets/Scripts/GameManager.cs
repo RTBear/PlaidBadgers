@@ -121,9 +121,10 @@ public class GameManager : MonoBehaviour {
 
 		for(int i = 0; i < characterMap.Count; i++)
 		{
-			GameObject prefab = GetPrefab(characterMap [i + 1]);
+			int playerId = i + 1; //Account for change of indexing
+			GameObject prefab = GetPrefab(characterMap [playerId]);
 			GameObject temp = (GameObject)Instantiate (prefab, spawnLocations[i], Quaternion.identity);
-			temp.GetComponent<Char_Code>().playerNumber = i + 1;
+			temp.GetComponent<Char_Code>().playerNumber = playerId;
 
 			/* 	This is some progress made for the canvas. I am sick of messing with it for so long so I'm going 
 				to do it a little bit different for right now. I will come back to this if we need to (for the radial health)*/
@@ -139,6 +140,13 @@ public class GameManager : MonoBehaviour {
 			GameObject tempText = (GameObject)Instantiate (textPrefab,textSpawnLocations [i], Quaternion.identity);
 			tempText.GetComponent<TextMesh> ().characterSize = .5f;
 			temp.GetComponent<Char_Code> ().SetHealthTextObject(tempText);
+
+			temp.layer = LayerMask.NameToLayer ("Player " + playerId);
+			Debug.Log("temp after");
+			Debug.Log (temp.layer.ToString()); 
+			temp.GetComponent<PlayerInput> ().SetController (playerId);
+
+
 			players [i] = temp;
 		}
 		players = GameObject.FindGameObjectsWithTag("Player");
@@ -156,6 +164,12 @@ public class GameManager : MonoBehaviour {
 		}
 		GameObject prefab = GetPrefab (characterMap [playerId]);
 		GameObject temp = (GameObject)Instantiate (prefab, spawnLocation, Quaternion.identity);
+
+		temp.layer = LayerMask.NameToLayer ("Player " + playerId);
+		Debug.Log("temp after");
+		Debug.Log (temp.layer.ToString()); 
+		temp.GetComponent<PlayerInput> ().SetController (playerId);
+
 		temp.GetComponent<Char_Code> ().playerNumber = playerId;
 		players = GameObject.FindGameObjectsWithTag ("Player");
 		assignObjectsToPlanets ();
