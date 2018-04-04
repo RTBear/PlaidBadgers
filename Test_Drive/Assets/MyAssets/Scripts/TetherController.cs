@@ -45,13 +45,17 @@ public class TetherController : GameObjectScript {
 //		Debug.Log(ReferenceEquals (collisionParent, col.gameObject));
 		Debug.Log ("tether collision entered");
 		Debug.Log (collisionParent);
+		transform.SetParent(collisionParent.transform);//attach tether to tetheree
 		tetherAttached = true;
-		transform.SetParent(collisionParent.transform);//attach to tetheree
 
 		Rigidbody parent_rb = collisionParent.GetComponent<Rigidbody> ();
-		//parent_rb.constraints = RigidbodyConstraints.FreezeAll;
-		PlayerController parent_pc = collisionParent.GetComponent<PlayerController> ();
-		parent_pc.tethered = true;
+		//parent_rb.constraints = RigidbodyConstraints.FreezeAll; //freeze input for tetheree
+
+		//communicate with collided object (only applies if it is a player)
+//		PlayerController parent_pc = collisionParent.GetComponent<PlayerController> ();
+//		parent_pc.tethered = true;
+
+
 		//ignore further collisions
 		//rb.detectCollisions = false;
 
