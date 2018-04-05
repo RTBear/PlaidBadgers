@@ -26,7 +26,7 @@ public class PlayerController : GameObjectScript {
 	private float deathTime = 3f;
 
 	// Use this for initialization
-	void Start () {
+	void Awake () {
 		rb = GetComponentInParent<Rigidbody>();
 		relativePos = new Vector3 (0,0,0);
 		tetherEmitter.transform.position = transform.GetComponent<Renderer> ().bounds.center;

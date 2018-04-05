@@ -55,10 +55,11 @@ public class GameManager : MonoBehaviour {
 	}
 
 	void InitGame () {
+		//this is just for starting the game without character selection screen
+		if(characterMap.Count == 0) AssignCharacterToMap(1, CharacterType.ROBOT);
+
+		numPlayers = characterMap.Count;
 		planets = GameObject.FindGameObjectsWithTag("Planet");
-		players = GameObject.FindGameObjectsWithTag("Player");
-		items = GameObject.FindGameObjectsWithTag("Item");
-		assignObjectsToPlanets();
 	}
 	
 	// Update is called once per frame
@@ -92,11 +93,6 @@ public class GameManager : MonoBehaviour {
 		}
 		return 0;
 	}
-
-	void assignObjectsToPlanets () {
-		//Modify this later
-		items = GameObject.FindGameObjectsWithTag("Item");
-		players = GameObject.FindGameObjectsWithTag("Player");
 
 	void assignObjectsToPlanets () {
 		foreach(GameObject p in planets){
