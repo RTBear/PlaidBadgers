@@ -23,7 +23,7 @@ public class PlayerController : GameObjectScript {
 	public AudioClip whack;
 
 	private DeathTimer dt;
-	private float deathTime = 3f;
+	private float deathTime = 2f;
 
 	// Use this for initialization
 	void Awake () {

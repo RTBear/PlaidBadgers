@@ -20,6 +20,20 @@ public class DeathTimer : Timer {
 	}
 }
 
+public class RespawnTimer : Timer {
+	int player;
+
+	public void Init(float timeTillRespawn, int CharNumber){
+		targetTime = timeTillRespawn;
+		player = CharNumber;
+	}
+
+	protected override void timerFinished(){
+		GameManager.instance.SpawnPlayer(player);
+		ResetAndOff();
+	}
+}
+
 public abstract class Timer : MonoBehaviour {
 
 	protected float currentTime = 0;
@@ -33,6 +47,10 @@ public abstract class Timer : MonoBehaviour {
 	public void ResetAndOff(){
 		currentTime = 0;
 		running = false;
+	}
+
+	public bool isRunning(){
+		return running; 
 	}
 	
 	// Update is called once per frame
