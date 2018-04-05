@@ -39,7 +39,7 @@ CUBE,
 	public Dictionary<GameObjectScript, GameObject> tetheringPlayers;
 	private const float TETHER_PULL_SPEED = 20;
 	private const int TETHER_DISTANCE_TOLERANCE = 1;
-	private const float TETHER_HOLD_TIME = 2;
+	public const float TETHER_HOLD_TIME = 2;
 
 
 	void ManageSceneStuff (Scene scene, LoadSceneMode mode)
@@ -266,7 +266,6 @@ CUBE,
 		temp.layer = LayerMask.NameToLayer ("Player " + playerId);
 		Debug.Log ("temp after");
 		Debug.Log (temp.layer.ToString ()); 
-//		temp.GetComponent<PlayerInput> ().SetController (playerId);
 
 		temp.GetComponent<Char_Code> ().playerNumber = playerId;
 		players = GameObject.FindGameObjectsWithTag ("Player");

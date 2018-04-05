@@ -55,9 +55,7 @@ public class TetherEmitterController : MonoBehaviour {
 			tether.prefab = Instantiate (tetherPrefab, firePoint.position, firePoint.rotation) as GameObject;
 
 			//make sure tether is actually created
-			Debug.Log("launch tether");
 			if (tether.prefab != null) {
-				Debug.Log ("tether active");
 				tether.tetherActive = true;
 			}
 

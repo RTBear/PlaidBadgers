@@ -14,8 +14,7 @@ public class Char_Code : GameObjectScript {
 	GameObject healthTextObject;
 
 	public Transform tetherCollisionLocation; //used to determine where tether collided with planet
-	public const float TETHER_HOLD_TIME = 2;
-	public float tetherHoldTimer = TETHER_HOLD_TIME;
+	public float tetherHoldTimer = GameManager.instance.TETHER_HOLD_TIME;
 
     // Use this for initialization
     void Start () {
@@ -46,26 +45,10 @@ public class Char_Code : GameObjectScript {
 
 	// Update is called once per frame
 	void RespondToInputs () {
-		//is thether currently in the act of being fired?
-//		if (input.isReceivingTetherFiringInput () == true) {
-//			pc.tetherEmitter.tether.isFiring = true;
-//		}
-//		if (input.isReceivingTetherFiringInput() == false && pc.tetherEmitter.tether.isFiring == true && pc.tetherEmitter.tether.tetherAttached == false) {
-//			//if (!pc.tetherEmitter.tether.tetherAttached) {
-//				Debug.Log ("no trigger and not attached"); 
-//				pc.tetherEmitter.tether.isFiring = false;
-//				pc.tetherEmitter.tether.tetherActive = false; 
-//			//}
-//		} else if (input.isReceivingTetherFiringInput() == false && pc.tetherEmitter.tether.isFiring == true && pc.tetherEmitter.tether.tetherAttached == true) {
-//				Debug.Log ("trigger and attached");
-//				pc.tetherEmitter.tether.isFiring = false;
-//		}
 
 		if (input.isReceivingTetherFiringInput() == true) {
 			if (pc.tetherEmitter.tether.tetherAttached == false) {
 				pc.tetherEmitter.tether.isFiring = false;
-			} else {
-				//pc.tetherEmitter.tether.isFiring = true;
 			}
 		}
 

@@ -25,48 +25,7 @@ public class GameObjectScript : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-//		Debug.Log ("transform.position in update: " + transform.position);
-//		Debug.Log("tether destination in update : " + tetherDestination);
-//		if (tetherDestination != Vector3.zero) {
-//			Debug.Log ("tether destination not zero");
-////					tetherTo (tetherDestination); //i don't understand why it doesn't go here
-//		}
 	}
-
-//	public void setTetherDestination(Vector3 destination){
-//
-//		//if(abortTetherTo){reset state}
-//		tetherDestination = destination;
-//		Debug.Log("tether destination set to : " + tetherDestination);
-////		tetherTo (tetherDestination);
-//
-//		//abortTetherTo = true;
-//	}
-
-//	private void tetherTo(Vector3 destination){
-//		Debug.Log (Vector3.Distance (tetherDestination, transform.position));
-//		//
-//		Debug.Log(name);
-//		//abortTetherTo = false;
-//
-//		if (Vector3.Distance(tetherDestination, transform.position) > DISTANCE_TOLERANCE) {
-////			LR.enabled = true;
-////			LR.SetPosition (0, destination);
-////			LR.SetPosition (1, transform.position);
-//
-//			transform.position = Vector3.Lerp (transform.position, destination,Time.deltaTime * 3);
-//		} else {
-////			LR.enabled = false;
-//			tetherDestination = Vector3.zero;
-//			if (GetComponent<PlayerController> ()) {
-//				Debug.Log ("making that crap false");
-//				GetComponent<PlayerController> ().tetherEmitter.tether.m_tetherToPlanet = false;
-//				GetComponent<PlayerController> ().tetherEmitter.tether.m_collisionLocation = Vector3.zero;
-//			}
-//			Debug.Log ("tether to location reached");
-//		}
-//
-//	}
 
     // Given an vector it will return the angle of that vector
     public float getAngle(Vector2 vector)
