@@ -65,7 +65,7 @@ public class PlayerController : GameObjectScript {
 
 	//can make this more complex, set methods for is paralized, ect
 	public bool canMove(){
-		if (inPlanetGravity && !tethered) {
+		if (inPlanetGravity && !tethered && !tetherEmitter.tether.tetherActive) {
 			return true;
 		} else {
 			return false;

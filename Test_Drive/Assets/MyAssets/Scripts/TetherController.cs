@@ -32,8 +32,6 @@ public class TetherController : GameObjectScript {
 		} else {
 			collisionParent.GetComponent<GameObjectScript> ().setTetherDestination (originalParentTransform.position);
 		}
-			
-
 	}
 
 	void OnCollisionEnter(Collision col)
@@ -52,11 +50,6 @@ public class TetherController : GameObjectScript {
 		//communicate with collided object (only applies if it is a player)
 //		PlayerController parent_pc = collisionParent.GetComponent<PlayerController> ();
 //		parent_pc.tethered = true;
-
-
-		//ignore further collisions
-		//rb.detectCollisions = false;
-
 
 		Destroy (m_rb); 
 	}
@@ -83,11 +76,4 @@ public class TetherController : GameObjectScript {
 		}
 	}
 		
-//	void OnCollisionExit(Collision col)
-//	{
-//		Debug.Log ("collision exited");
-//		tetherAttached = false;
-//		Rigidbody parent_rb = collisionParent.GetComponent<Rigidbody> ();
-//		parent_rb.constraints = RigidbodyConstraints.None;
-//	}
 }

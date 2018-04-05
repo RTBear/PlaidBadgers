@@ -32,7 +32,7 @@ public class GameObjectScript : MonoBehaviour {
 	}
 
 	private void tetherTo(Vector3 destination){
-		Debug.Log (Vector3.Distance (tetherDestination, transform.position));
+//		Debug.Log (Vector3.Distance (tetherDestination, transform.position));
 		if (Vector3.Distance(tetherDestination, transform.position) > DISTANCE_TOLERANCE) {
 			LR.enabled = true;
 			LR.SetPosition (0, destination);
@@ -42,6 +42,7 @@ public class GameObjectScript : MonoBehaviour {
 		} else {
 			LR.enabled = false;
 			tetherDestination = Vector3.zero;
+			Debug.Log ("tether to player reached");
 		}
 
 	}

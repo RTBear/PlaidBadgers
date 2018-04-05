@@ -34,18 +34,10 @@ public class TetherEmitterController : MonoBehaviour {
 			tether.tetherActive = false;
 		}
 
-		//Debug.Log (tether.prefab);
 		if (tether.tetherActive) {
-//			Debug.Log ("tether.tetheractive"); 
 			currentExpirationTimer -= Time.deltaTime;
-//			Debug.Log("time--");
-			//if (!tether.isFiring) {//if tether expires or if trigger is released before tether expires
-				//tether.destroySelf();
-				//if (!tether.prefab) {//make sure tether is actually deleted
-				//	tetherActive = false;
-				//	Debug.Log ("destroyed tether");
-				//}
-			//}
+
+
 		} else if(tether.prefab != null){ 
 			tether.resetTether ();
 		}
