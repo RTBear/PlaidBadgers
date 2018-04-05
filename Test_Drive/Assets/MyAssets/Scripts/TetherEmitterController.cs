@@ -57,13 +57,9 @@ public class TetherEmitterController : MonoBehaviour {
 		tether.isFiring = true;
 		if (!tether.tetherActive) {
 			currentExpirationTimer = expirationTime;
-			tether.prefab = Instantiate (tetherPrefab, firePoint.position, firePoint.rotation) as GameObject;
-			//make sure child knows where parent is
-			//Debug.Log(firePoint.position);
-//			Debug.Log (firePoint.);
-			//tether.p_firePoint = new Vector3(0,3.7f,0);
-//			tether.p_firePoint = firePoint.position;
+			tether.GetComponent<TetherController> ().originalParentTransform = transform;
 
+			tether.prefab = Instantiate (tetherPrefab, firePoint.position, firePoint.rotation) as GameObject;
 
 			//make sure tether is actually created
 			Debug.Log("launch tether");
