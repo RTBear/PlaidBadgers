@@ -14,11 +14,15 @@ public class GameManager : MonoBehaviour {
 	public enum CharacterType{CUBE, SPHERE, ROBOT, PILL};
 	//A dictionary or "map" that you give it the key value of the players id and it will return the players type
 	Dictionary<int, CharacterType> characterMap;
+	public Dictionary<GameObjectScript, GameObject> tetheringPlayers;
 	GameObject textPrefab;
 	GameObject canvasPrefab;
 	public GameObject[] items;
 	public GameObject[] players;
 	public GameObject[]	planets;
+
+	private const float TETHER_PULL_SPEED = 20;
+	private const int TETHER_DISTANCE_TOLERANCE = 1;
 
 	void ManageSceneStuff(Scene scene, LoadSceneMode mode){
 		if (scene.name == "CharacterSelect") {
@@ -51,6 +55,7 @@ public class GameManager : MonoBehaviour {
 		textPrefab = Resources.Load ("Prefabs/TextPrefab") as GameObject;
 		canvasPrefab = Resources.Load ("Canvas") as GameObject;
 		characterMap = new Dictionary<int, CharacterType> ();
+		tetheringPlayers = new Dictionary<GameObjectScript, GameObject> ();
 	}
 
 	void InitGame () {
@@ -64,6 +69,35 @@ public class GameManager : MonoBehaviour {
 	void Update () {
 		if (currentMode == gameMode.battle) {
 			assignObjectsToPlanets ();
+		}
+		if (tetheringPlayers.Count > 0) {
+			pullTethers (); //if people are tethering pull tethers
+		}
+	}
+
+	//loop through dictionary lerping appropriate objects
+	void pullTethers(){
+		foreach (KeyValuePair<GameObjectScript,GameObject> obj in tetheringPlayers) {
+			GameObjectScript player = obj.Key;
+			GameObject tetheree = obj.Value;
+			Transform playerTrans = player.GetComponent<Transform> ();
+			Transform tethereeTrans = tetheree.GetComponent<Transform> ();
+				if (tetheree.GetComponent<GameObjectScript> ()) {//tetheree is an object that can be pulled to player... lerp to player
+					if (Vector3.Distance (playerTrans.position, tethereeTrans.position) > TETHER_DISTANCE_TOLERANCE) {
+						Debug.Log ("pullTethers");
+						tethereeTrans.position = Vector3.Lerp (tethereeTrans.position, playerTrans.position, (Time.deltaTime * TETHER_PULL_SPEED) / Vector3.Distance (playerTrans.position, tethereeTrans.position));
+					} else {
+						tetheringPlayers.Remove (player);
+					}
+				} else if (tetheree.CompareTag ("Planet")) { //tetheree is a planet... lerp player to planet
+					if (Vector3.Distance (playerTrans.position, player.GetComponent<Char_Code>().tetherCollisionLocation) > TETHER_DISTANCE_TOLERANCE) {
+						Debug.Log ("pullTethers");
+						playerTrans.position = Vector3.Lerp (player.GetComponent<Char_Code>().tetherCollisionLocation, playerTrans.position, (Time.deltaTime * TETHER_PULL_SPEED) / Vector3.Distance (playerTrans.position, player.GetComponent<Char_Code>().tetherCollisionLocation));
+					} else {
+						tetheringPlayers.Remove (player);
+					}
+				}
+			
 		}
 	}
 

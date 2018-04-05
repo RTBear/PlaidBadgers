@@ -50,7 +50,7 @@ public class TetherEmitterController : MonoBehaviour {
 		if (!tether.tetherActive) {
 			currentExpirationTimer = expirationTime;
 			tether.GetComponent<TetherController> ().originalParentTransform = transform;
-			tether.GetComponent<TetherController> ().originalParentGameObjectScript = GetComponentInParent<GameObjectScript> ();
+			tether.GetComponent<TetherController> ().originalParentCharCode = GetComponentInParent<Char_Code>();
 
 			tether.prefab = Instantiate (tetherPrefab, firePoint.position, firePoint.rotation) as GameObject;
 

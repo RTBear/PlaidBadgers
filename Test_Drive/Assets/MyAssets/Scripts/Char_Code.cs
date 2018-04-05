@@ -13,6 +13,8 @@ public class Char_Code : GameObjectScript {
 	public Text healthTextFromCanvas;
 	GameObject healthTextObject;
 
+	public Vector3 tetherCollisionLocation; //used to determine where tether collided with planet
+
     // Use this for initialization
     void Start () {
         audio = GetComponent<AudioSource>();
@@ -27,17 +29,17 @@ public class Char_Code : GameObjectScript {
 	void Update () {
 		RespondToInputs();
 		SetHealthText ();
-		Debug.Log (pc.tetherEmitter.tether.m_tetherToPlanet);
-		if(pc.tetherEmitter.tether.m_tetherToPlanet){
-			tetherToPlanet();
-		}
+//		Debug.Log (pc.tetherEmitter.tether.m_tetherToPlanet);
+//		if(pc.tetherEmitter.tether.m_tetherToPlanet){
+//			tetherToPlanet();
+//		}
 	}
 
 	//tether player to planet
-	public void tetherToPlanet(){
-		Debug.Log ("tether to planet called");
-		GetComponent<GameObjectScript> ().setTetherDestination (pc.tetherEmitter.tether.m_collisionLocation);
-	}
+//	public void tetherToPlanet(){
+//		Debug.Log ("tether to planet called");
+//		GetComponent<GameObjectScript> ().setTetherDestination (pc.tetherEmitter.tether.m_collisionLocation);
+//	}
 
 	// Update is called once per frame
 	void RespondToInputs () {
