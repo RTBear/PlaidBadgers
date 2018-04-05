@@ -8,48 +8,55 @@ public class GameObjectScript : MonoBehaviour {
     public Rigidbody rb;
 
 	private const int DISTANCE_TOLERANCE = 1;
-	private Vector3 tetherDestination; //when thethered, travel to this destination
-	public LineRenderer LR; //when tethered draw 'rope'
+	private static Vector3 tetherDestination; //when thethered, travel to this destination
+//	private LineRenderer LR; //when tethered draw 'rope'
 
 
     // Use this for initialization
     void Start () {
 		//setup line renderer
-		LR = gameObject.AddComponent<LineRenderer>();
-		LR.startWidth = .2f;
-		LR.endWidth = .2f;
+//		GetComponent<GameObject>().gameObject.AddComponent<LineRenderer>();
+//		LR = GetComponent<LineRenderer> ();
+//		if (GetComponent<LineRenderer> ()) {
+//			LR.startWidth = .2f;
+//			LR.endWidth = .2f;
+//		}
     }
 	
 	// Update is called once per frame
 	void Update () {
+		Debug.Log("tether destination in update : " + tetherDestination);
+		Debug.Log ("transform.position in update: " + transform.position);
 		if (tetherDestination != Vector3.zero) {
+			Debug.Log ("tether destination not zero");
+			//		tetherTo (tetherDestination); //i don't understand why it doesn't go here
 		}
 	}
 
 	public void setTetherDestination(Vector3 destination){
 
 		//if(abortTetherTo){reset state}
-
 		tetherDestination = destination;
+		Debug.Log("tether destination set to : " + tetherDestination);
 		tetherTo (tetherDestination);
 
 		//abortTetherTo = true;
 	}
 
 	private void tetherTo(Vector3 destination){
-//		Debug.Log (Vector3.Distance (tetherDestination, transform.position));
+		Debug.Log (Vector3.Distance (tetherDestination, transform.position));
 		//
-
+		Debug.Log(name);
 		//abortTetherTo = false;
 
 		if (Vector3.Distance(tetherDestination, transform.position) > DISTANCE_TOLERANCE) {
-			LR.enabled = true;
-			LR.SetPosition (0, destination);
-			LR.SetPosition (1, transform.position);
+//			LR.enabled = true;
+//			LR.SetPosition (0, destination);
+//			LR.SetPosition (1, transform.position);
 
 			transform.position = Vector3.Lerp (transform.position, destination,Time.deltaTime * 3);
 		} else {
-			LR.enabled = false;
+//			LR.enabled = false;
 			tetherDestination = Vector3.zero;
 			if (GetComponent<PlayerController> ()) {
 				Debug.Log ("making that crap false");

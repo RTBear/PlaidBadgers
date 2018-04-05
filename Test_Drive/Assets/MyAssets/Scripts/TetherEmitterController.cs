@@ -9,7 +9,7 @@ public class TetherEmitterController : MonoBehaviour {
 
 	private float tetherLaunchForce = 2000; //force applied to tether at launch
 
-	private float expirationTime = 0.5f; // time a tether can stay active
+	private float expirationTime = 1; // time a tether can stay active
 	private float currentExpirationTimer; // timer until active tether expires
 
 	//public float cooldownTime; //cooldown timer max (time between tether launches)
