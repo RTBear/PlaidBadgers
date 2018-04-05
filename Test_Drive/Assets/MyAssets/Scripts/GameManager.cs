@@ -19,6 +19,10 @@ public class GameManager : MonoBehaviour {
 	public GameObject[] items;
 	public GameObject[] players;
 	public GameObject[]	planets;
+	Dictionary<int, RespawnTimer> respawnTimers = new Dictionary<int, RespawnTimer>();
+	int numPlayers = 4;
+
+	float respawnTime = 1f;
 
 	void ManageSceneStuff(Scene scene, LoadSceneMode mode){
 		if (scene.name == "CharacterSelect") {
@@ -54,24 +58,56 @@ public class GameManager : MonoBehaviour {
 	}
 
 	void InitGame () {
+		//this is just for starting the game without character selection screen
+		if(characterMap.Count == 0) AssignCharacterToMap(1, CharacterType.ROBOT);
+
+		//set up the respawn timers
+		for (int i = 1; i <= characterMap.Count; i++) {
+ 			RespawnTimer timer = gameObject.AddComponent<RespawnTimer>();
+			timer.Init (respawnTime, i);
+			respawnTimers[i] = timer;
+		}
+
+		numPlayers = characterMap.Count;
 		planets = GameObject.FindGameObjectsWithTag("Planet");
-		players = GameObject.FindGameObjectsWithTag("Player");
-		items = GameObject.FindGameObjectsWithTag("Item");
-		assignObjectsToPlanets();
 	}
 	
 	// Update is called once per frame
 	void Update () {
+		
 		if (currentMode == gameMode.battle) {
-			assignObjectsToPlanets ();
+			//Modify this later
+			items = GameObject.FindGameObjectsWithTag("Item");
+			players = GameObject.FindGameObjectsWithTag ("Player");
+			//change to be dynamic with number of players
+			if (players.Length < numPlayers) {
+				int playerId = findMissingPlayerId();
+				if(playerId != 0){
+					respawnTimers [playerId].On ();
+				};
+			}
+			assignObjectsToPlanets();
 		}
 	}
 
-	void assignObjectsToPlanets () {
-		//Modify this later
-		items = GameObject.FindGameObjectsWithTag("Item");
-		players = GameObject.FindGameObjectsWithTag("Player");
+	private int findMissingPlayerId(){
+		for (int i = 1; i <= numPlayers; i++) {
+			bool found = false;
+			foreach (GameObject player in players){
+				if (player.GetComponent<Char_Code>().playerNumber == i){
+					found = true;
+					break;
+				}
+			}
+			if (!found){
+				//if a timer is already running then we want to see if anyone else is dead
+				if(!respawnTimers[i].isRunning()) return i;
+			}
+		}
+		return 0;
+	}
 
+	void assignObjectsToPlanets () {
 		foreach(GameObject p in planets){
 			var planet = p.GetComponent<SphericalGravity>();
 			//think of a better way later
