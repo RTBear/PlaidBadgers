@@ -1,7 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEditor.SceneManagement;
+using UnityEngine.SceneManagement;
 
 public class CharacterSelection : GameObjectScript {
 	//tempPlayer array is used to get the closest character to where the user is pointing
@@ -13,6 +13,7 @@ public class CharacterSelection : GameObjectScript {
 	bool[] isPlayerSelected;
 	int numPlayers;
 	int charactersSelected;
+
 	// Use this for initialization
 	void Start () {
 		//controllers returns an array of strings. That is how we can find out how many players there are.
@@ -113,7 +114,7 @@ public class CharacterSelection : GameObjectScript {
 
 	void UpdateScene()
 	{
-		EditorSceneManager.LoadScene ("NewMap");
+		SceneManager.LoadScene("NewMap");
 	}
 
 	string[] GetJoystickHorizontalAxes()

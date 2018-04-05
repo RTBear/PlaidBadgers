@@ -2,10 +2,14 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviour {
 
 	public static GameManager instance = null;
+
+	gameMode currentMode;
+	enum gameMode{selectCharacter, battle, none};
 
 	public enum CharacterType{CUBE, SPHERE, ROBOT, PILL};
 	//A dictionary or "map" that you give it the key value of the players id and it will return the players type
@@ -16,28 +20,40 @@ public class GameManager : MonoBehaviour {
 	public GameObject[] players;
 	public GameObject[]	planets;
 
+	void ManageSceneStuff(Scene scene, LoadSceneMode mode){
+		if (scene.name == "CharacterSelect") {
+			currentMode = gameMode.selectCharacter;
+		}
+		else if (scene.name == "NewMap") {
+			currentMode = gameMode.battle;
+			InitGame ();
+		}
+		else {
+			currentMode = gameMode.none;
+		}
+	}
+
 	// Use this for initialization
 	void Awake () {
-		Debug.Log ("Reloading...");
+		SceneManager.sceneLoaded += ManageSceneStuff;
+
 		if (instance == null)
 			instance = this;
 		else if (instance != this)
 			Destroy(gameObject);
-
+		
 		DontDestroyOnLoad(gameObject);
 
-		textPrefab = Resources.Load ("Prefabs/TextPrefab") as GameObject;
-		canvasPrefab = Resources.Load ("Canvas") as GameObject;
-		InitGame();
+		GeneralInitialization();
 	}
 
-	void Start()
-	{
-
+	void GeneralInitialization(){
+		textPrefab = Resources.Load ("Prefabs/TextPrefab") as GameObject;
+		canvasPrefab = Resources.Load ("Canvas") as GameObject;
+		characterMap = new Dictionary<int, CharacterType> ();
 	}
 
 	void InitGame () {
-		characterMap = new Dictionary<int, CharacterType> ();
 		planets = GameObject.FindGameObjectsWithTag("Planet");
 		players = GameObject.FindGameObjectsWithTag("Player");
 		items = GameObject.FindGameObjectsWithTag("Item");
@@ -46,12 +62,15 @@ public class GameManager : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-		assignObjectsToPlanets();
+		if (currentMode == gameMode.battle) {
+			assignObjectsToPlanets ();
+		}
 	}
 
 	void assignObjectsToPlanets () {
 		//Modify this later
 		items = GameObject.FindGameObjectsWithTag("Item");
+		players = GameObject.FindGameObjectsWithTag("Player");
 
 		foreach(GameObject p in planets){
 			var planet = p.GetComponent<SphericalGravity>();
