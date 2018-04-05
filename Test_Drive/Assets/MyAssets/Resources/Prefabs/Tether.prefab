@@ -27,7 +27,7 @@ GameObject:
   - component: {fileID: 114993666063185000}
   m_Layer: 10
   m_Name: Tether
-  m_TagString: Untagged
+  m_TagString: Tether
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -113,8 +113,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   prefab: {fileID: 0}
-  speed: 10
-  tetherCollide: 0
+  originalParentTransform: {fileID: 0}
+  tetherAttached: 0
+  tetherActive: 0
+  isFiring: 1
+  m_tetherToPlanet: 0
+  m_collisionLocation: {x: 0, y: 0, z: 0}
 --- !u!114 &114993666063185000
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -129,6 +133,7 @@ MonoBehaviour:
   health: 0
   planet: {fileID: 1922922541144426, guid: 9dba20e3c2a884b488a59ccc1e5c0109, type: 2}
   rb: {fileID: 54546582001345360}
+  LR: {fileID: 0}
 --- !u!135 &135225878139621046
 SphereCollider:
   m_ObjectHideFlags: 1

@@ -11,6 +11,7 @@ public class TetherController : MonoBehaviour {
 
 	private GameObject collisionParent;
 	public Transform originalParentTransform;
+	public GameObjectScript originalParentGameObjectScript;
 
 	public bool tetherAttached = false;
 	public bool tetherActive = false;
@@ -36,7 +37,10 @@ public class TetherController : MonoBehaviour {
 		} else {
 			if (collisionParent.GetComponent<GameObjectScript> ()) {
 				collisionParent.GetComponent<GameObjectScript> ().setTetherDestination (originalParentTransform.position);
+			} else if (m_tetherToPlanet) {
+				originalParentGameObjectScript.setTetherDestination (m_collisionLocation);
 			}
+			transform.SetParent(collisionParent.transform);//attach tether to tetheree 
 		}
 	}
 
@@ -46,8 +50,8 @@ public class TetherController : MonoBehaviour {
 //		Debug.Log(ReferenceEquals (collisionParent, col.gameObject));
 		Debug.Log ("tether collision entered");
 		Debug.Log (collisionParent);
-		transform.SetParent(collisionParent.transform);//attach tether to tetheree
 		tetherAttached = true;
+//		transform.SetParent(collisionParent.transform);//attach tether to tetheree
 		if (collisionParent.GetComponent<GameObjectScript> ()) {
 			collisionParent.GetComponent<GameObjectScript> ().setTetherDestination (originalParentTransform.position);
 		}

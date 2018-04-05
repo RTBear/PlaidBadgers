@@ -23,16 +23,25 @@ public class GameObjectScript : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
 		if (tetherDestination != Vector3.zero) {
-			tetherTo (tetherDestination);
 		}
 	}
 
 	public void setTetherDestination(Vector3 destination){
+
+		//if(abortTetherTo){reset state}
+
 		tetherDestination = destination;
+		tetherTo (tetherDestination);
+
+		//abortTetherTo = true;
 	}
 
 	private void tetherTo(Vector3 destination){
 //		Debug.Log (Vector3.Distance (tetherDestination, transform.position));
+		//
+
+		//abortTetherTo = false;
+
 		if (Vector3.Distance(tetherDestination, transform.position) > DISTANCE_TOLERANCE) {
 			LR.enabled = true;
 			LR.SetPosition (0, destination);

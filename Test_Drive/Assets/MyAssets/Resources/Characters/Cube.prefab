@@ -389,7 +389,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   tetherPrefab: {fileID: 0}
-  tether: {fileID: 0}
+  tether: {fileID: 114811079407193662, guid: f1210bd6dbdacf44789721a34e327f1a, type: 2}
   firePoint: {fileID: 4513540005837544}
   crosshair: {fileID: 1492467666186792}
 --- !u!136 &136322922636646842
