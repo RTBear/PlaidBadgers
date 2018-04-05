@@ -14,7 +14,7 @@ public class PlayerController : GameObjectScript {
 	int jmpForce = 3000;
 	bool canAirJump = true;
 	bool onGround = false;
-	bool facingClockwise = true;
+	public bool facingClockwise = true;
 
 	float runForce = 30f;
 	float maxRunSpeed = 100;
@@ -109,7 +109,7 @@ public class PlayerController : GameObjectScript {
                 facingClockwise = true;
                 //rb.AddRelativeForce(Vector3.right * runForce * moveMod);
             }
-            rb.AddRelativeForce(Vector3.right * runForce * moveMod);
+            rb.AddRelativeForce(Vector3.right * runForce * moveMod * sprintForce);
         }
         SetMaxRunSpeed ();
 	}

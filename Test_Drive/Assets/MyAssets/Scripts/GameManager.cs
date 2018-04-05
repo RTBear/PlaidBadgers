@@ -107,16 +107,16 @@ CUBE,
 			Transform tethereeTrans = tetheree.GetComponent<Transform> ();
 			Debug.Log (player.GetComponent<Char_Code> ().tetherCollisionLocation);
 			if (tetheree.GetComponent<GameObjectScript> ()) {//tetheree is an object that can be pulled to player... lerp to player
-				Transform destination = playerTrans.position;
-				if (Vector3.Distance (destination.position, tethereeTrans.position) > TETHER_DISTANCE_TOLERANCE) {
+				Vector3 destination = playerTrans.position + playerTrans.right;// place destination in front of player.
+				if (Vector3.Distance (destination, tethereeTrans.position) > TETHER_DISTANCE_TOLERANCE) {
 					Debug.Log ("pullTethers object");
 					if (instance.tether_LR) {
 						instance.tether_LR.enabled = true;
-						instance.tether_LR.SetPosition (0, destination.position);
+						instance.tether_LR.SetPosition (0, destination);
 						instance.tether_LR.SetPosition (1, tethereeTrans.position);
 					}
 
-					tethereeTrans.position = Vector3.Lerp (tethereeTrans.position, destination.position, (Time.deltaTime * TETHER_PULL_SPEED) / Vector3.Distance (playerTrans.position, tethereeTrans.position));
+					tethereeTrans.position = Vector3.Lerp (tethereeTrans.position, destination, (Time.deltaTime * TETHER_PULL_SPEED) / Vector3.Distance (destination, tethereeTrans.position));
 				} else {
 					if (instance.tether_LR) {
 						instance.tether_LR.enabled = false;
