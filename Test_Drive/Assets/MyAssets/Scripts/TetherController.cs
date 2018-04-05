@@ -6,7 +6,6 @@ public class TetherController : MonoBehaviour {
 
 	public GameObject prefab;
 	private float m_speed = 50;
-	private Collider m_collider;
 	private Rigidbody m_rb;
 
 	private GameObject collisionParent;
@@ -16,14 +15,9 @@ public class TetherController : MonoBehaviour {
 	public bool tetherAttached = false;
 	public bool tetherActive = false;
 	public bool isFiring = false;
-	public bool m_tetherToPlanet = false;
-	public Vector3 m_collisionLocation;
-
 
 	// Use this for initialization
 	void Start () {
-//		prefab = GetComponent<GameObject> ();
-		m_collider = GetComponent<Collider> ();
 		m_rb = GetComponent<Rigidbody> ();
 		m_rb.collisionDetectionMode = CollisionDetectionMode.ContinuousDynamic;
 	}
@@ -31,50 +25,27 @@ public class TetherController : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
 
-//		Debug.Log ("tether to the planet value in tc update: " + m_tetherToPlanet);
 		if (tetherAttached == false) {
 			transform.Translate (Vector3.up * m_speed * Time.deltaTime);
-//		} else {
-//			if (collisionParent.GetComponent<GameObjectScript> ()) {
-//				collisionParent.GetComponent<GameObjectScript> ().setTetherDestination (originalParentTransform.position);
-//			} else if (m_tetherToPlanet) {
-//				originalParentGameObjectScript.setTetherDestination (m_collisionLocation);
-//			}
 		}
 	}
 
 	void OnCollisionEnter(Collision col)
 	{
 		collisionParent = col.gameObject;
-//		Debug.Log(ReferenceEquals (collisionParent, col.gameObject));
-		Debug.Log ("tether collision entered");
-		Debug.Log (collisionParent);
 
 		transform.SetParent(collisionParent.transform);//attach tether to tetheree 
 		tetherAttached = true;
 
 		if (collisionParent.CompareTag ("Planet")) {
-			Debug.Log ("collide with a planet Yo!");
-			m_tetherToPlanet = true;
-			m_collisionLocation = transform.position;
-			originalParentCharCode.GetComponent<Char_Code>().tetherCollisionLocation = transform.position;
+			originalParentCharCode.GetComponent<Char_Code>().tetherCollisionLocation.position = transform.position;
 		}
 			
-
 		//add player and tetheree to tetheringPlayers dictionary so they can pull
 		GameManager.instance.tetheringPlayers.Add(originalParentCharCode,collisionParent);
 
-//		transform.SetParent(collisionParent.transform);//attach tether to tetheree
-//		if (collisionParent.GetComponent<GameObjectScript> ()) {
-//			collisionParent.GetComponent<GameObjectScript> ().setTetherDestination (originalParentTransform.position);
-//		}
-//		Debug.Log(collisionParent.CompareTag ("Planet"));
-		Rigidbody parent_rb = collisionParent.GetComponent<Rigidbody> ();
+//		Rigidbody parent_rb = collisionParent.GetComponent<Rigidbody> (); 
 		//parent_rb.constraints = RigidbodyConstraints.FreezeAll; //freeze input for tetheree
-
-		//communicate with collided object (only applies if it is a player)
-//		PlayerController parent_pc = collisionParent.GetComponent<PlayerController> ();
-//		parent_pc.tethered = true;
 
 		Destroy (m_rb); 
 	}
@@ -91,7 +62,7 @@ public class TetherController : MonoBehaviour {
 		//Cleanup parent state
 		if (collisionParent != null) {
 			Debug.Log ("resetting parent");
-			Rigidbody parent_rb = transform.GetComponentInParent<Rigidbody> ();
+//			Rigidbody parent_rb = transform.GetComponentInParent<Rigidbody> ();
 //			Rigidbody parent_rb = collisionParent.GetComponent<Rigidbody> ();
 			//parent_rb.constraints = RigidbodyConstraints.FreezeAll;
 //			PlayerController parent_pc = collisionParent.GetComponent<PlayerController> ();

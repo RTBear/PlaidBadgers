@@ -13,10 +13,11 @@ public class Char_Code : GameObjectScript {
 	public Text healthTextFromCanvas;
 	GameObject healthTextObject;
 
-	public Vector3 tetherCollisionLocation; //used to determine where tether collided with planet
+	public Transform tetherCollisionLocation; //used to determine where tether collided with planet
 
     // Use this for initialization
     void Start () {
+		tetherCollisionLocation = GetComponent<Transform> ();
         audio = GetComponent<AudioSource>();
 		pc = GetComponent<PlayerController> ();
 		input = GetComponent<PlayerInput>();
