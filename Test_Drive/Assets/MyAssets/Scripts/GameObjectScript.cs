@@ -7,13 +7,43 @@ public class GameObjectScript : MonoBehaviour {
     public GameObject planet;
     public Rigidbody rb;
 
+	private const int DISTANCE_TOLERANCE = 1;
+	private Vector3 tetherDestination; //when thethered, travel to this destination
+	public LineRenderer LR; //when tethered draw 'rope'
+
+
     // Use this for initialization
     void Start () {
+		//setup line renderer
+		LR = gameObject.AddComponent<LineRenderer>();
+		LR.startWidth = .2f;
+		LR.endWidth = .2f;
     }
 	
 	// Update is called once per frame
 	void Update () {
-		
+		if (tetherDestination != Vector3.zero) {
+			tetherTo (tetherDestination);
+		}
+	}
+
+	public void setTetherDestination(Vector3 destination){
+		tetherDestination = destination;
+	}
+
+	private void tetherTo(Vector3 destination){
+		Debug.Log (Vector3.Distance (tetherDestination, transform.position));
+		if (Vector3.Distance(tetherDestination, transform.position) > DISTANCE_TOLERANCE) {
+			LR.enabled = true;
+			LR.SetPosition (0, destination);
+			LR.SetPosition (1, transform.position);
+
+			transform.position = Vector3.Lerp (transform.position, destination,Time.deltaTime * 3);
+		} else {
+			LR.enabled = false;
+			tetherDestination = Vector3.zero;
+		}
+
 	}
 
     // Given an vector it will return the angle of that vector

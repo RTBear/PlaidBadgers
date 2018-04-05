@@ -24,9 +24,9 @@ public class TetherController : GameObjectScript {
 		m_collider = GetComponent<Collider> ();
 		m_rb = GetComponent<Rigidbody> ();
 		m_rb.collisionDetectionMode = CollisionDetectionMode.ContinuousDynamic;
-		LR = gameObject.AddComponent<LineRenderer>();
-		LR.startWidth = .2f;
-		LR.endWidth = .2f;
+//		LR = gameObject.AddComponent<LineRenderer>();
+//		LR.startWidth = .2f;
+//		LR.endWidth = .2f;
 		Transform p_transform = GetComponentInParent<Transform> ();
 		p_firePoint = p_transform.position;
 	}
@@ -47,6 +47,7 @@ public class TetherController : GameObjectScript {
 		Debug.Log (collisionParent);
 		transform.SetParent(collisionParent.transform);//attach tether to tetheree
 		tetherAttached = true;
+		collisionParent.GetComponent<GameObjectScript> ().setTetherDestination (p_firePoint);
 
 		Rigidbody parent_rb = collisionParent.GetComponent<Rigidbody> ();
 		//parent_rb.constraints = RigidbodyConstraints.FreezeAll; //freeze input for tetheree
@@ -59,15 +60,25 @@ public class TetherController : GameObjectScript {
 		//ignore further collisions
 		//rb.detectCollisions = false;
 
-		LR.enabled = true;
+
+
+		//tethering action
+
+//		LR.enabled = true;
+//		LR.SetPosition (0, p_firePoint);
+//		LR.SetPosition (1, collisionParent.transform.position);
+//
+//		collisionParent.transform.position = Vector3.Lerp (collisionParent.transform.position, p_firePoint,1);
+
+
+
+
+
 //		LR.SetPosition (transform.position, collisionParent.transform.position);
 //		Debug.Log(p_firePoint);
-		LR.SetPosition (0, p_firePoint);
 		//Vector3 foo = new Vector3(
-		LR.SetPosition (1, collisionParent.transform.position);
 
 //		collisionParent.transform.position = Vector3.Lerp (collisionParent.transform.position, p_firePoint, m_speed * Time.deltaTime / Vector3.Distance (collisionParent.transform.position, p_firePoint));
-		collisionParent.transform.position = Vector3.Lerp (collisionParent.transform.position, p_firePoint,1);
 //		Vector3.ler
 
 		Destroy (m_rb); 
