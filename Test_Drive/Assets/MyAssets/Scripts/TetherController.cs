@@ -30,6 +30,7 @@ public class TetherController : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
 
+		Debug.Log ("tether to the planet value in tc update: " + m_tetherToPlanet);
 		if (tetherAttached == false) {
 			transform.Translate (Vector3.up * m_speed * Time.deltaTime);
 		} else {
@@ -52,6 +53,7 @@ public class TetherController : MonoBehaviour {
 		}
 //		Debug.Log(collisionParent.CompareTag ("Planet"));
 		if (collisionParent.CompareTag ("Planet")) {
+			Debug.Log ("collide with a planet Yo!");
 			m_tetherToPlanet = true;
 			m_collisionLocation = transform.position;
 		}

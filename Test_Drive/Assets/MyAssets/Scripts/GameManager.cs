@@ -163,10 +163,6 @@ public class GameManager : MonoBehaviour {
 			temp.layer = LayerMask.NameToLayer ("Player " + playerId);
 			Debug.Log("temp after");
 			Debug.Log (temp.layer.ToString()); 
-			temp.GetComponent<PlayerInput> ().SetController (playerId);
-
-
-			players [i] = temp;
 		}
 		players = GameObject.FindGameObjectsWithTag("Player");
 		assignObjectsToPlanets ();
@@ -187,7 +183,7 @@ public class GameManager : MonoBehaviour {
 		temp.layer = LayerMask.NameToLayer ("Player " + playerId);
 		Debug.Log("temp after");
 		Debug.Log (temp.layer.ToString()); 
-		temp.GetComponent<PlayerInput> ().SetController (playerId);
+//		temp.GetComponent<PlayerInput> ().SetController (playerId);
 
 		temp.GetComponent<Char_Code> ().playerNumber = playerId;
 		players = GameObject.FindGameObjectsWithTag ("Player");
