@@ -20,9 +20,7 @@ public class TetherEmitterController : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
-		tether = Instantiate(tether, transform) as TetherController;
 		tetherPrefab = Resources.Load("Prefabs/Tether") as GameObject;
-
 	}
 	
 	// Update is called once per frame
