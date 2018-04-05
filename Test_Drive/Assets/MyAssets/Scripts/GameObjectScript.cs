@@ -42,7 +42,11 @@ public class GameObjectScript : MonoBehaviour {
 		} else {
 			LR.enabled = false;
 			tetherDestination = Vector3.zero;
-			Debug.Log ("tether to player reached");
+			if (GetComponent<PlayerController> ()) {
+				GetComponent<PlayerController> ().tetherEmitter.tether.m_tetherToPlanet = false;
+				GetComponent<PlayerController> ().tetherEmitter.tether.m_collisionLocation = Vector3.zero;
+			}
+			Debug.Log ("tether to location reached");
 		}
 
 	}

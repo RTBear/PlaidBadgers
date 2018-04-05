@@ -342,6 +342,7 @@ MonoBehaviour:
   health: 0
   planet: {fileID: 0}
   rb: {fileID: 54336167909299082}
+  LR: {fileID: 0}
   tethered: 0
   tetherEmitter: {fileID: 114975958680113684}
   whack: {fileID: 0}
@@ -359,7 +360,9 @@ MonoBehaviour:
   health: 0
   planet: {fileID: 0}
   rb: {fileID: 54336167909299082}
+  LR: {fileID: 0}
   playerNumber: 0
+  pc: {fileID: 0}
   attack_HitBoxes:
   - {fileID: 65353364473158514}
   healthTextFromCanvas: {fileID: 0}
@@ -385,14 +388,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 684b94cb31bea4c4098c44e256065372, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  health: 0
-  planet: {fileID: 0}
-  rb: {fileID: 0}
-  playerNumber: 0
-  attack_HitBoxes: []
-  healthTextFromCanvas: {fileID: 0}
   tetherPrefab: {fileID: 0}
-  tether: {fileID: 114811079407193662, guid: f1210bd6dbdacf44789721a34e327f1a, type: 2}
+  tether: {fileID: 0}
   firePoint: {fileID: 4513540005837544}
   crosshair: {fileID: 1492467666186792}
 --- !u!136 &136322922636646842

@@ -27,6 +27,16 @@ public class Char_Code : GameObjectScript {
 	void Update () {
 		RespondToInputs();
 		SetHealthText ();
+		Debug.Log (pc.tetherEmitter.tether.m_tetherToPlanet);
+		if(pc.tetherEmitter.tether.m_tetherToPlanet){
+			tetherToPlanet();
+		}
+	}
+
+	//tether player to planet
+	public void tetherToPlanet(){
+		Debug.Log ("tether to planet called");
+		GetComponent<GameObjectScript> ().setTetherDestination (pc.tetherEmitter.tether.m_collisionLocation);
 	}
 
 	// Update is called once per frame

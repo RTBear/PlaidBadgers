@@ -20,12 +20,12 @@ public class TetherEmitterController : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
+//		tether = GetComponent<TetherController> ();
 		tetherPrefab = Resources.Load("Prefabs/Tether") as GameObject;
 	}
 	
 	// Update is called once per frame
 	void Update () {
-
 		//check if destroy tether
 		if (currentExpirationTimer <= 0) { 
 			tether.tetherActive = false;

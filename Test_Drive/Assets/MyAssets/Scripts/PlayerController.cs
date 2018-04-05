@@ -124,7 +124,7 @@ public class PlayerController : GameObjectScript {
 	}
 
 	public bool canJump(){
-		return inPlanetGravity && (onGround || canAirJump);
+		return canMove() && (onGround || canAirJump);
 	}
 		
 	public void Jump()

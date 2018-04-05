@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class TetherController : GameObjectScript {
+public class TetherController : MonoBehaviour {
 
 	public GameObject prefab;
 	private float m_speed = 50;
@@ -15,10 +15,13 @@ public class TetherController : GameObjectScript {
 	public bool tetherAttached = false;
 	public bool tetherActive = false;
 	public bool isFiring = false;
+	public bool m_tetherToPlanet = false;
+	public Vector3 m_collisionLocation;
 
 
 	// Use this for initialization
 	void Start () {
+//		prefab = GetComponent<GameObject> ();
 		m_collider = GetComponent<Collider> ();
 		m_rb = GetComponent<Rigidbody> ();
 		m_rb.collisionDetectionMode = CollisionDetectionMode.ContinuousDynamic;
@@ -30,7 +33,9 @@ public class TetherController : GameObjectScript {
 		if (tetherAttached == false) {
 			transform.Translate (Vector3.up * m_speed * Time.deltaTime);
 		} else {
-			collisionParent.GetComponent<GameObjectScript> ().setTetherDestination (originalParentTransform.position);
+			if (collisionParent.GetComponent<GameObjectScript> ()) {
+				collisionParent.GetComponent<GameObjectScript> ().setTetherDestination (originalParentTransform.position);
+			}
 		}
 	}
 
@@ -42,8 +47,14 @@ public class TetherController : GameObjectScript {
 		Debug.Log (collisionParent);
 		transform.SetParent(collisionParent.transform);//attach tether to tetheree
 		tetherAttached = true;
-		collisionParent.GetComponent<GameObjectScript> ().setTetherDestination (originalParentTransform.position);
-
+		if (collisionParent.GetComponent<GameObjectScript> ()) {
+			collisionParent.GetComponent<GameObjectScript> ().setTetherDestination (originalParentTransform.position);
+		}
+//		Debug.Log(collisionParent.CompareTag ("Planet"));
+		if (collisionParent.CompareTag ("Planet")) {
+			m_tetherToPlanet = true;
+			m_collisionLocation = transform.position;
+		}
 		Rigidbody parent_rb = collisionParent.GetComponent<Rigidbody> ();
 		//parent_rb.constraints = RigidbodyConstraints.FreezeAll; //freeze input for tetheree
 
