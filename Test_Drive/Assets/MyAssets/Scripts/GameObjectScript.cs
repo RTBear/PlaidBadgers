@@ -8,7 +8,7 @@ public class GameObjectScript : MonoBehaviour {
     public Rigidbody rb;
 
 	private const int DISTANCE_TOLERANCE = 1;
-	private static Vector3 tetherDestination; //when thethered, travel to this destination
+
 //	private LineRenderer LR; //when tethered draw 'rope'
 
 

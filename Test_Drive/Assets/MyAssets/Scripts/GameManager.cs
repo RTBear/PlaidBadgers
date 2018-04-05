@@ -35,11 +35,12 @@ CUBE,
 	public GameObject[] players;
 	public GameObject[]	planets;
 
-	private LineRenderer tether_LR;
-	//when tethered draw 'rope'
+	private LineRenderer tether_LR;//when tethered draw 'rope'
 	public Dictionary<GameObjectScript, GameObject> tetheringPlayers;
 	private const float TETHER_PULL_SPEED = 20;
 	private const int TETHER_DISTANCE_TOLERANCE = 1;
+	private const float TETHER_HOLD_TIME = 2;
+
 
 	void ManageSceneStuff (Scene scene, LoadSceneMode mode)
 	{
@@ -121,7 +122,12 @@ CUBE,
 					if (instance.tether_LR) {
 						instance.tether_LR.enabled = false;
 					}
-					tetheringPlayers.Remove (player);
+					if (player.GetComponent<Char_Code> ().tetherHoldTimer > 0) {
+						player.GetComponent<Char_Code> ().tetherHoldTimer--;
+					} else {
+						player.GetComponent<Char_Code> ().tetherHoldTimer = TETHER_HOLD_TIME;
+						tetheringPlayers.Remove (player);
+					}
 				}
 			} else if (tetheree.CompareTag ("Planet")) { //tetheree is a planet... lerp player to planet
 				Transform destination = player.GetComponent<Char_Code> ().tetherCollisionLocation;
@@ -139,6 +145,7 @@ CUBE,
 					if (instance.tether_LR) {
 						instance.tether_LR.enabled = false;
 					}
+
 					tetheringPlayers.Remove (player);
 				}
 			}
