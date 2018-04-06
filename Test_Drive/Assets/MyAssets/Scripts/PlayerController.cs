@@ -29,6 +29,7 @@ public class PlayerController : GameObjectScript {
 		rb = GetComponentInParent<Rigidbody>();
 		relativePos = new Vector3 (0,0,0);
 		tetherEmitter.transform.position = transform.GetComponent<Renderer> ().bounds.center;
+		projectileEmitter.transform.position = transform.GetComponent<Renderer> ().bounds.center;
 		dt = gameObject.AddComponent<DeathTimer>() as DeathTimer;
 		dt.Init(deathTime, gameObject);
 	}

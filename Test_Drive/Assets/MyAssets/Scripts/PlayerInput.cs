@@ -10,6 +10,7 @@ public class PlayerInput : MonoBehaviour {
 	string aimHorizontal;
 	string aimVertical;
 	string fireTether;
+	string fireProjectile;
 	string sprint;
 
 	int playerNumber;
@@ -32,6 +33,7 @@ public class PlayerInput : MonoBehaviour {
 		aimHorizontal = "Joystick" + number + "AimHorizontal";
 		aimVertical = "Joystick" + number + "AimVertical";
 		fireTether = "Joystick" + number + "FireTether";
+		fireProjectile = "Joystick" + number + "FireProjectile";
 		sprint = "Joystick" + number + "Sprint";
 		playerNumber = number;
 		Debug.Log ("SetController(" + number + ")");
@@ -41,6 +43,11 @@ public class PlayerInput : MonoBehaviour {
 	public bool isReceivingTetherFiringInput(){
 		//Debug.Log (Input.GetAxisRaw (fireTether) == 1);
 		return (Input.GetAxis (fireTether) != 0);
+	}
+
+	public bool isReceivingProjectileFiringInput(){
+		//Debug.Log (Input.GetAxisRaw (fireTether) == 1);
+		return (Input.GetAxis (fireProjectile) != 0);
 	}
 
 	public bool AimTriggered(){

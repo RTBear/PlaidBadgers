@@ -58,13 +58,16 @@ public class Char_Code : GameObjectScript {
 		}
 
 		//Check if the user has applied aim input
-		if (input.AimTriggered ()) {
+		if (input.AimTriggered ()) { 
 			pc.Aim (input.GetAimAxis ());
 		}
 
 		if (input.isReceivingTetherFiringInput ()) {
+			pc.tetherEmitter.launchTether ();
+		}
+
+		if (input.isReceivingProjectileFiringInput ()) {
 			pc.projectileEmitter.launchProjectile ();
-//			pc.tetherEmitter.launchTether ();
 		}
 
 		//if (Input.GetKeyDown ("joystick button 2"))

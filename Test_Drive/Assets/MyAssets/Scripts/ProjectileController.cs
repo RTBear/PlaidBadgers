@@ -8,8 +8,9 @@ public class ProjectileController : MonoBehaviour {
 	private Rigidbody m_rb;
 
 	public bool projectileActive = false;
-	private const float EXPIRATION_TIME = 2;
-	private float expirationTimer = EXPIRATION_TIME;
+
+	public bool collided = false;
+
 
 	// Use this for initialization
 	void Start () {
@@ -19,31 +20,33 @@ public class ProjectileController : MonoBehaviour {
 
 	// Update is called once per frame
 	void Update () {
-		if (expirationTimer > 0) {
-			Debug.Log ("expT--");
-			expirationTimer--;
-		} else {
-			resetProjectile ();
-		}
+		
 
 	}
 
-	void resetProjectile(){
-		expirationTimer = EXPIRATION_TIME;
-		Destroy (m_rb); 
-		Destroy (prefab);
+	public void resetProjectile(){
+		Debug.Log (GetComponent<ProjectileController> ().prefab);
+		if (prefab) {
+			Destroy (prefab);
+		}
 		projectileActive = false;
+		collided = false;
 	}
 
 	void OnCollisionEnter(Collision col){
+		Debug.Log ("collision with: " + col.gameObject.ToString ());
 		var collisionParent = col.collider.GetComponent<GameObjectScript>();
 		 
+		Debug.Log ("collisionParent: " + collisionParent);
 		if(collisionParent){//make sure it collided with a player or item
-			Vector2 knockDir = (col.transform.position - collisionParent.transform.position).normalized;
-			Attack basicProjectileImpact = new Attack (10, knockDir, 5);
 
-			collisionParent.GetComponent<GameObjectScript> ().attacked (basicProjectileImpact);
+			Vector2 knockDir = (col.transform.position - collisionParent.transform.position).normalized;
+			Attack basicProjectileImpact = new Attack (10, knockDir, 25);
+
+			collisionParent.attacked (basicProjectileImpact);
 		}
+
+		collided = true;
 
 //		var objectsScript = c.GetComponent<GameObjectScript>();
 //		print(objectsScript);
@@ -56,6 +59,5 @@ public class ProjectileController : MonoBehaviour {
 //			objectsScript.attacked (basicAttack);
 //
 //		}
-		resetProjectile();
 	}
 }
