@@ -29,8 +29,12 @@ public class SphericalGravity : MonoBehaviour {
     }
 
 	public bool inRange(GameObject o){
-		Vector3 dir = (transform.position - o.transform.position);
-		return dir.magnitude <= range;
+		if (o) 
+		{
+			Vector3 dir = (transform.position - o.transform.position);
+			return dir.magnitude <= range;
+		}
+		return false;
 	}
 
 	void ApplyGravity(GameObject o)

@@ -7,17 +7,35 @@ public class GameObjectScript : MonoBehaviour {
     public GameObject planet;
     public Rigidbody rb;
 
+	public bool tethered = false; // track if has been hit by a tether
+	private const int DISTANCE_TOLERANCE = 1;
+
+//	private LineRenderer LR; //when tethered draw 'rope'
+
+	//kick out of tether pull on interference with another object
+	void OnCollisionEnter(Collision col){
+		Debug.Log ("gameobject collision entered");
+		Debug.Log (this);
+		GameManager.instance.removeValFromTether (this);
+	}
+
     // Use this for initialization
     void Start () {
+		//setup line renderer
+//		GetComponent<GameObject>().gameObject.AddComponent<LineRenderer>();
+//		LR = GetComponent<LineRenderer> ();
+//		if (GetComponent<LineRenderer> ()) {
+//			LR.startWidth = .2f;
+//			LR.endWidth = .2f; 
+//		}
     }
 	
 	// Update is called once per frame
 	void Update () {
-		
 	}
 
     // Given an vector it will return the angle of that vector
-    protected float getAngle(Vector2 vector)
+    public float getAngle(Vector2 vector)
     {
         float angle;
 

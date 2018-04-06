@@ -2,21 +2,15 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class TetherEmitterController : Char_Code {
-
-	public bool isFiring = false;
-	private bool tetherActive = false;
-	public bool tetherCollide = false;
-
+public class TetherEmitterController : MonoBehaviour {
 
 	public GameObject tetherPrefab; //stores the template of a tether object
 	public TetherController tether; //the tether script
 
-
 	private float tetherLaunchForce = 2000; //force applied to tether at launch
 
-	public float expirationTime; // time a tether can stay active
-	public float currentExpirationTimer; // timer until active tether expires
+	private float expirationTime = 1; // time a tether can stay active
+	private float currentExpirationTimer; // timer until active tether expires
 
 	//public float cooldownTime; //cooldown timer max (time between tether launches)
 	//private float currentCooldownTimer; //current cooldown time
@@ -26,43 +20,56 @@ public class TetherEmitterController : Char_Code {
 
 	// Use this for initialization
 	void Start () {
+//		tether = GetComponent<TetherController> ();
 		tetherPrefab = Resources.Load("Prefabs/Tether") as GameObject;
 	}
 	
 	// Update is called once per frame
 	void Update () {
+		//check if destroy tether
+		if (currentExpirationTimer <= 0) { 
+			tether.tetherActive = false;
+		}
+		if (tether.isFiring == false && tether.tetherAttached == false) {
+			tether.tetherActive = false;
+		}
 
-		if (tetherActive) {
+		if (tether.tetherActive) {
 			currentExpirationTimer -= Time.deltaTime;
-			if (!isFiring) {//if tether expires or if trigger is released before tether expires
-				Destroy(tether.prefab);
-				if (!tether.prefab) {//make sure tether is actually deleted
-					tetherActive = false;
-					Debug.Log ("destroyed tether");
-				}
-			}
+
+
+//		} else if(tether.prefab != null){ 
+//			tether.resetTether ();
 		}
 	}
 
+
+
 	public void launchTether(){
-		isFiring = true;
-		if (!tetherActive) {
+		tether.isFiring = true;
+		if (!tether.tetherActive) {
 			currentExpirationTimer = expirationTime;
+			tether.GetComponent<TetherController> ().originalParentTransform = transform;
+			tether.GetComponent<TetherController> ().originalParentCharCode = GetComponentInParent<Char_Code>();
+
 			tether.prefab = Instantiate (tetherPrefab, firePoint.position, firePoint.rotation) as GameObject;
 
 			//make sure tether is actually created
-			if (tether.prefab) {
-				tetherActive = true;
+			if (tether.prefab != null) {
+				tether.tetherActive = true;
 			}
-			tether.prefab.layer = LayerMask.NameToLayer("Player " + (playerNumber + 1));//convert player number to player number layer
 
-			//tether.prefab.layer = tetherMask.value; 
-			//Debug.Log("tetherMask: " + tetherMask.value);
-			//Debug.Log("pn: " + playerNumber);
+			tether.prefab.layer = LayerMask.NameToLayer("Player " + GetComponentInParent<Char_Code>().playerNumber);//convert player number to player number layer
 
-			Rigidbody tempRigidBody = tether.prefab.GetComponent<Rigidbody>();
+//			Debug.Log("pn: " + GetComponentInParent<Char_Code>().playerNumber);
+
+
+
 			//SphericalGravity.getItems(); //TODO: OPTIMIZATION: Add new tether to planet upon creation
-			tempRigidBody.AddForce (transform.up * tetherLaunchForce);
+
+
+			//Rigidbody tempRigidBody = tether.prefab.GetComponent<Rigidbody>(); //KEEP for projectile launching
+			//tempRigidBody.AddForce (transform.up * tetherLaunchForce); //KEEP for projectile launching
 		}
 	}
 }

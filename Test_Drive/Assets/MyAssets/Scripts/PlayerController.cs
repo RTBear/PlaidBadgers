@@ -4,7 +4,6 @@ using UnityEngine;
 
 public class PlayerController : GameObjectScript {
 	Rigidbody rb;
-
 	bool inPlanetGravity;
 	private Vector2 relativePos;
 
@@ -14,45 +13,53 @@ public class PlayerController : GameObjectScript {
 	int jmpForce = 3000;
 	bool canAirJump = true;
 	bool onGround = false;
+	public bool facingClockwise = true;
 
 	float runForce = 30f;
 	float maxRunSpeed = 100;
 	float sprintForce = 1f;
 
-	//give time till death and object to destroy
-	DestroyTimer deathTimer;
-
 	public AudioClip whack;
 
+	private DeathTimer dt;
+	private float deathTime = 2f;
+
 	// Use this for initialization
-	void Start () {
+	void Awake () {
 		rb = GetComponentInParent<Rigidbody>();
 		relativePos = new Vector3 (0,0,0);
 		tetherEmitter.transform.position = transform.GetComponent<Renderer> ().bounds.center;
-		deathTimer = new DestroyTimer (3f, gameObject);
+		dt = gameObject.AddComponent<DeathTimer>() as DeathTimer;
+		dt.Init(deathTime, gameObject);
 	}
 
 	//Methods for outside access
 	//These affect player movement
 	public void setUprightAngle(Vector2 pos){
-		float angleChar = getAngle (pos);
-		transform.eulerAngles = new Vector3 (0, 0, angleChar);
-		relativePos = pos;
 		if (!inPlanetGravity) {
 			inPlanetGravity = true;
+			dt.ResetAndOff();
 		}
-	}
+
+		float angleChar = getAngle (pos);
+
+        if (facingClockwise)
+            transform.eulerAngles = new Vector3(0, 0, angleChar);
+        else
+        {
+            // MUST BE IN THIS ORDER TO WORK PROPERLY!!!
+            transform.eulerAngles = new Vector3(0, 0, angleChar);   // 1. apply global rotation
+            transform.Rotate(0, 180, 0, Space.Self);                // 2. apply local rotation
+        }
+        relativePos = pos;
+    }
+
+	
 
 	public void notOnPlanet(){
 		if (inPlanetGravity) {
 			inPlanetGravity = false;
-			deathTimer.reset();
-		}
-	}
-
-	void Update(){
-		if (!inPlanetGravity) {
-			deathTimer.run();
+			dt.On ();
 		}
 	}
 
@@ -69,10 +76,13 @@ public class PlayerController : GameObjectScript {
 
 	//can make this more complex, set methods for is paralized, ect
 	public bool canMove(){
-		return inPlanetGravity;
+		if (tetherEmitter.tether) {//if the tether is no longer a child of the player, that means it is attached to something else.
+			if (inPlanetGravity && !tethered && !tetherEmitter.tether.tetherActive) {
+				return true;
+			}
+		}
+		return false;//if this point is reached, the player should be paralized
 	}
-
-
 
 	public void Aim(Vector2 directionAim){
 		float angleCrosshair = getAngle (directionAim);
@@ -99,12 +109,19 @@ public class PlayerController : GameObjectScript {
 			float angleDiff = angleRunDir - angleChar;
 			if (angleDiff < 0)
 				angleDiff += 360;
-			if (angleDiff < 180 && angleDiff > 0)
-				rb.AddRelativeForce(Vector3.left * runForce*moveMod*sprintForce);
-			else
-				rb.AddRelativeForce(Vector3.right * runForce*moveMod*sprintForce);
-		}
-		SetMaxRunSpeed ();
+            if (angleDiff < 180 && angleDiff > 0)
+            {
+                facingClockwise = false;
+                //rb.AddRelativeForce(Vector3.left * runForce * moveMod);
+            }
+            else
+            {
+                facingClockwise = true;
+                //rb.AddRelativeForce(Vector3.right * runForce * moveMod);
+            }
+            rb.AddRelativeForce(Vector3.right * runForce * moveMod * sprintForce);
+        }
+        SetMaxRunSpeed ();
 	}
 
 	// This controls the run speed. This will also play havock on 
@@ -117,7 +134,7 @@ public class PlayerController : GameObjectScript {
 	}
 
 	public bool canJump(){
-		return inPlanetGravity && (onGround || canAirJump);
+		return canMove() && (onGround || canAirJump);
 	}
 		
 	public void Jump()
