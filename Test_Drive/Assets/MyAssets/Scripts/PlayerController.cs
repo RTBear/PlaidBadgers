@@ -8,7 +8,7 @@ public class PlayerController : GameObjectScript {
 	private Vector2 relativePos;
 
 	public TetherEmitterController tetherEmitter;
-	//public LayerMask tetherMask = 11;
+	public ProjectileEmitterController projectileEmitter;
 
 	int jmpForce = 3000;
 	bool canAirJump = true;

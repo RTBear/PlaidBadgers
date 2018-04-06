@@ -63,7 +63,8 @@ public class Char_Code : GameObjectScript {
 		}
 
 		if (input.isReceivingTetherFiringInput ()) {
-			pc.tetherEmitter.launchTether ();
+			pc.projectileEmitter.launchProjectile ();
+//			pc.tetherEmitter.launchTether ();
 		}
 
 		//if (Input.GetKeyDown ("joystick button 2"))
