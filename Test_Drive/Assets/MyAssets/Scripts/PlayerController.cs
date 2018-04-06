@@ -4,7 +4,6 @@ using UnityEngine;
 
 public class PlayerController : GameObjectScript {
 	Rigidbody rb;
-
 	bool inPlanetGravity;
 	private Vector2 relativePos;
 
@@ -14,7 +13,7 @@ public class PlayerController : GameObjectScript {
 	int jmpForce = 3000;
 	bool canAirJump = true;
 	bool onGround = false;
-    bool facingClockwise = true;
+	public bool facingClockwise = true;
 
 	float runForce = 30f;
 	float maxRunSpeed = 100;
@@ -55,6 +54,8 @@ public class PlayerController : GameObjectScript {
         relativePos = pos;
     }
 
+	
+
 	public void notOnPlanet(){
 		if (inPlanetGravity) {
 			inPlanetGravity = false;
@@ -75,7 +76,12 @@ public class PlayerController : GameObjectScript {
 
 	//can make this more complex, set methods for is paralized, ect
 	public bool canMove(){
-		return inPlanetGravity;
+		if (tetherEmitter.tether) {//if the tether is no longer a child of the player, that means it is attached to something else.
+			if (inPlanetGravity && !tethered && !tetherEmitter.tether.tetherActive) {
+				return true;
+			}
+		}
+		return false;//if this point is reached, the player should be paralized
 	}
 
 	public void Aim(Vector2 directionAim){
@@ -113,7 +119,7 @@ public class PlayerController : GameObjectScript {
                 facingClockwise = true;
                 //rb.AddRelativeForce(Vector3.right * runForce * moveMod);
             }
-            rb.AddRelativeForce(Vector3.right * runForce * moveMod);
+            rb.AddRelativeForce(Vector3.right * runForce * moveMod * sprintForce);
         }
         SetMaxRunSpeed ();
 	}
@@ -128,7 +134,7 @@ public class PlayerController : GameObjectScript {
 	}
 
 	public bool canJump(){
-		return inPlanetGravity && (onGround || canAirJump);
+		return canMove() && (onGround || canAirJump);
 	}
 		
 	public void Jump()

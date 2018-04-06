@@ -7,14 +7,18 @@ public class Char_Code : GameObjectScript {
 
     AudioSource audio;
 	public int playerNumber;
-	protected PlayerController pc;
+	public PlayerController pc;
 	protected PlayerInput input;
 	public Collider[] attack_HitBoxes;
 	public Text healthTextFromCanvas;
 	GameObject healthTextObject;
 
+	public Transform tetherCollisionLocation; //used to determine where tether collided with planet
+	public float tetherHoldTimer = GameManager.TETHER_HOLD_TIME;
+
     // Use this for initialization
     void Start () {
+		tetherCollisionLocation = GetComponent<Transform> ();
         audio = GetComponent<AudioSource>();
 		pc = GetComponent<PlayerController> ();
 		input = GetComponent<PlayerInput>();
@@ -27,13 +31,25 @@ public class Char_Code : GameObjectScript {
 	void Update () {
 		RespondToInputs();
 		SetHealthText ();
+//		Debug.Log (pc.tetherEmitter.tether.m_tetherToPlanet);
+//		if(pc.tetherEmitter.tether.m_tetherToPlanet){
+//			tetherToPlanet();
+//		}
 	}
+
+	//tether player to planet
+//	public void tetherToPlanet(){
+//		Debug.Log ("tether to planet called");
+//		GetComponent<GameObjectScript> ().setTetherDestination (pc.tetherEmitter.tether.m_collisionLocation);
+//	}
 
 	// Update is called once per frame
 	void RespondToInputs () {
-		//is thether currently in the act of being fired
-		if (pc.tetherEmitter.currentExpirationTimer <= 0 || !input.isReceivingTetherFiringInput () && !pc.tetherEmitter.tetherCollide) {
-			pc.tetherEmitter.isFiring = false;
+
+		if (input.isReceivingTetherFiringInput() == true) {
+			if (pc.tetherEmitter.tether.tetherAttached == false) {
+				pc.tetherEmitter.tether.isFiring = false;
+			}
 		}
 
 		//Check if the user has applied input on their controller
@@ -46,7 +62,7 @@ public class Char_Code : GameObjectScript {
 			pc.Aim (input.GetAimAxis ());
 		}
 
-		if (input.fireTetherTriggered ()) {
+		if (input.isReceivingTetherFiringInput ()) {
 			pc.tetherEmitter.launchTether ();
 		}
 
