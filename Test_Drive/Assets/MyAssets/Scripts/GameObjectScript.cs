@@ -7,10 +7,17 @@ public class GameObjectScript : MonoBehaviour {
     public GameObject planet;
     public Rigidbody rb;
 
+	public bool tethered = false; // track if has been hit by a tether
 	private const int DISTANCE_TOLERANCE = 1;
 
 //	private LineRenderer LR; //when tethered draw 'rope'
 
+	//kick out of tether pull on interference with another object
+	void OnCollisionEnter(Collision col){
+		Debug.Log ("gameobject collision entered");
+		Debug.Log (this);
+		GameManager.instance.removeValFromTether (this);
+	}
 
     // Use this for initialization
     void Start () {

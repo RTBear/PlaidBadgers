@@ -14,7 +14,7 @@ public class Char_Code : GameObjectScript {
 	GameObject healthTextObject;
 
 	public Transform tetherCollisionLocation; //used to determine where tether collided with planet
-	public float tetherHoldTimer = GameManager.instance.TETHER_HOLD_TIME;
+	public float tetherHoldTimer = GameManager.TETHER_HOLD_TIME;
 
     // Use this for initialization
     void Start () {

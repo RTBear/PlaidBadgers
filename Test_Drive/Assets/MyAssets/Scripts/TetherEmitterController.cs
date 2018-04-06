@@ -38,8 +38,8 @@ public class TetherEmitterController : MonoBehaviour {
 			currentExpirationTimer -= Time.deltaTime;
 
 
-		} else if(tether.prefab != null){ 
-			tether.resetTether ();
+//		} else if(tether.prefab != null){ 
+//			tether.resetTether ();
 		}
 	}
 

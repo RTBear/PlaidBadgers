@@ -30,8 +30,7 @@ public class TetherController : MonoBehaviour {
 		}
 	}
 
-	void OnCollisionEnter(Collision col)
-	{
+	void OnCollisionEnter(Collision col){
 		collisionParent = col.gameObject;
 
 		transform.SetParent(collisionParent.transform);//attach tether to tetheree 
@@ -47,13 +46,16 @@ public class TetherController : MonoBehaviour {
 //		Rigidbody parent_rb = collisionParent.GetComponent<Rigidbody> (); 
 		//parent_rb.constraints = RigidbodyConstraints.FreezeAll; //freeze input for tetheree
 
+		originalParentCharCode.rb.constraints = RigidbodyConstraints.FreezeAll; //freeze input for player who fired tether
+
 		Destroy (m_rb); 
 	}
 
 	public void resetTether(){
 		Debug.Log ("destroy self call");
 		//remove tether object from scene
-		if (prefab) {
+		if (GetComponent<TetherController>().prefab) {
+			Debug.Log ("destroy prefab");
 			Destroy (prefab);
 		}
 
@@ -62,13 +64,7 @@ public class TetherController : MonoBehaviour {
 		//Cleanup parent state
 		if (collisionParent != null) {
 			Debug.Log ("resetting parent");
-//			Rigidbody parent_rb = transform.GetComponentInParent<Rigidbody> ();
-//			Rigidbody parent_rb = collisionParent.GetComponent<Rigidbody> ();
-			//parent_rb.constraints = RigidbodyConstraints.FreezeAll;
-//			PlayerController parent_pc = collisionParent.GetComponent<PlayerController> ();
-			PlayerController parent_pc = transform.GetComponentInParent<PlayerController>();
-			parent_pc.tethered = false;
-			tetherAttached = false;
+//			tetherAttached = false;
 		}
 	}
 		

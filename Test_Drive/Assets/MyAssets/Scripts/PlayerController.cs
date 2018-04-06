@@ -7,7 +7,6 @@ public class PlayerController : GameObjectScript {
 	bool inPlanetGravity;
 	private Vector2 relativePos;
 
-	public bool tethered = false; // track if has been hit by a tether
 	public TetherEmitterController tetherEmitter;
 	//public LayerMask tetherMask = 11;
 
@@ -65,11 +64,12 @@ public class PlayerController : GameObjectScript {
 
 	//can make this more complex, set methods for is paralized, ect
 	public bool canMove(){
-		if (inPlanetGravity && !tethered && !tetherEmitter.tether.tetherActive) {
-			return true;
-		} else {
-			return false;
+		if (tetherEmitter.tether) {//if the tether is no longer a child of the player, that means it is attached to something else.
+			if (inPlanetGravity && !tethered && !tetherEmitter.tether.tetherActive) {
+				return true;
+			}
 		}
+		return false;//if this point is reached, the player should be paralized
 	}
 
 

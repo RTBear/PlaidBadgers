@@ -38,7 +38,7 @@ CUBE,
 	private LineRenderer tether_LR;//when tethered draw 'rope'
 	public Dictionary<GameObjectScript, GameObject> tetheringPlayers;
 	private const float TETHER_PULL_SPEED = 20;
-	private const int TETHER_DISTANCE_TOLERANCE = 1;
+	private const float TETHER_DISTANCE_TOLERANCE = 0.5f;
 	public const float TETHER_HOLD_TIME = 2;
 
 
@@ -93,8 +93,18 @@ CUBE,
 			assignObjectsToPlanets ();
 		}
 		if (tetheringPlayers.Count > 0) {
-			Debug.Log ("game manager update in if");
 			pullTethers (); //if people are tethering pull tethers
+		}
+	}
+
+	//remove an object from being tethered
+	public void removeValFromTether(GameObjectScript obj){
+		Debug.Log ("remove tether call");
+		foreach (KeyValuePair<GameObjectScript,GameObject> pair in tetheringPlayers) {
+			if (pair.Value == obj) {
+				tetheringPlayers.Remove (pair.Key);
+				Debug.Log ("broke tether for: " + obj.ToString ());
+			}
 		}
 	}
 
@@ -106,17 +116,18 @@ CUBE,
 			GameObject tetheree = obj.Value;
 			Transform playerTrans = player.GetComponent<Transform> ();
 			Transform tethereeTrans = tetheree.GetComponent<Transform> ();
-			Debug.Log (player.GetComponent<Char_Code> ().tetherCollisionLocation);
+
 			if (tetheree.GetComponent<GameObjectScript> ()) {//tetheree is an object that can be pulled to player... lerp to player
 				Vector3 destination = playerTrans.position + playerTrans.right;// place destination in front of player.
-				if (Vector3.Distance (destination, tethereeTrans.position) > TETHER_DISTANCE_TOLERANCE) {
+				tetheree.GetComponent<GameObjectScript>().tethered = true;//disable tetheree
+				if (Vector3.Distance (destination, tethereeTrans.position) > TETHER_DISTANCE_TOLERANCE) {//if outside tolerable distance
 					Debug.Log ("pullTethers object");
 					if (instance.tether_LR) {
-						instance.tether_LR.enabled = true;
+						instance.tether_LR.enabled = true;//draw rope
 						instance.tether_LR.SetPosition (0, destination);
 						instance.tether_LR.SetPosition (1, tethereeTrans.position);
 					}
-
+					//This is the actual tether pull
 					tethereeTrans.position = Vector3.Lerp (tethereeTrans.position, destination, (Time.deltaTime * TETHER_PULL_SPEED) / Vector3.Distance (destination, tethereeTrans.position));
 				} else {
 					if (instance.tether_LR) {
@@ -126,26 +137,31 @@ CUBE,
 						player.GetComponent<Char_Code> ().tetherHoldTimer--;
 					} else {
 						player.GetComponent<Char_Code> ().tetherHoldTimer = TETHER_HOLD_TIME;
+						player.rb.constraints = RigidbodyConstraints.FreezePositionZ;
+						player.GetComponent<Char_Code>().pc.tetherEmitter.tether.resetTether();
+
 						tetheringPlayers.Remove (player);
 					}
 				}
 			} else if (tetheree.CompareTag ("Planet")) { //tetheree is a planet... lerp player to planet
-				Transform destination = player.GetComponent<Char_Code> ().tetherCollisionLocation;
+				Vector3 destination = player.GetComponent<Char_Code> ().tetherCollisionLocation.position;//location to tether to
 
-				if (Vector3.Distance (destination.position, playerTrans.position) > TETHER_DISTANCE_TOLERANCE) {
+				if (Vector3.Distance (destination, playerTrans.position) > TETHER_DISTANCE_TOLERANCE) {//if outside tolerable distance
 					Debug.Log ("pullTethers planet");
 
 					if (instance.tether_LR) {
-						instance.tether_LR.enabled = true;
-						instance.tether_LR.SetPosition (0, destination.position);
+						instance.tether_LR.enabled = true;//draw rope
+						instance.tether_LR.SetPosition (0, destination);
 						instance.tether_LR.SetPosition (1, playerTrans.position);
 					}
-					playerTrans.position = Vector3.Lerp (destination.position, playerTrans.position, (Time.deltaTime * TETHER_PULL_SPEED) / Vector3.Distance (destination.position, playerTrans.position));
+					//This is the actual tether pull
+					playerTrans.position = Vector3.Lerp (destination, playerTrans.position, (Time.deltaTime * TETHER_PULL_SPEED) / Vector3.Distance (destination, playerTrans.position));
 				} else {
 					if (instance.tether_LR) {
 						instance.tether_LR.enabled = false;
 					}
-
+					player.rb.constraints = RigidbodyConstraints.FreezePositionZ;
+					player.GetComponent<Char_Code>().pc.tetherEmitter.tether.resetTether();
 					tetheringPlayers.Remove (player);
 				}
 			}
