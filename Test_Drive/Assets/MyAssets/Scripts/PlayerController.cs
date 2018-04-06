@@ -21,17 +21,26 @@ public class PlayerController : GameObjectScript {
 
 	public AudioClip whack;
 
+	private DeathTimer dt;
+	private float deathTime = 2f;
+
 	// Use this for initialization
-	void Start () {
+	void Awake () {
 		rb = GetComponentInParent<Rigidbody>();
 		relativePos = new Vector3 (0,0,0);
 		tetherEmitter.transform.position = transform.GetComponent<Renderer> ().bounds.center;
+		dt = gameObject.AddComponent<DeathTimer>() as DeathTimer;
+		dt.Init(deathTime, gameObject);
 	}
 
 	//Methods for outside access
 	//These affect player movement
 	public void setUprightAngle(Vector2 pos){
-		inPlanetGravity = true;
+		if (!inPlanetGravity) {
+			inPlanetGravity = true;
+			dt.ResetAndOff();
+		}
+
 		float angleChar = getAngle (pos);
 
         if (facingClockwise)
@@ -48,7 +57,10 @@ public class PlayerController : GameObjectScript {
 	
 
 	public void notOnPlanet(){
-		inPlanetGravity = false;
+		if (inPlanetGravity) {
+			inPlanetGravity = false;
+			dt.On ();
+		}
 	}
 
 	void OnCollisionEnter(Collision collider)
@@ -71,8 +83,6 @@ public class PlayerController : GameObjectScript {
 		}
 		return false;//if this point is reached, the player should be paralized
 	}
-
-
 
 	public void Aim(Vector2 directionAim){
 		float angleCrosshair = getAngle (directionAim);

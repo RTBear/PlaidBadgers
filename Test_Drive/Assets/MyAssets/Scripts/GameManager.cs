@@ -34,6 +34,10 @@ CUBE,
 	public GameObject[] items;
 	public GameObject[] players;
 	public GameObject[]	planets;
+	Dictionary<int, RespawnTimer> respawnTimers = new Dictionary<int, RespawnTimer>();
+	int numPlayers = 4;
+
+	float respawnTime = 1f;
 
 	private LineRenderer tether_LR;//when tethered draw 'rope'
 	public Dictionary<GameObjectScript, GameObject> tetheringPlayers;
@@ -78,19 +82,36 @@ CUBE,
 		instance.tether_LR = GetComponent<LineRenderer> ();
 	}
 
-	void InitGame ()
-	{
-		planets = GameObject.FindGameObjectsWithTag ("Planet");
-		players = GameObject.FindGameObjectsWithTag ("Player");
-		items = GameObject.FindGameObjectsWithTag ("Item");
-		assignObjectsToPlanets ();
+	void InitGame () {
+		//this is just for starting the game without character selection screen
+		if(characterMap.Count == 0) AssignCharacterToMap(1, CharacterType.ROBOT);
+
+		//set up the respawn timers
+		for (int i = 1; i <= characterMap.Count; i++) {
+ 			RespawnTimer timer = gameObject.AddComponent<RespawnTimer>();
+			timer.Init (respawnTime, i);
+			respawnTimers[i] = timer;
+		}
+
+		numPlayers = characterMap.Count;
+		planets = GameObject.FindGameObjectsWithTag("Planet");
 	}
 	
 	// Update is called once per frame
-	void Update ()
-	{
+	void Update () {
+		
 		if (currentMode == gameMode.battle) {
-			assignObjectsToPlanets ();
+			//Modify this later
+			items = GameObject.FindGameObjectsWithTag("Item");
+			players = GameObject.FindGameObjectsWithTag ("Player");
+			//change to be dynamic with number of players
+			if (players.Length < numPlayers) {
+				int playerId = findMissingPlayerId();
+				if(playerId != 0){
+					respawnTimers [playerId].On ();
+				};
+			}
+			assignObjectsToPlanets();
 		}
 		if (tetheringPlayers.Count > 0) {
 			pullTethers (); //if people are tethering pull tethers
@@ -169,14 +190,26 @@ CUBE,
 		}
 	}
 
-	void assignObjectsToPlanets ()
-	{
-		//Modify this later
-		items = GameObject.FindGameObjectsWithTag ("Item");
-		players = GameObject.FindGameObjectsWithTag ("Player");
+	private int findMissingPlayerId(){
+		for (int i = 1; i <= numPlayers; i++) {
+			bool found = false;
+			foreach (GameObject player in players){
+				if (player.GetComponent<Char_Code>().playerNumber == i){
+					found = true;
+					break;
+				}
+			}
+			if (!found){
+				//if a timer is already running then we want to see if anyone else is dead
+				if(!respawnTimers[i].isRunning()) return i;
+			}
+		}
+		return 0;
+	}
 
-		foreach (GameObject p in planets) {
-			var planet = p.GetComponent<SphericalGravity> ();
+	void assignObjectsToPlanets () {
+		foreach(GameObject p in planets){
+			var planet = p.GetComponent<SphericalGravity>();
 			//think of a better way later
 			planet.players.Clear ();
 			planet.items.Clear ();
