@@ -50,7 +50,7 @@ CUBE,
 	{
 		if (scene.name == "CharacterSelect") {
 			currentMode = gameMode.selectCharacter;
-		} else if (scene.name == "NewMap") {
+		} else if (scene.name == "NewMap 1") {
 			currentMode = gameMode.battle;
 			InitGame ();
 		} else {
@@ -258,15 +258,16 @@ CUBE,
 		planets = GameObject.FindGameObjectsWithTag ("Planet");
 		if (planets [0]) {
 			Vector3 planetSize = planets [0].GetComponent<Renderer> ().bounds.size;
-			textSpawnLocations [0] = new Vector3 (-planetSize.x / 3f, planetSize.y / 4f, 0);
-			textSpawnLocations [1] = new Vector3 (planetSize.x / 7f, planetSize.y / 4f, 0);
-			textSpawnLocations [2] = new Vector3 (-planetSize.x / 3f, -planetSize.y / 4f, 0);
-			textSpawnLocations [3] = new Vector3 (planetSize.x / 7f, -planetSize.y / 4f, 0);
+			Vector3 planetLocation = planets[0].GetComponent<Transform>().position;
+			textSpawnLocations [0] = new Vector3 (planetLocation.x - planetSize.x / 3f, planetLocation.y + planetSize.y / 4f, 0);
+			textSpawnLocations [1] = new Vector3 (planetLocation.x + planetSize.x / 7f, planetLocation.y + planetSize.y / 4f, 0);
+			textSpawnLocations [2] = new Vector3 (planetLocation.x - planetSize.x / 3f, planetLocation.y - planetSize.y / 4f, 0);
+			textSpawnLocations [3] = new Vector3 (planetLocation.x + planetSize.x / 7f, planetLocation.y - planetSize.y / 4f, 0);
 
-			spawnLocations [0] = new Vector2 (0, planetSize.y);
-			spawnLocations [1] = new Vector2 (0, -planetSize.y);
-			spawnLocations [2] = new Vector2 (planetSize.x, 0);
-			spawnLocations [3] = new Vector2 (-planetSize.x, 0);
+			spawnLocations [0] = new Vector2 (0, planetLocation.y + planetSize.y);
+			spawnLocations [1] = new Vector2 (0, planetLocation.y - planetSize.y);
+			spawnLocations [2] = new Vector2 (planetLocation.x + planetSize.x, 0);
+			spawnLocations [3] = new Vector2 (planetLocation.x - planetSize.x, 0);
 		} else {
 			Debug.Log ("There are no planets available to be spawned on");
 		}
@@ -305,7 +306,9 @@ CUBE,
 		Vector2 spawnLocation = new Vector2 (0, 0);
 		if (planets [0]) {
 			//Spawn at the top of the first planet
-			spawnLocation = new Vector2 (0, planets [0].GetComponent<Renderer> ().bounds.size.y);
+			Vector3 planetSize = planets [0].GetComponent<Renderer> ().bounds.size;
+			Vector3 planetLocation = planets[0].GetComponent<Transform>().position;
+			spawnLocation = new Vector2 (0, planetLocation.y + planetSize.y);
 		} else {
 			Debug.Log ("There are no planets!");
 		}
