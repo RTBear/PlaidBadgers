@@ -13,22 +13,14 @@ public class GameManager : MonoBehaviour
 
 	enum gameMode
 	{
-selectCharacter,
+		selectCharacter,
 		battle,
 		none}
 
 	;
 
-	public enum CharacterType
-	{
-CUBE,
-		SPHERE,
-		ROBOT,
-		PILL}
-
-	;
 	//A dictionary or "map" that you give it the key value of the players id and it will return the players type
-	Dictionary<int, CharacterType> characterMap;
+	Dictionary<int, CharacterAttributes> characterMap;
 	GameObject textPrefab;
 	GameObject canvasPrefab;
 	public GameObject[] items;
@@ -77,14 +69,17 @@ CUBE,
 	{
 		textPrefab = Resources.Load ("Prefabs/TextPrefab") as GameObject;
 		canvasPrefab = Resources.Load ("Canvas") as GameObject;
-		characterMap = new Dictionary<int, CharacterType> ();
+		characterMap = new Dictionary<int, CharacterAttributes> ();
 		tetheringPlayers = new Dictionary<GameObjectScript, GameObject> ();
 		instance.tether_LR = GetComponent<LineRenderer> ();
 	}
 
 	void InitGame () {
 		//this is just for starting the game without character selection screen
-		if(characterMap.Count == 0) AssignCharacterToMap(1, CharacterType.ROBOT);
+		CharacterAttributes tempAttributes = new CharacterAttributes();
+		tempAttributes.m_CharacterType = CharacterAttributes.CharacterType.ROBOT;
+		tempAttributes.SetPrefab ();
+		if(characterMap.Count == 0) AssignCharacterToMap(1, tempAttributes);
 
 		//set up the respawn timers
 		for (int i = 1; i <= characterMap.Count; i++) {
@@ -241,14 +236,24 @@ CUBE,
 		}
 	}
 
-	public void AssignCharacterToMap (int id, CharacterType type)
+	public void AssignCharacterToMap (int id, CharacterAttributes attributes)
 	{
-		characterMap.Add (id, type);
+		characterMap.Add (id, attributes);
 	}
 
 	public void RemoveCharacterFromMap (int id)
 	{
 		characterMap.Remove (id);
+	}
+
+	public void UpdateCharacterMap(int id, CharacterAttributes attributes)
+	{
+		characterMap [id] = attributes;
+	}
+
+	public CharacterAttributes GetAttributesFromMap(int id)
+	{
+		return characterMap [id];
 	}
 
 	public void InitialSpawnPlayers ()
@@ -273,9 +278,12 @@ CUBE,
 
 		for (int i = 0; i < characterMap.Count; i++) {
 			int playerId = i + 1; //Account for change of indexing
-			GameObject prefab = GetPrefab (characterMap [playerId]);
+			GameObject prefab = characterMap[playerId].m_Prefab;
 			GameObject temp = (GameObject)Instantiate (prefab, spawnLocations [i], Quaternion.identity);
 			temp.GetComponent<Char_Code> ().playerNumber = playerId;
+			MeshRenderer renderer = temp.GetComponent<MeshRenderer> ();
+			if(renderer)
+				renderer.material = characterMap [playerId].m_Material;
 
 			/* 	This is some progress made for the canvas. I am sick of messing with it for so long so I'm going 
 				to do it a little bit different for right now. I will come back to this if we need to (for the radial health)*/
@@ -309,8 +317,9 @@ CUBE,
 		} else {
 			Debug.Log ("There are no planets!");
 		}
-		GameObject prefab = GetPrefab (characterMap [playerId]);
+		GameObject prefab = characterMap[playerId].m_Prefab;
 		GameObject temp = (GameObject)Instantiate (prefab, spawnLocation, Quaternion.identity);
+		temp.GetComponent<MeshRenderer> ().material = characterMap [playerId].m_Material;
 
 		temp.layer = LayerMask.NameToLayer ("Player " + playerId);
 		Debug.Log ("temp after");
@@ -319,20 +328,5 @@ CUBE,
 		temp.GetComponent<Char_Code> ().playerNumber = playerId;
 		players = GameObject.FindGameObjectsWithTag ("Player");
 		assignObjectsToPlanets ();
-	}
-
-	protected GameObject GetPrefab (CharacterType type)
-	{
-		switch (type) {
-		case CharacterType.CUBE:
-			return Resources.Load ("Characters/Cube") as GameObject;
-		case CharacterType.ROBOT:
-			return Resources.Load ("Characters/Robot") as GameObject;
-		case CharacterType.PILL:
-			return Resources.Load ("Characters/Pill") as GameObject;
-		case CharacterType.SPHERE:
-			return Resources.Load ("Characters/Sphere") as GameObject;
-		}
-		return null;
 	}
 }
