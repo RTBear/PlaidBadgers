@@ -5,7 +5,7 @@ using UnityEngine.SceneManagement;
 
 public class CharacterSelection : GameObjectScript {
 	//tempPlayer array is used to get the closest character to where the user is pointing
-	public GameObject[] selectedPlayers, closestCharacter, allCharacters;
+	public GameObject[] selectedPlayers, closestCharacter, allCharacters, displayedCharacter;
 	string[] horizontalAxes, verticalAxes;
 	string[] controllersConnected;
 	Vector2[] selectedPlayerLocations;
@@ -13,6 +13,9 @@ public class CharacterSelection : GameObjectScript {
 	bool[] isPlayerSelected;
 	int numPlayers;
 	int charactersSelected;
+	//the array is used as the selected player
+	int[] materialPositions;
+	Material[] materials;
 
 	// Use this for initialization
 	void Start () {
@@ -22,11 +25,14 @@ public class CharacterSelection : GameObjectScript {
 		horizontalAxes = GetJoystickHorizontalAxes ();
 		verticalAxes = GetJoystickVerticalAxes ();
 		selectedPlayerLocations = GetSelectedPlayerLocations ();
+		materials = GetAvailableMaterials();
 		CreateTextObjects ();
 		allCharacters = GameObject.FindGameObjectsWithTag("Player");
 		isPlayerSelected = new bool[numPlayers];
 		closestCharacter = new GameObject[numPlayers];
 		selectedPlayers = new GameObject[numPlayers];
+		displayedCharacter = new GameObject[numPlayers];
+		materialPositions = new int[numPlayers];
 		Debug.Log ("Numbers of Players: " + numPlayers);
 	}
 	
@@ -41,27 +47,42 @@ public class CharacterSelection : GameObjectScript {
 				closestCharacter[i] = FindClosestCharacter (controllerAngle);
 			}
 
+			if(!isPlayerSelected[i] && displayedCharacter[i] != null && closestCharacter[i] != displayedCharacter[i])
+			{
+				Destroy(displayedCharacter[i]);
+				displayedCharacter[i] = null;
+			}
+
+			if(!isPlayerSelected[i] && closestCharacter[i] && displayedCharacter[i] == null)
+			{
+				displayedCharacter[i] = Instantiate (closestCharacter [i], selectedPlayerLocations [i], Quaternion.identity);
+				Debug.Log("Changing Character");
+			}
+
 			//check if the player has selected a character and disable them from selecting another one
 			if (Input.GetKeyDown ("joystick " + (i + 1) + " button 0") && closestCharacter[i] && !isPlayerSelected [i]) 
 			{
-				isPlayerSelected [i] = true;
-				selectedPlayers[i] = Instantiate (closestCharacter [i], selectedPlayerLocations [i], Quaternion.identity);
-				GameManager.CharacterType type = selectedPlayers [i].GetComponent<CharacterType> ().type;
-				GameManager.instance.AssignCharacterToMap (i + 1, type);
-				if (selectedPlayers [i])
-					print ("player selected");
-				charactersSelected++;
+				SelectCharacter(i);
 			}
 
 			//if the player presses 'b' then remove their selection so that they can select a new player
 			if (Input.GetKeyDown ("joystick " + (i + 1) + " button 1") && selectedPlayers[i] && isPlayerSelected [i]) 
 			{
-				isPlayerSelected [i] = false;
-				GameManager.instance.RemoveCharacterFromMap (i + 1);
-				GameObject.Destroy (selectedPlayers [i]);
-				print ("player deselected");
-				charactersSelected--;
+				DeSelectCharacter(i);
 			}
+
+			//If the user has selected a player, then allow them to change the color of their player
+			if(isPlayerSelected[i] && Input.GetKeyDown("joystick " + (i + 1) + " button 5"))
+			{
+				//cycle to the right
+				SetPlayerMaterial(materialPositions[i] + 1, i);
+			}
+			else if(isPlayerSelected[i] && Input.GetKeyDown("joystick " + (i + 1) + " button 4"))
+			{
+				//cycle to the left
+				SetPlayerMaterial(materialPositions[i] - 1, i);
+			}
+
 
 			//rotating effect when a player is selected
 			if (selectedPlayers [i]) 
@@ -72,6 +93,32 @@ public class CharacterSelection : GameObjectScript {
 		//if all characters are selected, player 1 is allowed to start the game by pressing the start button
 		if(numPlayers == charactersSelected && Input.GetKeyDown("joystick 1 button 7"))
 			UpdateScene ();
+	}
+		
+	void SelectCharacter(int whichCharacter)
+	{
+		isPlayerSelected [whichCharacter] = true;
+		selectedPlayers[whichCharacter] = Instantiate (closestCharacter [whichCharacter], selectedPlayerLocations [whichCharacter], Quaternion.identity);
+		selectedPlayers[whichCharacter].GetComponent<Transform>().localScale = new Vector3(1.25f, 1.25f, 1.25f);
+		GameManager.CharacterType type = selectedPlayers [whichCharacter].GetComponent<CharacterType> ().type;
+		GameManager.instance.AssignCharacterToMap (whichCharacter + 1, type);
+		if (selectedPlayers [whichCharacter])
+			print ("player selected");
+		if(displayedCharacter[whichCharacter])
+		{
+			Destroy(displayedCharacter[whichCharacter]);
+			displayedCharacter[whichCharacter] = null;
+		}
+		charactersSelected++;
+	}
+
+	void DeSelectCharacter(int whichCharacter)
+	{
+		isPlayerSelected [whichCharacter] = false;
+		GameManager.instance.RemoveCharacterFromMap (whichCharacter + 1);
+		GameObject.Destroy (selectedPlayers [whichCharacter]);
+		print ("player deselected");
+		charactersSelected--;
 	}
 
 	GameObject FindClosestCharacter(float angle)
@@ -92,6 +139,18 @@ public class CharacterSelection : GameObjectScript {
 			}
 		}
 		return returnCharacter;
+	}
+
+	void SetPlayerMaterial(int materialPos, int whichPlayer)
+	{
+		if(materialPos < 0)
+			materialPos = 3;
+		if(materialPos > 3)
+			materialPos = 0;
+		MeshRenderer renderer = selectedPlayers[whichPlayer].GetComponent<MeshRenderer>();
+		if(renderer)
+			renderer.material = materials[materialPos];
+		materialPositions[whichPlayer] = materialPos;
 	}
 
 	//This could possibly be of some help when setting the players skins
@@ -156,5 +215,15 @@ public class CharacterSelection : GameObjectScript {
 			obj[i] = Instantiate(temp, new Vector2(selectedPlayerLocations[i].x - .75f, selectedPlayerLocations[i].y - 1.5f), Quaternion.identity);
 			obj[i].GetComponent<TextMesh>().text = ("Player " + (i + 1).ToString());
 		}
+	}
+
+	Material[] GetAvailableMaterials()
+	{
+		Material[] tempMaterials = new Material[4];
+		tempMaterials[0] = Resources.Load("Materials/Blue") as Material;
+		tempMaterials[1] = Resources.Load("Materials/Red") as Material;
+		tempMaterials[2] = Resources.Load("Materials/Green") as Material;
+		tempMaterials[3] = Resources.Load("Materials/Yellow") as Material;
+		return tempMaterials;
 	}
 }
