@@ -165,9 +165,9 @@ CUBE,
 					}
 				}
 			} else if (tetheree.CompareTag ("Planet")) { //tetheree is a planet... lerp player to planet
-				Vector3 destination = player.GetComponent<Char_Code> ().tetherCollisionLocation.position;//location to tether to
+				Vector3 destination = player.GetComponent<Char_Code> ().tetherCollisionLocation;//location to tether to
 
-				if (Vector3.Distance (destination, playerTrans.position) > TETHER_DISTANCE_TOLERANCE) {//if outside tolerable distance
+				if (Vector3.Distance (playerTrans.position, destination) > TETHER_DISTANCE_TOLERANCE) {//if outside tolerable distance
 					Debug.Log ("pullTethers planet");
 
 					if (instance.tether_LR) {
@@ -176,7 +176,7 @@ CUBE,
 						instance.tether_LR.SetPosition (1, playerTrans.position);
 					}
 					//This is the actual tether pull
-					playerTrans.position = Vector3.Lerp (destination, playerTrans.position, (Time.deltaTime * TETHER_PULL_SPEED) / Vector3.Distance (destination, playerTrans.position));
+					playerTrans.position = Vector3.Lerp (playerTrans.position, destination, (Time.deltaTime * TETHER_PULL_SPEED) / Vector3.Distance (playerTrans.position, destination));
 				} else {
 					if (instance.tether_LR) {
 						instance.tether_LR.enabled = false;
