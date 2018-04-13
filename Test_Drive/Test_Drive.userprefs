@@ -18,6 +18,8 @@
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
     <BreakpointStore>
       <Breakpoint file="C:\Users\Kylie\Documents\Class\Software Engineering\PlaidBadgers\Test_Drive\Assets\MyAssets\Scripts\GameManager.cs" line="160" column="11" />
+      <Breakpoint file="C:\Users\Rigdon\Documents\GitHub\PlaidBadgers\Test_Drive\Assets\MyAssets\Scripts\GameManager.cs" line="264" column="1" />
+      <Breakpoint file="C:\Users\Rigdon\Documents\GitHub\PlaidBadgers\Test_Drive\Assets\MyAssets\Scripts\CharacterAttributes.cs" line="20" column="1" />
     </BreakpointStore>
   </MonoDevelop.Ide.DebuggingService.Breakpoints>
   <MonoDevelop.Ide.DebuggingService.PinnedWatches />

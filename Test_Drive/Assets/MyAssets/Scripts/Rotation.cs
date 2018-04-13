@@ -2,9 +2,8 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class CharacterType : MonoBehaviour {
+public class Rotation : MonoBehaviour {
 
-	public CharacterAttributes.CharacterType type;
 	// Use this for initialization
 	void Start () {
 		
@@ -12,6 +11,9 @@ public class CharacterType : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-		
+		transform.Rotate(0, Time.deltaTime, 0);
+
+		if(gameObject.tag == "Planet")
+			transform.Rotate(Time.deltaTime * 5,Time.deltaTime * 3, Time.deltaTime * 3);
 	}
 }
