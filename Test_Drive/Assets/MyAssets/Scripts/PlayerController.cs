@@ -10,7 +10,7 @@ public class PlayerController : GameObjectScript {
 	public TetherEmitterController tetherEmitter;
 	public ProjectileEmitterController projectileEmitter;
 
-	int jmpForce = 3000;
+	int jmpForce = 2000;
 	bool canAirJump = true;
 	bool onGround = false;
 	public bool facingClockwise = true;
@@ -170,36 +170,22 @@ public class PlayerController : GameObjectScript {
 		return null;
 	}*/
 	
-	public void LaunchAttack(Collider collider)
+	public void LaunchAttack(GameObject target)
 	{
-		Collider[] cols = Physics.OverlapBox(collider.bounds.center, collider.bounds.extents, collider.transform.rotation, LayerMask.GetMask("HitBox", "Player 1", "Player 2", "Player 3", "Player 4"));
-		if(cols.Length <= 0)
-			Debug.LogWarning("No colliders. Hi mom!");
-		foreach (Collider c in cols)
-		{
-			if (c.transform.parent == c)
-			{
-				print ("I hit myself");
-			}
-			else
-			{
+		
+		var objectsScript = target.GetComponent<GameObjectScript>();
+		print(objectsScript);
+		if (objectsScript != null) {
+			//audio.Play();
 
-				var objectsScript = c.GetComponent<GameObjectScript>();
-				print(objectsScript);
-				if (objectsScript != null) {
-					//audio.Play();
+			Vector2 knockDir = (target.transform.position - this.transform.position).normalized;
+			Attack basicAttack = new Attack (10, knockDir, 10);
 
-					Vector2 knockDir = (c.transform.position - this.transform.position).normalized;
-					Attack basicAttack = new Attack (10, knockDir, 10);
-
-					objectsScript.attacked (basicAttack);
-
-				} else {
-					c.GetComponent<Rigidbody> ().
-					AddForce ((this.transform.position - c.transform.position).normalized * -1000);
-				}
-
-			}
+			objectsScript.attacked (basicAttack);
+		}
+		else {
+			target.GetComponent<Rigidbody> ().
+			AddForce ((this.transform.position - target.transform.position).normalized * -1000);
 		}
 	}
 

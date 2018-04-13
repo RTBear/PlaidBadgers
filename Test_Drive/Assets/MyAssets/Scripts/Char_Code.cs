@@ -12,6 +12,7 @@ public class Char_Code : GameObjectScript {
 	public Collider[] attack_HitBoxes;
 	public Text healthTextFromCanvas;
 	GameObject healthTextObject;
+	GameObject targetEnemy;
 
 	public Vector3 tetherCollisionLocation; //used to determine where tether collided with planet
 	public float tetherHoldTimer = GameManager.TETHER_HOLD_TIME;
@@ -88,7 +89,8 @@ public class Char_Code : GameObjectScript {
 			//if (collider != null) {
 			//sound effect
 			//ect
-			pc.LaunchAttack (attack_HitBoxes [0]);
+			if(targetEnemy)
+				pc.LaunchAttack (targetEnemy);
 			//}
 		}
 
@@ -109,5 +111,19 @@ public class Char_Code : GameObjectScript {
 			healthTextFromCanvas.text = health.ToString () + "%";
 		else if(healthTextObject)
 			healthTextObject.GetComponent<TextMesh>().text = health.ToString() + "%";
+	}
+
+	void OnTriggerEnter(Collider col)
+	{
+		if (col.tag != "Planet") {
+			targetEnemy = col.gameObject;
+		}
+	}
+
+	void OnTriggerExit(Collider col)
+	{
+		if (col.tag != "Planet") {
+			targetEnemy = null;
+		}	
 	}
 }
