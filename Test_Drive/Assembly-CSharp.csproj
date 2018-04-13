@@ -61,6 +61,8 @@
      <Compile Include="Assets\MyAssets\Scripts\GameObjectScript.cs" />
      <Compile Include="Assets\MyAssets\Scripts\PlayerController.cs" />
      <Compile Include="Assets\MyAssets\Scripts\PlayerInput.cs" />
+     <Compile Include="Assets\MyAssets\Scripts\ProjectileController.cs" />
+     <Compile Include="Assets\MyAssets\Scripts\ProjectileEmitterController.cs" />
      <Compile Include="Assets\MyAssets\Scripts\PunchBagBehavior.cs" />
      <Compile Include="Assets\MyAssets\Scripts\Rotation.cs" />
      <Compile Include="Assets\MyAssets\Scripts\SphericalGravity.cs" />
