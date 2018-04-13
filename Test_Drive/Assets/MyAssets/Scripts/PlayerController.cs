@@ -170,7 +170,7 @@ public class PlayerController : GameObjectScript {
 		return null;
 	}*/
 	
-	public void LaunchAttack(GameObject target)
+	public void LaunchAttack(GameObject target, float attackMultiplier)
 	{
 		
 		var objectsScript = target.GetComponent<GameObjectScript>();
@@ -179,7 +179,7 @@ public class PlayerController : GameObjectScript {
 			//audio.Play();
 
 			Vector2 knockDir = (target.transform.position - this.transform.position).normalized;
-			Attack basicAttack = new Attack (10, knockDir, 10);
+			Attack basicAttack = new Attack (10 * attackMultiplier, knockDir, 10);
 
 			objectsScript.attacked (basicAttack);
 		}
