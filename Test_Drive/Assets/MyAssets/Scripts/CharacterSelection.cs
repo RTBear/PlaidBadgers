@@ -129,14 +129,11 @@ public class CharacterSelection : GameObjectScript {
 	{
 		GameObject returnCharacter = null;
 		float closestAngle = angle;
-		Vector2 pos;
-		//Debug.Log ("Inside find closest character");
 		foreach (GameObject character in allCharacters) 
 		{
 			Vector2 playerPosition = new Vector2(character.transform.position.x, character.transform.position.y);
 			Vector2 controllerPosition = new Vector2 (this.transform.position.x, this.transform.position.y);
 			float tempAngle = getAngle(playerPosition - controllerPosition);
-			//Debug.Log ("Player Angle: " + tempAngle);
 			if (Mathf.Abs (tempAngle - angle) < closestAngle) {
 				closestAngle = Mathf.Abs (tempAngle - angle);
 				returnCharacter = character;
