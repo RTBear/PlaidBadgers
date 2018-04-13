@@ -146,8 +146,8 @@ public class CharacterSelection : GameObjectScript {
 	{
 		//if materialPos is beyond the array of materials, loop back around
 		if(materialPos < 0)
-			materialPos = 3;
-		if(materialPos > 3)
+			materialPos = 4;
+		if(materialPos > 4)
 			materialPos = 0;
 		
 		MeshRenderer renderer = selectedPlayers[whichPlayer].GetComponent<MeshRenderer>();
@@ -209,11 +209,12 @@ public class CharacterSelection : GameObjectScript {
 
 	Material[] GetAvailableMaterials()
 	{
-		Material[] tempMaterials = new Material[4];
+		Material[] tempMaterials = new Material[5];
 		tempMaterials[0] = Resources.Load("Materials/Blue") as Material;
 		tempMaterials[1] = Resources.Load("Materials/Red") as Material;
 		tempMaterials[2] = Resources.Load("Materials/Green") as Material;
 		tempMaterials[3] = Resources.Load("Materials/Yellow") as Material;
+		tempMaterials[4] = Resources.Load("Materials/BaseMaterial") as Material;
 		return tempMaterials;
 	}
 }
