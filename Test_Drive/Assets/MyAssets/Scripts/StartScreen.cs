@@ -14,7 +14,7 @@ public class StartScreen : MonoBehaviour {
 	void Update () {
 		if(Input.GetKeyDown("joystick 1 button 7"))
 			SceneManager.LoadScene("CharacterSelect");
-
+		transform.Rotate(0, Time.deltaTime * 5, 0);
 		/* Mainly used for start screen*/
 		if (gameObject.tag == "Planet") 
 		{
