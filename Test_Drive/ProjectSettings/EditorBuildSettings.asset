@@ -11,7 +11,7 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/CharacterSelect.unity
     guid: 2d09dab505728064186fc8ecea6dfb8e
-  - enabled: 1
+  - enabled: 0
     path: Assets/NewMap2.unity
     guid: 6efd7fb10b8ae054db5b88b18067413a
   - enabled: 1
@@ -20,3 +20,15 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/NewMap 1.unity
     guid: a443ba70e5f25e84cafad4751f676503
+  - enabled: 1
+    path: Assets/EarthAndMoon.unity
+    guid: eeae737f6bef70d419a27a1e55018395
+  - enabled: 1
+    path: Assets/FireAndIce.unity
+    guid: 3028a4622867f3241979ebe3ab24ab82
+  - enabled: 1
+    path: Assets/Earth.unity
+    guid: b0b04948b2fb0ce4caba4d2ddee19c11
+  - enabled: 1
+    path: Assets/MapSelect.unity
+    guid: e2280b5754d043b4fada55e302413d77

@@ -24,9 +24,9 @@ GameObject:
   - component: {fileID: 114858162782122022}
   - component: {fileID: 136031667591356376}
   - component: {fileID: 136007479523398808}
-  m_Layer: 0
+  m_Layer: 18
   m_Name: IcePlanet
-  m_TagString: Untagged
+  m_TagString: Planet
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -99,7 +99,7 @@ MonoBehaviour:
   players: []
   items: []
   gravitationalPull: 100
-  range: 7
+  range: 8
 --- !u!136 &136007479523398808
 CapsuleCollider:
   m_ObjectHideFlags: 1

@@ -42,7 +42,7 @@ public class GameManager : MonoBehaviour
 	{
 		if (scene.name == "CharacterSelect") {
 			currentMode = gameMode.selectCharacter;
-		} else if (scene.name == "NewMap 1") {
+		} else if (scene.name == "EarthAndMoon" || scene.name == "Earth" || scene.name == "FireAndIce") {
 			currentMode = gameMode.battle;
 			InitGame ();
 		} else {
@@ -269,10 +269,10 @@ public class GameManager : MonoBehaviour
 			textSpawnLocations [2] = new Vector3 (planetLocation.x - planetSize.x / 3f, planetLocation.y - planetSize.y / 4f, 0);
 			textSpawnLocations [3] = new Vector3 (planetLocation.x + planetSize.x / 7f, planetLocation.y - planetSize.y / 4f, 0);
 
-			spawnLocations [0] = new Vector2 (0, planetLocation.y + planetSize.y);
-			spawnLocations [1] = new Vector2 (0, planetLocation.y - planetSize.y);
-			spawnLocations [2] = new Vector2 (planetLocation.x + planetSize.x, 0);
-			spawnLocations [3] = new Vector2 (planetLocation.x - planetSize.x, 0);
+			spawnLocations [0] = new Vector2 (planetLocation.x, planetLocation.y + planetSize.y);
+			spawnLocations [1] = new Vector2 (planetLocation.x, planetLocation.y - planetSize.y);
+			spawnLocations [2] = new Vector2 (planetLocation.x + planetSize.x, planetLocation.y);
+			spawnLocations [3] = new Vector2 (planetLocation.x - planetSize.x, planetLocation.y);
 		} else {
 			Debug.Log ("There are no planets available to be spawned on");
 		}
@@ -316,7 +316,7 @@ public class GameManager : MonoBehaviour
 			//Spawn at the top of the first planet
 			Vector3 planetSize = planets [0].GetComponent<Renderer> ().bounds.size;
 			Vector3 planetLocation = planets[0].GetComponent<Transform>().position;
-			spawnLocation = new Vector2 (0, planetLocation.y + planetSize.y);
+			spawnLocation = new Vector2 (planetLocation.x, planetLocation.y + planetSize.y);
 		} else {
 			Debug.Log ("There are no planets!");
 		}
