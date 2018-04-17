@@ -12,14 +12,15 @@ public class Char_Code : GameObjectScript {
 	public Collider[] attack_HitBoxes;
 	SpecialAttack specialAttack;
 	public Text healthTextFromCanvas;
+	
 	GameObject healthTextObject;
 
-	public Transform tetherCollisionLocation; //used to determine where tether collided with planet
+	public Vector3 tetherCollisionLocation; //used to determine where tether collided with planet
 	public float tetherHoldTimer = GameManager.TETHER_HOLD_TIME;
 
     // Use this for initialization
     void Start () {
-		tetherCollisionLocation = GetComponent<Transform> ();
+//		tetherCollisionLocation = GetComponent<Transform> ();
         audio = GetComponent<AudioSource>();
 		pc = GetComponent<PlayerController> ();
 		input = GetComponent<PlayerInput>();
@@ -61,12 +62,22 @@ public class Char_Code : GameObjectScript {
 		}
 
 		//Check if the user has applied aim input
-		if (input.AimTriggered ()) {
+		if (input.AimTriggered ()) { 
 			pc.Aim (input.GetAimAxis ());
 		}
 
 		if (input.isReceivingTetherFiringInput ()) {
 			pc.tetherEmitter.launchTether ();
+		}
+
+		if (input.isReceivingProjectileFiringInput ()) {
+			pc.projectileEmitter.launchProjectile ();
+		}
+
+		if (input.SpecialAttackTriggered ()) {
+			if (specialAttack.canSpecialAttack ()) {
+				specialAttack.specialAttack ();
+			}
 		}
 
 		//if (Input.GetKeyDown ("joystick button 2"))
@@ -89,12 +100,6 @@ public class Char_Code : GameObjectScript {
 			//ect
 			pc.LaunchAttack (attack_HitBoxes [0]);
 			//}
-		}
-
-		if (input.SpecialAttackTriggered ()) {
-			if (specialAttack.canSpecialAttack ()) {
-				specialAttack.specialAttack ();
-			}
 		}
 
 		if (input.SprintTriggered ()) {

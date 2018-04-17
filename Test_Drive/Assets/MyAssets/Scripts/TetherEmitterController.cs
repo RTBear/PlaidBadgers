@@ -29,17 +29,14 @@ public class TetherEmitterController : MonoBehaviour {
 		//check if destroy tether
 		if (currentExpirationTimer <= 0) { 
 			tether.tetherActive = false;
+			tether.resetTether ();
 		}
-		if (tether.isFiring == false && tether.tetherAttached == false) {
+		if (tether.isFiring == false && tether.tetherAttached == false) { 
 			tether.tetherActive = false;
 		}
 
 		if (tether.tetherActive) {
 			currentExpirationTimer -= Time.deltaTime;
-
-
-//		} else if(tether.prefab != null){ 
-//			tether.resetTether ();
 		}
 	}
 

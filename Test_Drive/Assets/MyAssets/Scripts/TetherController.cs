@@ -37,7 +37,7 @@ public class TetherController : MonoBehaviour {
 		tetherAttached = true;
 
 		if (collisionParent.CompareTag ("Planet")) {
-			originalParentCharCode.GetComponent<Char_Code>().tetherCollisionLocation.position = transform.position;
+			originalParentCharCode.GetComponent<Char_Code>().tetherCollisionLocation = transform.position;
 		}
 			
 		//add player and tetheree to tetheringPlayers dictionary so they can pull
@@ -52,10 +52,10 @@ public class TetherController : MonoBehaviour {
 	}
 
 	public void resetTether(){
-		Debug.Log ("destroy self call");
+		//Debug.Log ("destroy self call");
 		//remove tether object from scene
 		if (GetComponent<TetherController>().prefab) {
-			Debug.Log ("destroy prefab");
+		//	Debug.Log ("destroy prefab");
 			Destroy (prefab);
 		}
 
@@ -63,7 +63,7 @@ public class TetherController : MonoBehaviour {
 
 		//Cleanup parent state
 		if (collisionParent != null) {
-			Debug.Log ("resetting parent");
+		//	Debug.Log ("resetting parent");
 //			tetherAttached = false;
 		}
 	}

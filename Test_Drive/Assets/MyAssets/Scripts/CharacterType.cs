@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class CharacterType : MonoBehaviour {
 
-	public GameManager.CharacterType type;
+	public CharacterAttributes.CharacterType type;
 	// Use this for initialization
 	void Start () {
 		

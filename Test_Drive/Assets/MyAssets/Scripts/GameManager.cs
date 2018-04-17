@@ -13,22 +13,14 @@ public class GameManager : MonoBehaviour
 
 	enum gameMode
 	{
-selectCharacter,
+		selectCharacter,
 		battle,
 		none}
 
 	;
 
-	public enum CharacterType
-	{
-CUBE,
-		SPHERE,
-		ROBOT,
-		PILL}
-
-	;
 	//A dictionary or "map" that you give it the key value of the players id and it will return the players type
-	Dictionary<int, CharacterType> characterMap;
+	Dictionary<int, CharacterAttributes> characterMap;
 	GameObject textPrefab;
 	GameObject canvasPrefab;
 	public GameObject[] items;
@@ -50,7 +42,7 @@ CUBE,
 	{
 		if (scene.name == "CharacterSelect") {
 			currentMode = gameMode.selectCharacter;
-		} else if (scene.name == "NewMap") {
+		} else if (scene.name == "NewMap 1") {
 			currentMode = gameMode.battle;
 			InitGame ();
 		} else {
@@ -77,14 +69,17 @@ CUBE,
 	{
 		textPrefab = Resources.Load ("Prefabs/TextPrefab") as GameObject;
 		canvasPrefab = Resources.Load ("Canvas") as GameObject;
-		characterMap = new Dictionary<int, CharacterType> ();
+		characterMap = new Dictionary<int, CharacterAttributes> ();
 		tetheringPlayers = new Dictionary<GameObjectScript, GameObject> ();
 		instance.tether_LR = GetComponent<LineRenderer> ();
 	}
 
 	void InitGame () {
 		//this is just for starting the game without character selection screen
-		if(characterMap.Count == 0) AssignCharacterToMap(1, CharacterType.ROBOT);
+		CharacterAttributes tempAttributes = new CharacterAttributes();
+		tempAttributes.m_CharacterType = CharacterAttributes.CharacterType.ROBOT;
+		tempAttributes.SetPrefab ();
+		if(characterMap.Count == 0) AssignCharacterToMap(1, tempAttributes);
 
 		//set up the respawn timers
 		for (int i = 1; i <= characterMap.Count; i++) {
@@ -165,9 +160,9 @@ CUBE,
 					}
 				}
 			} else if (tetheree.CompareTag ("Planet")) { //tetheree is a planet... lerp player to planet
-				Vector3 destination = player.GetComponent<Char_Code> ().tetherCollisionLocation.position;//location to tether to
+				Vector3 destination = player.GetComponent<Char_Code> ().tetherCollisionLocation;//location to tether to
 
-				if (Vector3.Distance (destination, playerTrans.position) > TETHER_DISTANCE_TOLERANCE) {//if outside tolerable distance
+				if (Vector3.Distance (playerTrans.position, destination) > TETHER_DISTANCE_TOLERANCE) {//if outside tolerable distance
 					Debug.Log ("pullTethers planet");
 
 					if (instance.tether_LR) {
@@ -176,7 +171,7 @@ CUBE,
 						instance.tether_LR.SetPosition (1, playerTrans.position);
 					}
 					//This is the actual tether pull
-					playerTrans.position = Vector3.Lerp (destination, playerTrans.position, (Time.deltaTime * TETHER_PULL_SPEED) / Vector3.Distance (destination, playerTrans.position));
+					playerTrans.position = Vector3.Lerp (playerTrans.position, destination, (Time.deltaTime * TETHER_PULL_SPEED) / Vector3.Distance (playerTrans.position, destination));
 				} else {
 					if (instance.tether_LR) {
 						instance.tether_LR.enabled = false;
@@ -241,14 +236,24 @@ CUBE,
 		}
 	}
 
-	public void AssignCharacterToMap (int id, CharacterType type)
+	public void AssignCharacterToMap (int id, CharacterAttributes attributes)
 	{
-		characterMap.Add (id, type);
+		characterMap.Add (id, attributes);
 	}
 
 	public void RemoveCharacterFromMap (int id)
 	{
 		characterMap.Remove (id);
+	}
+
+	public void UpdateCharacterMap(int id, CharacterAttributes attributes)
+	{
+		characterMap [id] = attributes;
+	}
+
+	public CharacterAttributes GetAttributesFromMap(int id)
+	{
+		return characterMap [id];
 	}
 
 	public void InitialSpawnPlayers ()
@@ -258,24 +263,28 @@ CUBE,
 		planets = GameObject.FindGameObjectsWithTag ("Planet");
 		if (planets [0]) {
 			Vector3 planetSize = planets [0].GetComponent<Renderer> ().bounds.size;
-			textSpawnLocations [0] = new Vector3 (-planetSize.x / 3f, planetSize.y / 4f, 0);
-			textSpawnLocations [1] = new Vector3 (planetSize.x / 7f, planetSize.y / 4f, 0);
-			textSpawnLocations [2] = new Vector3 (-planetSize.x / 3f, -planetSize.y / 4f, 0);
-			textSpawnLocations [3] = new Vector3 (planetSize.x / 7f, -planetSize.y / 4f, 0);
+			Vector3 planetLocation = planets[0].GetComponent<Transform>().position;
+			textSpawnLocations [0] = new Vector3 (planetLocation.x - planetSize.x / 3f, planetLocation.y + planetSize.y / 4f, 0);
+			textSpawnLocations [1] = new Vector3 (planetLocation.x + planetSize.x / 7f, planetLocation.y + planetSize.y / 4f, 0);
+			textSpawnLocations [2] = new Vector3 (planetLocation.x - planetSize.x / 3f, planetLocation.y - planetSize.y / 4f, 0);
+			textSpawnLocations [3] = new Vector3 (planetLocation.x + planetSize.x / 7f, planetLocation.y - planetSize.y / 4f, 0);
 
-			spawnLocations [0] = new Vector2 (0, planetSize.y);
-			spawnLocations [1] = new Vector2 (0, -planetSize.y);
-			spawnLocations [2] = new Vector2 (planetSize.x, 0);
-			spawnLocations [3] = new Vector2 (-planetSize.x, 0);
+			spawnLocations [0] = new Vector2 (0, planetLocation.y + planetSize.y);
+			spawnLocations [1] = new Vector2 (0, planetLocation.y - planetSize.y);
+			spawnLocations [2] = new Vector2 (planetLocation.x + planetSize.x, 0);
+			spawnLocations [3] = new Vector2 (planetLocation.x - planetSize.x, 0);
 		} else {
 			Debug.Log ("There are no planets available to be spawned on");
 		}
 
 		for (int i = 0; i < characterMap.Count; i++) {
 			int playerId = i + 1; //Account for change of indexing
-			GameObject prefab = GetPrefab (characterMap [playerId]);
+			GameObject prefab = characterMap[playerId].m_Prefab;
 			GameObject temp = (GameObject)Instantiate (prefab, spawnLocations [i], Quaternion.identity);
 			temp.GetComponent<Char_Code> ().playerNumber = playerId;
+			MeshRenderer renderer = temp.GetComponent<MeshRenderer> ();
+			if(renderer)
+				renderer.material = characterMap [playerId].m_Material;
 
 			/* 	This is some progress made for the canvas. I am sick of messing with it for so long so I'm going 
 				to do it a little bit different for right now. I will come back to this if we need to (for the radial health)*/
@@ -305,12 +314,15 @@ CUBE,
 		Vector2 spawnLocation = new Vector2 (0, 0);
 		if (planets [0]) {
 			//Spawn at the top of the first planet
-			spawnLocation = new Vector2 (0, planets [0].GetComponent<Renderer> ().bounds.size.y);
+			Vector3 planetSize = planets [0].GetComponent<Renderer> ().bounds.size;
+			Vector3 planetLocation = planets[0].GetComponent<Transform>().position;
+			spawnLocation = new Vector2 (0, planetLocation.y + planetSize.y);
 		} else {
 			Debug.Log ("There are no planets!");
 		}
-		GameObject prefab = GetPrefab (characterMap [playerId]);
+		GameObject prefab = characterMap[playerId].m_Prefab;
 		GameObject temp = (GameObject)Instantiate (prefab, spawnLocation, Quaternion.identity);
+		temp.GetComponent<MeshRenderer> ().material = characterMap [playerId].m_Material;
 
 		temp.layer = LayerMask.NameToLayer ("Player " + playerId);
 		Debug.Log ("temp after");
@@ -319,20 +331,5 @@ CUBE,
 		temp.GetComponent<Char_Code> ().playerNumber = playerId;
 		players = GameObject.FindGameObjectsWithTag ("Player");
 		assignObjectsToPlanets ();
-	}
-
-	protected GameObject GetPrefab (CharacterType type)
-	{
-		switch (type) {
-		case CharacterType.CUBE:
-			return Resources.Load ("Characters/Cube") as GameObject;
-		case CharacterType.ROBOT:
-			return Resources.Load ("Characters/Robot") as GameObject;
-		case CharacterType.PILL:
-			return Resources.Load ("Characters/Pill") as GameObject;
-		case CharacterType.SPHERE:
-			return Resources.Load ("Characters/Sphere") as GameObject;
-		}
-		return null;
 	}
 }
