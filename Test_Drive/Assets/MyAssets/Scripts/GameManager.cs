@@ -42,7 +42,7 @@ public class GameManager : MonoBehaviour
 	{
 		if (scene.name == "CharacterSelect") {
 			currentMode = gameMode.selectCharacter;
-		} else if (scene.name == "EarthAndMoon" || scene.name == "Earth" || scene.name == "FireAndIce") {
+		} else if (scene.name == "EarthAndMoon" || scene.name == "Earth" || scene.name == "FireAndIce" || scene.name == "AllFourPlanets") {
 			currentMode = gameMode.battle;
 			InitGame ();
 		} else {
