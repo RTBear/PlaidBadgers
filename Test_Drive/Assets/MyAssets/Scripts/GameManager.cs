@@ -28,7 +28,7 @@ public class GameManager : MonoBehaviour
 	public GameObject[]	planets;
 	Dictionary<int, RespawnTimer> respawnTimers = new Dictionary<int, RespawnTimer>();
 	int numPlayers = 4;
-
+	int randomPlanet = 0;
 	float respawnTime = 1f;
 
 	private LineRenderer tether_LR;//when tethered draw 'rope'
@@ -261,7 +261,8 @@ public class GameManager : MonoBehaviour
 		Vector3[] textSpawnLocations = new Vector3[4];
 		Vector2[] spawnLocations = new Vector2[4];
 		planets = GameObject.FindGameObjectsWithTag ("Planet");
-		int randomPlanet = Random.Range(0, planets.Length - 1);
+		//assign the random planet that the players will spawn on
+		randomPlanet = Random.Range(0, planets.Length - 1);
 		if (planets [randomPlanet]) {
 			Vector3 planetSize = planets [randomPlanet].GetComponent<Renderer> ().bounds.size;
 			Vector3 planetLocation = planets[randomPlanet].GetComponent<Transform>().position;
@@ -270,10 +271,10 @@ public class GameManager : MonoBehaviour
 			textSpawnLocations [2] = new Vector3 (planetLocation.x - planetSize.x / 3f, planetLocation.y - planetSize.y / 4f, 0);
 			textSpawnLocations [3] = new Vector3 (planetLocation.x + planetSize.x / 7f, planetLocation.y - planetSize.y / 4f, 0);
 
-			spawnLocations [0] = new Vector2 (planetLocation.x, planetLocation.y + planetSize.y / (1.25f));
-			spawnLocations [1] = new Vector2 (planetLocation.x, planetLocation.y - planetSize.y / (1.25f));
-			spawnLocations [2] = new Vector2 (planetLocation.x + planetSize.x / (1.25f), planetLocation.y);
-			spawnLocations [3] = new Vector2 (planetLocation.x - planetSize.x / (1.25f), planetLocation.y);
+			spawnLocations [0] = new Vector2 (planetLocation.x, planetLocation.y + planets [randomPlanet].GetComponent<SphericalGravity> ().range);
+			spawnLocations [1] = new Vector2 (planetLocation.x, planetLocation.y - planets [randomPlanet].GetComponent<SphericalGravity> ().range);
+			spawnLocations [2] = new Vector2 (planetLocation.x + planets [randomPlanet].GetComponent<SphericalGravity> ().range, planetLocation.y);
+			spawnLocations [3] = new Vector2 (planetLocation.x - planets [randomPlanet].GetComponent<SphericalGravity> ().range, planetLocation.y);
 		} else {
 			Debug.Log ("There are no planets available to be spawned on");
 		}
@@ -313,11 +314,11 @@ public class GameManager : MonoBehaviour
 	public void SpawnPlayer (int playerId)
 	{
 		Vector2 spawnLocation = new Vector2 (0, 0);
-		if (planets [0]) {
+		if (planets [randomPlanet]) {
 			//Spawn at the top of the first planet
-			Vector3 planetSize = planets [0].GetComponent<Renderer> ().bounds.size;
-			Vector3 planetLocation = planets[0].GetComponent<Transform>().position;
-			spawnLocation = new Vector2 (planetLocation.x, planetLocation.y + planetSize.y / (1.25f));
+			Vector3 planetSize = planets [randomPlanet].GetComponent<Renderer> ().bounds.size;
+			Vector3 planetLocation = planets[randomPlanet].GetComponent<Transform>().position;
+			spawnLocation = new Vector2 (planetLocation.x, planetLocation.y +  planets [randomPlanet].GetComponent<SphericalGravity> ().range / (1.25f));
 		} else {
 			Debug.Log ("There are no planets!");
 		}

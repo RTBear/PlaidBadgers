@@ -35,6 +35,8 @@ public class MapSelect : MonoBehaviour {
 		{
 			canSwitchMap = false;
 			SwitchCurrentMapSelection(Input.GetAxis("Joystick1Horizontal"));
+
+
 		}
 
 		if(!canSwitchMap)
@@ -66,8 +68,10 @@ public class MapSelect : MonoBehaviour {
 			currentMapSelection = 0;
 		if(currentMapSelection < 0)
 			currentMapSelection = availableMaps.Length - 1;
-		
-		Debug.Log ("Current map selection number: " + currentMapSelection);
+
+		foreach (GameObject map in availableMaps)
+			map.GetComponent<Transform>().Rotate (0, 90 * value, 0);
+
 		Debug.Log("Current map: " + availableMaps[currentMapSelection].name);
 	}
 
