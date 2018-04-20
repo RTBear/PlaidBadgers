@@ -127,7 +127,8 @@ public class GameManager : MonoBehaviour
 	//loop through dictionary lerping appropriate objects
 	void pullTethers ()
 	{
-		foreach (KeyValuePair<GameObjectScript,GameObject> obj in tetheringPlayers) {
+		Dictionary<GameObjectScript, GameObject> tempDict = new Dictionary<GameObjectScript, GameObject>(tetheringPlayers);
+		foreach (KeyValuePair<GameObjectScript,GameObject> obj in tempDict) { 
 			GameObjectScript player = obj.Key;
 			GameObject tetheree = obj.Value;
 			Transform playerTrans = player.GetComponent<Transform> ();
