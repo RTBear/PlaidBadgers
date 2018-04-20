@@ -8,9 +8,10 @@ public class ProjectileController : MonoBehaviour {
 	private Rigidbody m_rb;
 
 	public bool projectileActive = false;
-
 	public bool collided = false;
 
+	private const float DAMAGE = 10;
+	private const float ATTACK_FORCE = 25;
 
 	// Use this for initialization
 	void Start () {
@@ -40,8 +41,10 @@ public class ProjectileController : MonoBehaviour {
 		Debug.Log ("collisionParent: " + collisionParent);
 		if(collisionParent){//make sure it collided with a player or item
 
-			Vector2 knockDir = (col.transform.position - collisionParent.transform.position).normalized;
-			Attack basicProjectileImpact = new Attack (10, knockDir, 25);
+			Vector2 knockDir = (collisionParent.transform.position - transform.position).normalized;
+			Debug.Log (knockDir);
+			Attack basicProjectileImpact = new Attack (DAMAGE, knockDir, ATTACK_FORCE);
+
 
 			collisionParent.attacked (basicProjectileImpact);
 		}

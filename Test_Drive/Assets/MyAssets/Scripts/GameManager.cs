@@ -42,7 +42,7 @@ public class GameManager : MonoBehaviour
 	{
 		if (scene.name == "CharacterSelect") {
 			currentMode = gameMode.selectCharacter;
-		} else if (scene.name == "NewMap 1") {
+		} else if (scene.name == "NewMap") {
 			currentMode = gameMode.battle;
 			InitGame ();
 		} else {
