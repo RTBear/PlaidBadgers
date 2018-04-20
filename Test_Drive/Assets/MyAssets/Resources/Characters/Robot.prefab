@@ -132,7 +132,7 @@ Transform:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1656580191537250}
-  m_LocalRotation: {x: 0, y: -1, z: 0, w: 0}
+  m_LocalRotation: {x: 0, y: 0.7071068, z: 0, w: 0.7071068}
   m_LocalPosition: {x: -3.79, y: 3.6, z: -0.6056242}
   m_LocalScale: {x: 0.7, y: 0.7, z: 0.7}
   m_Children:
@@ -140,7 +140,7 @@ Transform:
   - {fileID: 4753265812910462}
   m_Father: {fileID: 0}
   m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 0, y: -180, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 90, z: 0}
 --- !u!4 &4927147639452834
 Transform:
   m_ObjectHideFlags: 1
@@ -276,8 +276,8 @@ BoxCollider:
   m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 1, y: 0.5, z: 0.5}
-  m_Center: {x: 1, y: 0, z: 0}
+  m_Size: {x: 0.5, y: 0.5, z: 1}
+  m_Center: {x: 0, y: -0.2, z: 0}
 --- !u!82 &82946999064476032
 AudioSource:
   m_ObjectHideFlags: 1
@@ -439,7 +439,7 @@ MonoBehaviour:
   attack_HitBoxes:
   - {fileID: 65021630471411126}
   healthTextFromCanvas: {fileID: 0}
-  tetherCollisionLocation: {fileID: 0}
+  tetherCollisionLocation: {x: 0, y: 0, z: 0}
   tetherHoldTimer: 2
 --- !u!136 &136451358198151266
 CapsuleCollider:
@@ -466,4 +466,4 @@ CapsuleCollider:
   m_Radius: 0.49999997
   m_Height: 1.9999999
   m_Direction: 1
-  m_Center: {x: 0, y: 0, z: 0}
+  m_Center: {x: 0, y: -0.5, z: -0.6}

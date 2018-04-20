@@ -97,5 +97,13 @@ public class GameObjectScript : MonoBehaviour {
         Vector3 currentSpeed = rb.velocity;
         //rb.velocity = new Vector3(currentSpeed[0] + LaunchDir[0]*attackForce*launchModifier, currentSpeed[1] + LaunchDir[1]*attackForce*launchModifier, 0);
         rb.AddForce(LaunchDir[0] * attackForce * launchModifier, LaunchDir[1] * attackForce * launchModifier, 0);
+
+		//If they are a player with a char_code script and are currently using a charged attack, cancel it
+		if (GetComponent<Char_Code> ()) {
+			if (GetComponent<Char_Code> ().chargeAttackStarted) {
+				GetComponent<Char_Code> ().chargeAttackStarted = false;
+				GetComponent<Char_Code> ().attackMultiplier = 0;
+			}
+		}
     }
 }
