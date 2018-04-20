@@ -26,7 +26,7 @@ public class ProjectileController : MonoBehaviour {
 	}
 
 	public void resetProjectile(){
-		Debug.Log (GetComponent<ProjectileController> ().prefab);
+		Debug.Log ("resetting projectile");
 		if (prefab) {
 			Destroy (prefab);
 		}
@@ -35,14 +35,13 @@ public class ProjectileController : MonoBehaviour {
 	}
 
 	void OnCollisionEnter(Collision col){
-		Debug.Log ("collision with: " + col.gameObject.ToString ());
+//		Debug.Log ("collision with: " + col.gameObject.ToString ());
 		var collisionParent = col.collider.GetComponent<GameObjectScript>();
 		 
-		Debug.Log ("collisionParent: " + collisionParent);
+//		Debug.Log ("collisionParent: " + collisionParent);
 		if(collisionParent){//make sure it collided with a player or item
 
 			Vector2 knockDir = (collisionParent.transform.position - transform.position).normalized;
-			Debug.Log (knockDir);
 			Attack basicProjectileImpact = new Attack (DAMAGE, knockDir, ATTACK_FORCE);
 
 

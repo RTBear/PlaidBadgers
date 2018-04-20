@@ -4,12 +4,12 @@ using UnityEngine;
 
 public class ProjectileEmitterController : MonoBehaviour {
 
-	public GameObject projectilePrefab; //stores the template of a tether object
-	public ProjectileController projectile; //the tether script
+	public GameObject projectilePrefab; //stores the template of a projectile object
+	public ProjectileController projectile; //the projectile script
 
-	private const float LAUNCH_FORCE = 1000; //force applied to tether at launch
+	private const float LAUNCH_FORCE = 1000; //force applied to projectile at launch
 
-	//public float cooldownTime; //cooldown timer max (time between tether launches)
+	//public float cooldownTime; //cooldown timer max (time between projectile launches)
 	//private float currentCooldownTimer; //current cooldown time
 
 	public Transform firePoint;
@@ -44,7 +44,7 @@ public class ProjectileEmitterController : MonoBehaviour {
 
 			projectile.prefab = Instantiate (projectilePrefab, firePoint.position, firePoint.rotation) as GameObject;
 
-			//make sure tether is actually created
+			//make sure projectile is actually created
 			if (projectile.prefab != null) {
 				projectile.projectileActive = true;
 				expirationTimer = EXPIRATION_TIME;
@@ -52,10 +52,10 @@ public class ProjectileEmitterController : MonoBehaviour {
 
 			projectile.prefab.layer = LayerMask.NameToLayer("Player " + GetComponentInParent<Char_Code>().playerNumber);//convert player number to player number layer
 
-			//SphericalGravity.getItems(); //TODO: OPTIMIZATION: Add new tether to planet upon creation
+			//SphericalGravity.getItems(); //TODO: OPTIMIZATION: Add new projectile to planet upon creation
 
-			Rigidbody tempRigidBody = projectile.GetComponent<ProjectileController>().prefab.GetComponent<Rigidbody>(); //KEEP for projectile launching
-			tempRigidBody.AddForce (projectile.prefab.transform.up * LAUNCH_FORCE); //KEEP for projectile launching
+			Rigidbody tempRigidBody = projectile.GetComponent<ProjectileController>().prefab.GetComponent<Rigidbody>();
+			tempRigidBody.AddForce (projectile.prefab.transform.up * LAUNCH_FORCE);
 		}
 	}
 }
