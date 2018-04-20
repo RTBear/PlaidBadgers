@@ -10,10 +10,12 @@ public class Char_Code : GameObjectScript {
 	public PlayerController pc;
 	protected PlayerInput input;
 	public Collider[] attack_HitBoxes;
-	SpecialAttack specialAttack;
 	public Text healthTextFromCanvas;
-	
 	GameObject healthTextObject;
+	GameObject targetEnemy;
+	public float attackMultiplier = 0;
+	public bool chargeAttackStarted = false;
+	SpecialAttack specialAttack;
 
 	public Vector3 tetherCollisionLocation; //used to determine where tether collided with planet
 	public float tetherHoldTimer = GameManager.TETHER_HOLD_TIME;
@@ -26,7 +28,7 @@ public class Char_Code : GameObjectScript {
 		input = GetComponent<PlayerInput>();
 		input.SetController(playerNumber);
 		rb = GetComponent<Rigidbody> ();
-		//this will be dynamic based on type
+
 		specialAttack = gameObject.AddComponent<SpecialAttackRobot>();
     }
 	
@@ -74,12 +76,6 @@ public class Char_Code : GameObjectScript {
 			pc.projectileEmitter.launchProjectile ();
 		}
 
-		if (input.SpecialAttackTriggered ()) {
-			if (specialAttack.canSpecialAttack ()) {
-				specialAttack.specialAttack ();
-			}
-		}
-
 		//if (Input.GetKeyDown ("joystick button 2"))
 		//	Debug.Log (horizontal + " pressed x");
 		
@@ -95,11 +91,37 @@ public class Char_Code : GameObjectScript {
 		if (input.AttackTriggered ()) {
 			Debug.LogWarning ("Pressed attack");
 			//Collider collider = pc.GetAttackCollider(attack_HitBoxes[0]);
-			//if (collider != null) {
+		//if (collider != null) {
 			//sound effect
 			//ect
-			pc.LaunchAttack (attack_HitBoxes [0]);
+			if(targetEnemy)
+				pc.LaunchAttack (targetEnemy, 1);
 			//}
+		}
+
+		//this is OnKeyDown, not OnKey, so this will only enter the first time it is pressed
+		if (input.ChargedAttackStarted ()) {
+			chargeAttackStarted = true;
+		}
+
+		if (chargeAttackStarted) {
+			pc.rb.velocity = new Vector3(0, 0, 0);
+			attackMultiplier += Time.deltaTime;
+		}
+
+		//If the user releases the 'b' button or the 3 second attack is finished, then launch the charged attack
+		if (input.ChargedAttackTriggered () && chargeAttackStarted == true || attackMultiplier >= 3) {
+			Debug.Log ("Charge attack launched\nAttack multiplier: " + attackMultiplier);
+			if(targetEnemy)
+				pc.LaunchAttack (targetEnemy, attackMultiplier);
+			chargeAttackStarted = false;
+			attackMultiplier = 0;
+		}
+
+		if (input.SpecialAttackTriggered ()) {
+			if (specialAttack.canSpecialAttack ()) {
+				specialAttack.specialAttack ();
+			}
 		}
 
 		if (input.SprintTriggered ()) {
@@ -119,5 +141,19 @@ public class Char_Code : GameObjectScript {
 			healthTextFromCanvas.text = health.ToString () + "%";
 		else if(healthTextObject)
 			healthTextObject.GetComponent<TextMesh>().text = health.ToString() + "%";
+	}
+
+	void OnTriggerEnter(Collider col)
+	{
+		if (col.tag != "Planet") {
+			targetEnemy = col.gameObject;
+		}
+	}
+
+	void OnTriggerExit(Collider col)
+	{
+		if (col.tag != "Planet") {
+			targetEnemy = null;
+		}	
 	}
 }

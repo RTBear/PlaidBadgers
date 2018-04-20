@@ -88,6 +88,14 @@ public class PlayerInput : MonoBehaviour {
 		return Input.GetKeyUp ("joystick " + playerNumber + " button 2");
 	}
 
+	public bool ChargedAttackStarted(){
+		return Input.GetKeyDown ("joystick " + playerNumber + " button 1");
+	}
+
+	public bool ChargedAttackTriggered(){
+		return Input.GetKeyUp ("joystick " + playerNumber + " button 1");
+	}
+
 	public bool SprintTriggered(){
 		return (Input.GetKey ("joystick " + playerNumber + " button 5") || Input.GetKey (KeyCode.LeftShift));
 	}
