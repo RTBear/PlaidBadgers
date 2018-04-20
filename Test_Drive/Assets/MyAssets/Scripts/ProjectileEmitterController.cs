@@ -18,6 +18,9 @@ public class ProjectileEmitterController : MonoBehaviour {
 	private const float EXPIRATION_TIME = 1;
 	private float expirationTimer = EXPIRATION_TIME;
 
+	private const float COOLDOWN_TIME = 0.8f;
+	private float cooldownTimer = 0;
+
 	// Use this for initialization
 	void Start () {
 		projectilePrefab = Resources.Load("Prefabs/BaseProjectile") as GameObject;
@@ -25,6 +28,9 @@ public class ProjectileEmitterController : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
+		if (cooldownTimer > 0) {
+			cooldownTimer -= Time.deltaTime;
+		}
 		if (projectile) {
 			if (projectile.projectileActive) {
 				Debug.Log (projectile.collided);
@@ -32,6 +38,7 @@ public class ProjectileEmitterController : MonoBehaviour {
 					Debug.Log ("time to remove");
 					projectile.resetProjectile ();
 					expirationTimer = EXPIRATION_TIME;
+					cooldownTimer = COOLDOWN_TIME;
 				} else {
 					expirationTimer -= Time.deltaTime;
 				}
@@ -40,7 +47,7 @@ public class ProjectileEmitterController : MonoBehaviour {
 	}
 
 	public void launchProjectile(){
-		if (!projectile.projectileActive) { 
+		if (!projectile.projectileActive && cooldownTimer <= 0) { 
 			
 			projectile.GetComponent<ProjectileController> ().parentCode = GetComponentInParent<ProjectileEmitterController>();
 
