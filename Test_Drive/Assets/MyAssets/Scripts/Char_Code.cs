@@ -15,6 +15,7 @@ public class Char_Code : GameObjectScript {
 	GameObject targetEnemy;
 	public float attackMultiplier = 0;
 	public bool chargeAttackStarted = false;
+	SpecialAttack specialAttack;
 
 	public Vector3 tetherCollisionLocation; //used to determine where tether collided with planet
 	public float tetherHoldTimer = GameManager.TETHER_HOLD_TIME;
@@ -27,6 +28,8 @@ public class Char_Code : GameObjectScript {
 		input = GetComponent<PlayerInput>();
 		input.SetController(playerNumber);
 		rb = GetComponent<Rigidbody> ();
+
+		specialAttack = gameObject.AddComponent<SpecialAttackRobot>();
     }
 	
 	// Update is called once per frame
@@ -115,6 +118,11 @@ public class Char_Code : GameObjectScript {
 			attackMultiplier = 0;
 		}
 
+		if (input.SpecialAttackTriggered ()) {
+			if (specialAttack.canSpecialAttack ()) {
+				specialAttack.specialAttack ();
+			}
+		}
 
 		if (input.SprintTriggered ()) {
 			pc.AddSprint ();
