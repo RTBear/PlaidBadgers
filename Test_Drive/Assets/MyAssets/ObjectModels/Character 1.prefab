@@ -90,8 +90,8 @@ Transform:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1853790869821754}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 5.4778104, y: -0.5955808, z: 0.3095967}
+  m_LocalRotation: {x: -0, y: -0, z: 0.7770737, w: -0.6294096}
+  m_LocalPosition: {x: 5.477811, y: -1.7696513, z: 0.3095967}
   m_LocalScale: {x: 2.0408137, y: 2.0408137, z: 2.0408137}
   m_Children:
   - {fileID: 4513540005837544}
@@ -342,7 +342,10 @@ MonoBehaviour:
   health: 0
   planet: {fileID: 0}
   rb: {fileID: 54336167909299082}
+  tethered: 0
   tetherEmitter: {fileID: 114975958680113684}
+  projectileEmitter: {fileID: 0}
+  facingClockwise: 1
   whack: {fileID: 0}
 --- !u!114 &114459398681444852
 MonoBehaviour:
@@ -358,10 +361,14 @@ MonoBehaviour:
   health: 0
   planet: {fileID: 0}
   rb: {fileID: 54336167909299082}
+  tethered: 0
   playerNumber: 2
+  pc: {fileID: 0}
   attack_HitBoxes:
   - {fileID: 65353364473158514}
-  healthText: {fileID: 0}
+  healthTextFromCanvas: {fileID: 0}
+  tetherCollisionLocation: {x: 0, y: 0, z: 0}
+  tetherHoldTimer: 2
 --- !u!114 &114952920782377906
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -384,18 +391,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 684b94cb31bea4c4098c44e256065372, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  health: 0
-  planet: {fileID: 0}
-  rb: {fileID: 0}
-  playerNumber: 0
-  attack_HitBoxes: []
-  healthText: {fileID: 0}
-  isFiring: 0
-  tetherCollide: 0
   tetherPrefab: {fileID: 0}
   tether: {fileID: 114811079407193662, guid: f1210bd6dbdacf44789721a34e327f1a, type: 2}
-  expirationTime: 2
-  currentExpirationTimer: 2
   firePoint: {fileID: 4513540005837544}
   crosshair: {fileID: 1492467666186792}
 --- !u!136 &136322922636646842

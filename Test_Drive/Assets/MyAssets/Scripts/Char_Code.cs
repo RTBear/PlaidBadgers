@@ -12,6 +12,9 @@ public class Char_Code : GameObjectScript {
 	public Collider[] attack_HitBoxes;
 	public Text healthTextFromCanvas;
 	GameObject healthTextObject;
+	GameObject targetEnemy;
+	public float attackMultiplier = 0;
+	public bool chargeAttackStarted = false;
 
 	public Vector3 tetherCollisionLocation; //used to determine where tether collided with planet
 	public float tetherHoldTimer = GameManager.TETHER_HOLD_TIME;
@@ -85,12 +88,33 @@ public class Char_Code : GameObjectScript {
 		if (input.AttackTriggered ()) {
 			Debug.LogWarning ("Pressed attack");
 			//Collider collider = pc.GetAttackCollider(attack_HitBoxes[0]);
-			//if (collider != null) {
+		//if (collider != null) {
 			//sound effect
 			//ect
-			pc.LaunchAttack (attack_HitBoxes [0]);
+			if(targetEnemy)
+				pc.LaunchAttack (targetEnemy, 1);
 			//}
 		}
+
+		//this is OnKeyDown, not OnKey, so this will only enter the first time it is pressed
+		if (input.ChargedAttackStarted ()) {
+			chargeAttackStarted = true;
+		}
+
+		if (chargeAttackStarted) {
+			pc.rb.velocity = new Vector3(0, 0, 0);
+			attackMultiplier += Time.deltaTime;
+		}
+
+		//If the user releases the 'b' button or the 3 second attack is finished, then launch the charged attack
+		if (input.ChargedAttackTriggered () && chargeAttackStarted == true || attackMultiplier >= 3) {
+			Debug.Log ("Charge attack launched\nAttack multiplier: " + attackMultiplier);
+			if(targetEnemy)
+				pc.LaunchAttack (targetEnemy, attackMultiplier);
+			chargeAttackStarted = false;
+			attackMultiplier = 0;
+		}
+
 
 		if (input.SprintTriggered ()) {
 			pc.AddSprint ();
@@ -109,5 +133,19 @@ public class Char_Code : GameObjectScript {
 			healthTextFromCanvas.text = health.ToString () + "%";
 		else if(healthTextObject)
 			healthTextObject.GetComponent<TextMesh>().text = health.ToString() + "%";
+	}
+
+	void OnTriggerEnter(Collider col)
+	{
+		if (col.tag != "Planet") {
+			targetEnemy = col.gameObject;
+		}
+	}
+
+	void OnTriggerExit(Collider col)
+	{
+		if (col.tag != "Planet") {
+			targetEnemy = null;
+		}	
 	}
 }
