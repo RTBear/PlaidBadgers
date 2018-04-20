@@ -41,6 +41,8 @@ public class ProjectileEmitterController : MonoBehaviour {
 
 	public void launchProjectile(){
 		if (!projectile.projectileActive) { 
+			
+			projectile.GetComponent<ProjectileController> ().parentCode = GetComponentInParent<ProjectileEmitterController>();
 
 			projectile.prefab = Instantiate (projectilePrefab, firePoint.position, firePoint.rotation) as GameObject;
 

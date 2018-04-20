@@ -10,8 +10,10 @@ public class ProjectileController : MonoBehaviour {
 	public bool projectileActive = false;
 	public bool collided = false;
 
+	public ProjectileEmitterController parentCode;
+
 	private const float DAMAGE = 10;
-	private const float ATTACK_FORCE = 25;
+	private const float ATTACK_FORCE = 5;
 
 	// Use this for initialization
 	void Start () {
@@ -30,8 +32,8 @@ public class ProjectileController : MonoBehaviour {
 		if (prefab) {
 			Destroy (prefab);
 		}
-		projectileActive = false;
-		collided = false;
+		parentCode.projectile.projectileActive = false;
+		parentCode.projectile.collided = false;
 	}
 
 	void OnCollisionEnter(Collision col){
@@ -48,7 +50,7 @@ public class ProjectileController : MonoBehaviour {
 			collisionParent.attacked (basicProjectileImpact);
 		}
 
-		collided = true;
+		parentCode.projectile.collided = true;
 
 //		var objectsScript = c.GetComponent<GameObjectScript>();
 //		print(objectsScript);
