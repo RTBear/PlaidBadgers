@@ -33,9 +33,9 @@ public class ProjectileEmitterController : MonoBehaviour {
 		}
 		if (projectile) {
 			if (projectile.projectileActive) {
-				Debug.Log (projectile.collided);
+//				Debug.Log (projectile.collided);
 				if (expirationTimer < 0 || projectile.collided) {
-					Debug.Log ("time to remove");
+//					Debug.Log ("time to remove");
 					projectile.resetProjectile ();
 					expirationTimer = EXPIRATION_TIME;
 					cooldownTimer = COOLDOWN_TIME;

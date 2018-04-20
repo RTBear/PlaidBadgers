@@ -27,7 +27,7 @@ public class ProjectileController : MonoBehaviour {
 	}
 
 	public void resetProjectile(){
-		Debug.Log ("resetting projectile");
+//		Debug.Log ("resetting projectile");
 		if (prefab) {
 			Destroy (prefab);
 		}

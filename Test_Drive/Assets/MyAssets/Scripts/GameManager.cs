@@ -115,7 +115,7 @@ public class GameManager : MonoBehaviour
 
 	//remove an object from being tethered
 	public void removeValFromTether(GameObjectScript obj){
-		Debug.Log ("remove tether call");
+		//Debug.Log ("remove tether call");
 		foreach (KeyValuePair<GameObjectScript,GameObject> pair in tetheringPlayers) {
 			if (pair.Value == obj) {
 				tetheringPlayers.Remove (pair.Key);
@@ -138,7 +138,7 @@ public class GameManager : MonoBehaviour
 				Vector3 destination = playerTrans.position + playerTrans.right;// place destination in front of player.
 				tetheree.GetComponent<GameObjectScript>().tethered = true;//disable tetheree
 				if (Vector3.Distance (destination, tethereeTrans.position) > TETHER_DISTANCE_TOLERANCE) {//if outside tolerable distance
-					Debug.Log ("pullTethers object");
+					//Debug.Log ("pullTethers object");
 					if (instance.tether_LR) {
 						instance.tether_LR.enabled = true;//draw rope
 						instance.tether_LR.SetPosition (0, destination);
@@ -164,7 +164,7 @@ public class GameManager : MonoBehaviour
 				Vector3 destination = player.GetComponent<Char_Code> ().tetherCollisionLocation;//location to tether to
 
 				if (Vector3.Distance (playerTrans.position, destination) > TETHER_DISTANCE_TOLERANCE) {//if outside tolerable distance
-					Debug.Log ("pullTethers planet");
+					//Debug.Log ("pullTethers planet");
 
 					if (instance.tether_LR) {
 						instance.tether_LR.enabled = true;//draw rope

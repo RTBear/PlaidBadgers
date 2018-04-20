@@ -14,8 +14,8 @@ public class GameObjectScript : MonoBehaviour {
 
 	//kick out of tether pull on interference with another object
 	void OnCollisionEnter(Collision col){
-		Debug.Log ("gameobject collision entered");
-		Debug.Log (this);
+		//Debug.Log ("gameobject collision entered");
+		//Debug.Log (this);
 		GameManager.instance.removeValFromTether (this);
 	}
 
