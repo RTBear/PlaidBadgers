@@ -31,6 +31,9 @@ public class GameManager : MonoBehaviour
 	int randomPlanet = 0;
 	float respawnTime = 1f;
 
+	Vector3[] textSpawnLocations = new Vector3[4];
+	Vector2[] spawnLocations = new Vector2[4];
+
 	private LineRenderer tether_LR;//when tethered draw 'rope'
 	public Dictionary<GameObjectScript, GameObject> tetheringPlayers;
 	private const float TETHER_PULL_SPEED = 20;
@@ -258,8 +261,7 @@ public class GameManager : MonoBehaviour
 
 	public void InitialSpawnPlayers ()
 	{
-		Vector3[] textSpawnLocations = new Vector3[4];
-		Vector2[] spawnLocations = new Vector2[4];
+		
 		planets = GameObject.FindGameObjectsWithTag ("Planet");
 		//assign the random planet that the players will spawn on
 		randomPlanet = Random.Range(0, planets.Length - 1);
@@ -329,6 +331,13 @@ public class GameManager : MonoBehaviour
 		temp.layer = LayerMask.NameToLayer ("Player " + playerId);
 		Debug.Log ("temp after");
 		Debug.Log (temp.layer.ToString ()); 
+
+		//spawn the text prefab and attach that to a player
+		GameObject tempText = (GameObject)Instantiate (textPrefab, textSpawnLocations [playerId - 1], Quaternion.identity);
+		tempText.GetComponent<TextMesh> ().characterSize = .5f;
+		temp.GetComponent<Char_Code> ().SetHealthTextObject (tempText);
+
+
 
 		temp.GetComponent<Char_Code> ().playerNumber = playerId;
 		players = GameObject.FindGameObjectsWithTag ("Player");
