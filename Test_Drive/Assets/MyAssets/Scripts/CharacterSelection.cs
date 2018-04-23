@@ -163,7 +163,7 @@ public class CharacterSelection : GameObjectScript {
 		
 	void UpdateScene()
 	{
-		SceneManager.LoadScene("NewMap 1");
+		SceneManager.LoadScene("NewMap");
 	}
 
 	string[] GetJoystickHorizontalAxes()
