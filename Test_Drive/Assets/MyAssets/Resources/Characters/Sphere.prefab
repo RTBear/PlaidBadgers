@@ -364,7 +364,7 @@ GameObject:
   - component: {fileID: 114314255869638814}
   - component: {fileID: 114543312027617850}
   m_Layer: 12
-  m_Name: Hunter (1) 1
+  m_Name: Sphere
   m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1308,7 +1308,6 @@ MonoBehaviour:
   tethered: 0
   tetherEmitter: {fileID: 114115892163867284}
   projectileEmitter: {fileID: 114737080050170272}
-  facingClockwise: 1
   whack: {fileID: 0}
 --- !u!114 &114543312027617850
 MonoBehaviour:
