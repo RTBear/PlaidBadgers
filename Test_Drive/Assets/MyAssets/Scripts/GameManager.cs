@@ -15,9 +15,9 @@ public class GameManager : MonoBehaviour
 	{
 		selectCharacter,
 		battle,
-		none}
-
-	;
+		none,
+		winScreen
+	};
 
 	//A dictionary or "map" that you give it the key value of the players id and it will return the players type
 	Dictionary<int, CharacterAttributes> characterMap;
@@ -40,7 +40,6 @@ public class GameManager : MonoBehaviour
 	private const float TETHER_DISTANCE_TOLERANCE = 0.5f;
 	public const float TETHER_HOLD_TIME = 2;
 
-
 	void ManageSceneStuff (Scene scene, LoadSceneMode mode)
 	{
 		if (scene.name == "CharacterSelect") {
@@ -48,7 +47,20 @@ public class GameManager : MonoBehaviour
 		} else if (scene.name == "EarthAndMoon" || scene.name == "Earth" || scene.name == "FireAndIce" || scene.name == "AllFourPlanets") {
 			currentMode = gameMode.battle;
 			InitGame ();
-		} else {
+		} else if (scene.name == "WinScreen") {
+				currentMode = gameMode.winScreen;
+				int winningPlayer = getWinningPlayer();
+				GameObject prefab = characterMap[winningPlayer].m_Prefab;
+				GameObject temp = (GameObject)Instantiate (prefab, new Vector2(0,0), Quaternion.identity);
+				temp.GetComponent<MeshRenderer> ().material = characterMap [winningPlayer].m_Material;
+				temp.transform.localScale = new Vector3(3, 3, 3);
+
+				GameObject winText = Instantiate(textPrefab, new Vector2(-4,5), Quaternion.identity);
+				TextMesh text = winText.GetComponent<TextMesh> ();
+				text.text = "Player " + winningPlayer + " wins!";
+				text.fontSize = 50;
+		}
+		else {
 			currentMode = gameMode.none;
 		}
 	}
@@ -56,8 +68,6 @@ public class GameManager : MonoBehaviour
 	// Use this for initialization
 	void Awake ()
 	{
-		SceneManager.sceneLoaded += ManageSceneStuff;
-
 		if (instance == null)
 			instance = this;
 		else if (instance != this)
@@ -65,6 +75,8 @@ public class GameManager : MonoBehaviour
 		
 		DontDestroyOnLoad (gameObject);
 
+		SceneManager.sceneLoaded += ManageSceneStuff;
+		Debug.Log ("subscribed to event");
 		GeneralInitialization ();
 	}
 
@@ -82,7 +94,7 @@ public class GameManager : MonoBehaviour
 		CharacterAttributes tempAttributes = new CharacterAttributes();
 		tempAttributes.m_CharacterType = CharacterAttributes.CharacterType.ROBOT;
 		tempAttributes.SetPrefab ();
-		if(characterMap.Count == 0) AssignCharacterToMap(1, tempAttributes);
+		//if(characterMap.Count == 0) AssignCharacterToMap(1, tempAttributes);
 
 		//set up the respawn timers
 		for (int i = 1; i <= characterMap.Count; i++) {
@@ -105,9 +117,14 @@ public class GameManager : MonoBehaviour
 			//change to be dynamic with number of players
 			if (players.Length < numPlayers) {
 				int playerId = findMissingPlayerId();
-				if(playerId != 0){
+				if (playerId != 0) {
+					characterMap [playerId].lives--;
 					respawnTimers [playerId].On ();
-				};
+				} else if (players.Length == 1) {
+					bool gameOver = checkWinCondition ();
+					if (gameOver)
+						SceneManager.LoadScene ("WinScreen");
+				}
 			}
 			assignObjectsToPlanets();
 		}
@@ -116,9 +133,31 @@ public class GameManager : MonoBehaviour
 		}
 	}
 
+	public int getWinningPlayer(){
+		for (int i = 1; i <= numPlayers; i++) {
+			if (characterMap [i].lives > 0) {
+				return i;
+			}
+		}
+		return 0;
+	}
+
+	public bool checkWinCondition(){
+		int numPlayersAlive = 0;
+		for (int i = 1; i <= numPlayers; i++) {
+			if (characterMap [i].lives > 0 || respawnTimers[i].isRunning()) {
+				numPlayersAlive++;
+			}
+		}
+		if (numPlayersAlive == 1) {
+			return true;
+		}
+		return false;
+	}
+
 	//remove an object from being tethered
 	public void removeValFromTether(GameObjectScript obj){
-		Debug.Log ("remove tether call");
+		//Debug.Log ("remove tether call");
 		foreach (KeyValuePair<GameObjectScript,GameObject> pair in tetheringPlayers) {
 			if (pair.Value == obj) {
 				tetheringPlayers.Remove (pair.Key);
@@ -190,6 +229,8 @@ public class GameManager : MonoBehaviour
 
 	private int findMissingPlayerId(){
 		for (int i = 1; i <= numPlayers; i++) {
+			if (characterMap [i].lives == 0)
+				break;
 			bool found = false;
 			foreach (GameObject player in players){
 				if (player.GetComponent<Char_Code>().playerNumber == i){
@@ -199,7 +240,7 @@ public class GameManager : MonoBehaviour
 			}
 			if (!found){
 				//if a timer is already running then we want to see if anyone else is dead
-				if(!respawnTimers[i].isRunning()) return i;
+				if(!respawnTimers[i].isRunning())return i;
 			}
 		}
 		return 0;

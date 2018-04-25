@@ -9,17 +9,14 @@ EditorBuildSettings:
     path: Assets/StartScreen.unity
     guid: 67d69d0a941e0074d8e5afc2061ebf3a
   - enabled: 1
+    path: Assets/AllFourPlanets.unity
+    guid: 586ac39446052bb4286a5ac528140eaa
+  - enabled: 1
     path: Assets/CharacterSelect.unity
     guid: 2d09dab505728064186fc8ecea6dfb8e
-  - enabled: 0
-    path: 
-    guid: 6efd7fb10b8ae054db5b88b18067413a
   - enabled: 1
-    path: Assets/NewMap.unity
-    guid: a918195872f28d346bf86e4cf91154d6
-  - enabled: 1
-    path: Assets/NewMap 1.unity
-    guid: a443ba70e5f25e84cafad4751f676503
+    path: Assets/Earth.unity
+    guid: b0b04948b2fb0ce4caba4d2ddee19c11
   - enabled: 1
     path: Assets/EarthAndMoon.unity
     guid: eeae737f6bef70d419a27a1e55018395
@@ -27,11 +24,20 @@ EditorBuildSettings:
     path: Assets/FireAndIce.unity
     guid: 3028a4622867f3241979ebe3ab24ab82
   - enabled: 1
-    path: Assets/Earth.unity
-    guid: b0b04948b2fb0ce4caba4d2ddee19c11
-  - enabled: 1
     path: Assets/MapSelect.unity
     guid: e2280b5754d043b4fada55e302413d77
   - enabled: 1
-    path: Assets/AllFourPlanets.unity
-    guid: 586ac39446052bb4286a5ac528140eaa
+    path: Assets/New Scene.unity
+    guid: 5a4e4cdab946c7c4da7842b28f57d8fd
+  - enabled: 1
+    path: Assets/NewMap.unity
+    guid: a918195872f28d346bf86e4cf91154d6
+  - enabled: 1
+    path: Assets/NewMap 1.unity
+    guid: a443ba70e5f25e84cafad4751f676503
+  - enabled: 1
+    path: Assets/tether_scene.unity
+    guid: 53a123fcfd8d48441adf09d5fe320c16
+  - enabled: 1
+    path: Assets/WinScreen.unity
+    guid: b2e8905438b660f49967e49ddca53aa8

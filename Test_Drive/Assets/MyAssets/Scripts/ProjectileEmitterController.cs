@@ -4,12 +4,12 @@ using UnityEngine;
 
 public class ProjectileEmitterController : MonoBehaviour {
 
-	public GameObject projectilePrefab; //stores the template of a tether object
-	public ProjectileController projectile; //the tether script
+	public GameObject projectilePrefab; //stores the template of a projectile object
+	public ProjectileController projectile; //the projectile script
 
-	private const float LAUNCH_FORCE = 1000; //force applied to tether at launch
+	private const float LAUNCH_FORCE = 1000; //force applied to projectile at launch
 
-	//public float cooldownTime; //cooldown timer max (time between tether launches)
+	//public float cooldownTime; //cooldown timer max (time between projectile launches)
 	//private float currentCooldownTimer; //current cooldown time
 
 	public Transform firePoint;
@@ -17,6 +17,9 @@ public class ProjectileEmitterController : MonoBehaviour {
 
 	private const float EXPIRATION_TIME = 1;
 	private float expirationTimer = EXPIRATION_TIME;
+
+	private const float COOLDOWN_TIME = 0.8f;
+	private float cooldownTimer = 0;
 
 	// Use this for initialization
 	void Start () {

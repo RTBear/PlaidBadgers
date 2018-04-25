@@ -7,7 +7,8 @@ public class ProjectileController : MonoBehaviour {
 	public bool collided = false;
 	public float timer = 2;
 	public float counter;
-
+	int DAMAGE = 10;
+	int ATTACK_FORCE = 5;
 	// Use this for initialization
 	void Start () {
 
@@ -22,14 +23,15 @@ public class ProjectileController : MonoBehaviour {
 	}
 
 	void OnCollisionEnter(Collision col){
-		Debug.Log ("collision with: " + col.gameObject.ToString ());
+//		Debug.Log ("collision with: " + col.gameObject.ToString ());
 		var collisionParent = col.collider.GetComponent<GameObjectScript>();
 		 
-		Debug.Log ("collisionParent: " + collisionParent);
+//		Debug.Log ("collisionParent: " + collisionParent);
 		if(collisionParent){//make sure it collided with a player or item
 
-			Vector2 knockDir = (col.transform.position - collisionParent.transform.position).normalized;
-			Attack basicProjectileImpact = new Attack (10, knockDir, 25);
+			Vector2 knockDir = (collisionParent.transform.position - transform.position).normalized;
+			Attack basicProjectileImpact = new Attack (DAMAGE, knockDir, ATTACK_FORCE);
+
 
 			collisionParent.attacked (basicProjectileImpact);
 		}
