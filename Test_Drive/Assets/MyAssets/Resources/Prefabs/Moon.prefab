@@ -25,7 +25,7 @@ GameObject:
   - component: {fileID: 136080921209122142}
   - component: {fileID: 114307600512415524}
   - component: {fileID: 114211157114667180}
-  m_Layer: 0
+  m_Layer: 17
   m_Name: Moon
   m_TagString: Planet
   m_Icon: {fileID: 0}
@@ -124,7 +124,7 @@ CapsuleCollider:
   m_Radius: 3.75
   m_Height: 4
   m_Direction: 1
-  m_Center: {x: -0.00000011920929, y: 0, z: 0}
+  m_Center: {x: 0.00000005960464, y: 0, z: -0.00000008940699}
 --- !u!136 &136440038410225744
 CapsuleCollider:
   m_ObjectHideFlags: 1

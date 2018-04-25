@@ -22,6 +22,11 @@ public class Char_Code : GameObjectScript {
 	public Vector3 tetherCollisionLocation; //used to determine where tether collided with planet
 	public float tetherHoldTimer = GameManager.TETHER_HOLD_TIME;
 
+	GameObject crosshairPrefab;
+	GameObject crosshair;
+
+	public bool isTethered = false;
+
     // Use this for initialization
     void Start () {
 //		tetherCollisionLocation = GetComponent<Transform> ();
@@ -33,12 +38,15 @@ public class Char_Code : GameObjectScript {
 
         anim = GetComponentInChildren<Animator>();
         specialAttack = gameObject.AddComponent<SpecialAttackRobot>();
+
+		crosshairPrefab = Resources.Load ("Prefabs/Crosshair") as GameObject;
     }
 	
 	// Update is called once per frame
 	// this is the central update class for the character
 	void Update () {
-		RespondToInputs();
+		if (!isTethered)
+			RespondToInputs();
 		SetHealthText ();
         UpdateAnimation();
         //		Debug.Log (pc.tetherEmitter.tether.m_tetherToPlanet);
@@ -56,11 +64,11 @@ public class Char_Code : GameObjectScript {
 	// Update is called once per frame
 	void RespondToInputs () {
 
-		if (input.isReceivingTetherFiringInput() == true) {
-			if (pc.tetherEmitter.tether.tetherAttached == false) {
-				pc.tetherEmitter.tether.isFiring = false;
-			}
-		}
+		//		if (input.isReceivingTetherFiringInput() == true) {
+//			if (pc.tetherEmitter.tether.tetherAttached == false) {
+//				pc.tetherEmitter.tether.isFiring = false;
+//			}
+//		}
 
 		//Check if the user has applied input on their controller
 		if (input.MoveTriggered () && pc.canMove ()) {
@@ -68,18 +76,50 @@ public class Char_Code : GameObjectScript {
 		}
 
 		//Check if the user has applied aim input
-		if (input.AimTriggered ()) { 
-			pc.Aim (input.GetAimAxis ());
+//		if (input.AimTriggered ()) { 
+//			pc.Aim (input.GetAimAxis ());
+//		}
+
+		if (input.AimTriggered ()) 
+		{
+			if (!crosshair) 
+			{
+				crosshair = (GameObject)Instantiate (crosshairPrefab, gameObject.transform.position, Quaternion.identity);
+				crosshair.GetComponent<Crosshair> ().parent = this.gameObject;
+			}
+			if (crosshair)
+			{
+				
+				float angleCrosshair = getAngle (input.GetAimAxis ());
+				crosshair.transform.localEulerAngles = new Vector3(0, 0, angleCrosshair);
+			}
+		} 
+		else
+		{
+			if (crosshair) {
+				if (!crosshair.GetComponent<Crosshair> ().shootingTether && !crosshair.GetComponent<Crosshair>().shootingProjectile) {
+					Destroy (crosshair.gameObject);
+				}
+			}
 		}
 
-		if (input.isReceivingTetherFiringInput ()) {
-			pc.tetherEmitter.launchTether ();
+		if (crosshair)
+			crosshair.transform.position = gameObject.transform.position;
+
+		if (input.isReceivingTetherFiringInput () && crosshair) 
+		{
+			if(!crosshair.GetComponent<Crosshair>().shootingTether)
+				crosshair.GetComponent<Crosshair>().ShootTether();
 		}
 
-		if (input.isReceivingProjectileFiringInput ()) {
-			pc.projectileEmitter.launchProjectile ();
-		}
+//		if (input.isReceivingTetherFiringInput ()) {
+//			pc.tetherEmitter.launchTether ();
+//		}
 
+		if (input.isReceivingProjectileFiringInput () && crosshair) {
+			if(!crosshair.GetComponent<Crosshair>().shootingProjectile)
+				crosshair.GetComponent<Crosshair>().launchProjectile ();
+		}
 		//if (Input.GetKeyDown ("joystick button 2"))
 		//	Debug.Log (horizontal + " pressed x");
 		

@@ -8,6 +8,7 @@ TagManager:
   - Planet
   - Tether
   - Text
+  - Map
   layers:
   - Default
   - TransparentFX
@@ -24,11 +25,11 @@ TagManager:
   - Player 2
   - Player 3
   - Player 4
-  - 
-  - 
-  - 
-  - 
-  - 
+  - Earth
+  - Lava
+  - Moon
+  - Ice
+  - Tether
   - 
   - 
   - 

@@ -28,8 +28,11 @@ public class GameManager : MonoBehaviour
 	public GameObject[]	planets;
 	Dictionary<int, RespawnTimer> respawnTimers = new Dictionary<int, RespawnTimer>();
 	int numPlayers = 4;
-
+	int randomPlanet = 0;
 	float respawnTime = 1f;
+
+	Vector3[] textSpawnLocations = new Vector3[4];
+	Vector2[] spawnLocations = new Vector2[4];
 
 	private LineRenderer tether_LR;//when tethered draw 'rope'
 	public Dictionary<GameObjectScript, GameObject> tetheringPlayers;
@@ -41,7 +44,7 @@ public class GameManager : MonoBehaviour
 	{
 		if (scene.name == "CharacterSelect") {
 			currentMode = gameMode.selectCharacter;
-		} else if (scene.name == "NewMap") {
+		} else if (scene.name == "EarthAndMoon" || scene.name == "Earth" || scene.name == "FireAndIce" || scene.name == "AllFourPlanets") {
 			currentMode = gameMode.battle;
 			InitGame ();
 		} else if (scene.name == "WinScreen") {
@@ -166,63 +169,62 @@ public class GameManager : MonoBehaviour
 	//loop through dictionary lerping appropriate objects
 	void pullTethers ()
 	{
-		Dictionary<GameObjectScript, GameObject> tempDict = new Dictionary<GameObjectScript, GameObject>(tetheringPlayers);
-		foreach (KeyValuePair<GameObjectScript,GameObject> obj in tempDict) { 
-			GameObjectScript player = obj.Key;
-			GameObject tetheree = obj.Value;
-			Transform playerTrans = player.GetComponent<Transform> ();
-			Transform tethereeTrans = tetheree.GetComponent<Transform> ();
-
-			if (tetheree.GetComponent<GameObjectScript> ()) {//tetheree is an object that can be pulled to player... lerp to player
-				Vector3 destination = playerTrans.position + playerTrans.right;// place destination in front of player.
-				tetheree.GetComponent<GameObjectScript>().tethered = true;//disable tetheree
-				if (Vector3.Distance (destination, tethereeTrans.position) > TETHER_DISTANCE_TOLERANCE) {//if outside tolerable distance
-					//Debug.Log ("pullTethers object");
-					if (instance.tether_LR) {
-						instance.tether_LR.enabled = true;//draw rope
-						instance.tether_LR.SetPosition (0, destination);
-						instance.tether_LR.SetPosition (1, tethereeTrans.position);
-					}
-					//This is the actual tether pull
-					tethereeTrans.position = Vector3.Lerp (tethereeTrans.position, destination, (Time.deltaTime * TETHER_PULL_SPEED) / Vector3.Distance (destination, tethereeTrans.position));
-				} else {
-					if (instance.tether_LR) {
-						instance.tether_LR.enabled = false;
-					}
-					if (player.GetComponent<Char_Code> ().tetherHoldTimer > 0) {
-						player.GetComponent<Char_Code> ().tetherHoldTimer--;
-					} else {
-						player.GetComponent<Char_Code> ().tetherHoldTimer = TETHER_HOLD_TIME;
-						player.rb.constraints = RigidbodyConstraints.FreezePositionZ;
-						player.GetComponent<Char_Code>().pc.tetherEmitter.tether.resetTether();
-
-						tetheringPlayers.Remove (player);
-					}
-				}
-			} else if (tetheree.CompareTag ("Planet")) { //tetheree is a planet... lerp player to planet
-				Vector3 destination = player.GetComponent<Char_Code> ().tetherCollisionLocation;//location to tether to
-
-				if (Vector3.Distance (playerTrans.position, destination) > TETHER_DISTANCE_TOLERANCE) {//if outside tolerable distance
-					//Debug.Log ("pullTethers planet");
-
-					if (instance.tether_LR) {
-						instance.tether_LR.enabled = true;//draw rope
-						instance.tether_LR.SetPosition (0, destination);
-						instance.tether_LR.SetPosition (1, playerTrans.position);
-					}
-					//This is the actual tether pull
-					playerTrans.position = Vector3.Lerp (playerTrans.position, destination, (Time.deltaTime * TETHER_PULL_SPEED) / Vector3.Distance (playerTrans.position, destination));
-				} else {
-					if (instance.tether_LR) {
-						instance.tether_LR.enabled = false;
-					}
-					player.rb.constraints = RigidbodyConstraints.FreezePositionZ;
-					player.GetComponent<Char_Code>().pc.tetherEmitter.tether.resetTether();
-					tetheringPlayers.Remove (player);
-				}
-			}
-			
-		}
+//		foreach (KeyValuePair<GameObjectScript,GameObject> obj in tetheringPlayers) {
+//			GameObjectScript player = obj.Key;
+//			GameObject tetheree = obj.Value;
+//			Transform playerTrans = player.GetComponent<Transform> ();
+//			Transform tethereeTrans = tetheree.GetComponent<Transform> ();
+//
+//			if (tetheree.GetComponent<GameObjectScript> ()) {//tetheree is an object that can be pulled to player... lerp to player
+//				Vector3 destination = playerTrans.position + playerTrans.right;// place destination in front of player.
+//				tetheree.GetComponent<GameObjectScript>().tethered = true;//disable tetheree
+//				if (Vector3.Distance (destination, tethereeTrans.position) > TETHER_DISTANCE_TOLERANCE) {//if outside tolerable distance
+//					Debug.Log ("pullTethers object");
+//					if (instance.tether_LR) {
+//						instance.tether_LR.enabled = true;//draw rope
+//						instance.tether_LR.SetPosition (0, destination);
+//						instance.tether_LR.SetPosition (1, tethereeTrans.position);
+//					}
+//					//This is the actual tether pull
+//					tethereeTrans.position = Vector3.Lerp (tethereeTrans.position, destination, (Time.deltaTime * TETHER_PULL_SPEED) / Vector3.Distance (destination, tethereeTrans.position));
+//				} else {
+//					if (instance.tether_LR) {
+//						instance.tether_LR.enabled = false;
+//					}
+//					if (player.GetComponent<Char_Code> ().tetherHoldTimer > 0) {
+//						player.GetComponent<Char_Code> ().tetherHoldTimer--;
+//					} else {
+//						player.GetComponent<Char_Code> ().tetherHoldTimer = TETHER_HOLD_TIME;
+//						player.rb.constraints = RigidbodyConstraints.FreezePositionZ;
+//						player.GetComponent<Char_Code>().pc.tetherEmitter.tether.resetTether();
+//
+//						tetheringPlayers.Remove (player);
+//					}
+//				}
+//			} else if (tetheree.CompareTag ("Planet")) { //tetheree is a planet... lerp player to planet
+//				Vector3 destination = player.GetComponent<Char_Code> ().tetherCollisionLocation;//location to tether to
+//
+//				if (Vector3.Distance (playerTrans.position, destination) > TETHER_DISTANCE_TOLERANCE) {//if outside tolerable distance
+//					Debug.Log ("pullTethers planet");
+//
+//					if (instance.tether_LR) {
+//						instance.tether_LR.enabled = true;//draw rope
+//						instance.tether_LR.SetPosition (0, destination);
+//						instance.tether_LR.SetPosition (1, playerTrans.position);
+//					}
+//					//This is the actual tether pull
+//					playerTrans.position = Vector3.Lerp (playerTrans.position, destination, (Time.deltaTime * TETHER_PULL_SPEED) / Vector3.Distance (playerTrans.position, destination));
+//				} else {
+//					if (instance.tether_LR) {
+//						instance.tether_LR.enabled = false;
+//					}
+//					player.rb.constraints = RigidbodyConstraints.FreezePositionZ;
+//					player.GetComponent<Char_Code>().pc.tetherEmitter.tether.resetTether();
+//					tetheringPlayers.Remove (player);
+//				}
+//			}
+//			
+//		}
 	}
 
 	private int findMissingPlayerId(){
@@ -300,21 +302,22 @@ public class GameManager : MonoBehaviour
 
 	public void InitialSpawnPlayers ()
 	{
-		Vector3[] textSpawnLocations = new Vector3[4];
-		Vector2[] spawnLocations = new Vector2[4];
+		
 		planets = GameObject.FindGameObjectsWithTag ("Planet");
-		if (planets [0]) {
-			Vector3 planetSize = planets [0].GetComponent<Renderer> ().bounds.size;
-			Vector3 planetLocation = planets[0].GetComponent<Transform>().position;
+		//assign the random planet that the players will spawn on
+		randomPlanet = Random.Range(0, planets.Length - 1);
+		if (planets [randomPlanet]) {
+			Vector3 planetSize = planets [randomPlanet].GetComponent<Renderer> ().bounds.size;
+			Vector3 planetLocation = planets[randomPlanet].GetComponent<Transform>().position;
 			textSpawnLocations [0] = new Vector3 (planetLocation.x - planetSize.x / 3f, planetLocation.y + planetSize.y / 4f, 0);
 			textSpawnLocations [1] = new Vector3 (planetLocation.x + planetSize.x / 7f, planetLocation.y + planetSize.y / 4f, 0);
 			textSpawnLocations [2] = new Vector3 (planetLocation.x - planetSize.x / 3f, planetLocation.y - planetSize.y / 4f, 0);
 			textSpawnLocations [3] = new Vector3 (planetLocation.x + planetSize.x / 7f, planetLocation.y - planetSize.y / 4f, 0);
 
-			spawnLocations [0] = new Vector2 (0, planetLocation.y + planetSize.y);
-			spawnLocations [1] = new Vector2 (0, planetLocation.y - planetSize.y);
-			spawnLocations [2] = new Vector2 (planetLocation.x + planetSize.x, 0);
-			spawnLocations [3] = new Vector2 (planetLocation.x - planetSize.x, 0);
+			spawnLocations [0] = new Vector2 (planetLocation.x, planetLocation.y + planets [randomPlanet].GetComponent<SphericalGravity> ().range);
+			spawnLocations [1] = new Vector2 (planetLocation.x, planetLocation.y - planets [randomPlanet].GetComponent<SphericalGravity> ().range);
+			spawnLocations [2] = new Vector2 (planetLocation.x + planets [randomPlanet].GetComponent<SphericalGravity> ().range, planetLocation.y);
+			spawnLocations [3] = new Vector2 (planetLocation.x - planets [randomPlanet].GetComponent<SphericalGravity> ().range, planetLocation.y);
 		} else {
 			Debug.Log ("There are no planets available to be spawned on");
 		}
@@ -354,11 +357,11 @@ public class GameManager : MonoBehaviour
 	public void SpawnPlayer (int playerId)
 	{
 		Vector2 spawnLocation = new Vector2 (0, 0);
-		if (planets [0]) {
+		if (planets [randomPlanet]) {
 			//Spawn at the top of the first planet
-			Vector3 planetSize = planets [0].GetComponent<Renderer> ().bounds.size;
-			Vector3 planetLocation = planets[0].GetComponent<Transform>().position;
-			spawnLocation = new Vector2 (0, planetLocation.y + planetSize.y);
+			Vector3 planetSize = planets [randomPlanet].GetComponent<Renderer> ().bounds.size;
+			Vector3 planetLocation = planets[randomPlanet].GetComponent<Transform>().position;
+			spawnLocation = new Vector2 (planetLocation.x, planetLocation.y +  planets [randomPlanet].GetComponent<SphericalGravity> ().range / (1.25f));
 		} else {
 			Debug.Log ("There are no planets!");
 		}
@@ -369,6 +372,13 @@ public class GameManager : MonoBehaviour
 		temp.layer = LayerMask.NameToLayer ("Player " + playerId);
 		Debug.Log ("temp after");
 		Debug.Log (temp.layer.ToString ()); 
+
+		//spawn the text prefab and attach that to a player
+		GameObject tempText = (GameObject)Instantiate (textPrefab, textSpawnLocations [playerId - 1], Quaternion.identity);
+		tempText.GetComponent<TextMesh> ().characterSize = .5f;
+		temp.GetComponent<Char_Code> ().SetHealthTextObject (tempText);
+
+
 
 		temp.GetComponent<Char_Code> ().playerNumber = playerId;
 		players = GameObject.FindGameObjectsWithTag ("Player");

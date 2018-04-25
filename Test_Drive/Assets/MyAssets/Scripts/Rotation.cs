@@ -13,7 +13,5 @@ public class Rotation : MonoBehaviour {
 	void Update () {
 		transform.Rotate(0, Time.deltaTime, 0);
 
-		if(gameObject.tag == "Planet")
-			transform.Rotate(Time.deltaTime * 5,Time.deltaTime * 3, Time.deltaTime * 3);
 	}
 }

@@ -66,6 +66,7 @@ public class TetherController : MonoBehaviour {
 		//	Debug.Log ("resetting parent");
 //			tetherAttached = false;
 		}
+		tetherAttached = false;
 	}
 		
 }

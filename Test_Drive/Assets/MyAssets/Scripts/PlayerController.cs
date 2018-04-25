@@ -86,12 +86,9 @@ public class PlayerController : GameObjectScript
     //can make this more complex, set methods for is paralized, ect
     public bool canMove()
     {
-        if (tetherEmitter.tether)
-        {//if the tether is no longer a child of the player, that means it is attached to something else.
-            if (inPlanetGravity && !tethered && !tetherEmitter.tether.tetherActive)
-            {
-                return true;
-            }
+        if (inPlanetGravity)
+        {
+            return true;
         }
         return false;//if this point is reached, the player should be paralized
     }

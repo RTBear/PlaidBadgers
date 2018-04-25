@@ -20,7 +20,7 @@ public class CharacterAttributes{
 	{
 		switch (m_CharacterType) {
 			case CharacterType.CUBE:
-				m_Prefab = Resources.Load ("Characters/Cube") as GameObject;
+				m_Prefab = Resources.Load ("Characters/Cube 1") as GameObject;
 				break;
 			case CharacterType.ROBOT:
 				m_Prefab = Resources.Load ("Characters/Robot") as GameObject;

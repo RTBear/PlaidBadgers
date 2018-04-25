@@ -15,6 +15,7 @@ public class DeathTimer : Timer {
 
 	protected override void timerFinished ()
 	{
+		
 		Destroy (target);
 		Destroy (this);
 	}

@@ -42,6 +42,8 @@ public class PlayerInput : MonoBehaviour {
 	//check if input is still being received from the player
 	public bool isReceivingTetherFiringInput(){
 		//Debug.Log (Input.GetAxisRaw (fireTether) == 1);
+//		if (Input.GetAxis (fireTether) != 0)
+//			Debug.Log ("Player number: " + playerNumber + " Tether fired");
 		return (Input.GetAxis (fireTether) != 0);
 	}
 
