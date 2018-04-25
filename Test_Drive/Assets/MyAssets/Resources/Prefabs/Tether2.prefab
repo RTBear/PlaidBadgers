@@ -113,6 +113,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   parent: {fileID: 0}
   collidedObject: {fileID: 0}
+  m_speed: 10
 --- !u!135 &135372885927356760
 SphereCollider:
   m_ObjectHideFlags: 1

@@ -14,7 +14,6 @@ public class Char_Code : GameObjectScript {
 	GameObject healthTextObject;
 
 	GameObject crosshairPrefab;
-	GameObject crosshairPosition;
 	GameObject crosshair;
 
 	public bool isTethered = false;
@@ -76,38 +75,27 @@ public class Char_Code : GameObjectScript {
 		{
 			if (!crosshair) 
 			{
-				crosshairPosition = new GameObject ();
-				crosshairPosition.transform.position = gameObject.transform.position;
-				Vector3 playerPos = gameObject.transform.position;
-				int radius = 1;
-				Vector2 aimAxis = input.GetAimAxis ();
-				Vector3 spawnPos = new Vector3 (playerPos.x + aimAxis.x + radius, playerPos.y + aimAxis.y + radius, playerPos.z);
-				crosshair = (GameObject)Instantiate (crosshairPrefab, spawnPos, Quaternion.identity);
-				crosshair.transform.SetParent (crosshairPosition.transform);
+				crosshair = (GameObject)Instantiate (crosshairPrefab, gameObject.transform.position, Quaternion.identity);
 				crosshair.GetComponent<Crosshair> ().parent = this.gameObject;
 			}
-			if (crosshair && crosshairPosition)
+			if (crosshair)
 			{
 				
 				float angleCrosshair = getAngle (input.GetAimAxis ());
-				crosshairPosition.transform.eulerAngles = new Vector3(0, 0, angleCrosshair);
 				crosshair.transform.localEulerAngles = new Vector3(0, 0, angleCrosshair);
-				//crosshair.transform.eulerAngles = crosshairPosition.transform.eulerAngles;
 			}
 		} 
 		else
 		{
-			if (crosshair && crosshairPosition) {
+			if (crosshair) {
 				if (!crosshair.GetComponent<Crosshair> ().shootingTether) {
 					Destroy (crosshair.gameObject);
-					Destroy (crosshairPosition);
-
 				}
 			}
 		}
 
-		if (crosshairPosition)
-			crosshairPosition.transform.position = gameObject.transform.position;
+		if (crosshair)
+			crosshair.transform.position = gameObject.transform.position;
 
 		if (input.isReceivingTetherFiringInput () && crosshair) 
 		{
@@ -119,8 +107,8 @@ public class Char_Code : GameObjectScript {
 //			pc.tetherEmitter.launchTether ();
 //		}
 
-		if (input.isReceivingProjectileFiringInput ()) {
-			pc.projectileEmitter.launchProjectile ();
+		if (input.isReceivingProjectileFiringInput () && crosshair) {
+			crosshair.GetComponent<Crosshair>().launchProjectile ();
 		}
 
 		//if (Input.GetKeyDown ("joystick button 2"))

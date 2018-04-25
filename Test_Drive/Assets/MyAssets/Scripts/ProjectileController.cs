@@ -4,33 +4,21 @@ using UnityEngine;
 
 public class ProjectileController : MonoBehaviour {
 
-	public GameObject prefab;
-	private Rigidbody m_rb;
-
-	public bool projectileActive = false;
-
 	public bool collided = false;
-
+	public float timer = 2;
+	public float counter;
 
 	// Use this for initialization
 	void Start () {
-		m_rb = GetComponent<Rigidbody> ();
-		m_rb.collisionDetectionMode = CollisionDetectionMode.ContinuousDynamic;
+
 	}
 
 	// Update is called once per frame
 	void Update () {
 		
-
-	}
-
-	public void resetProjectile(){
-		Debug.Log (GetComponent<ProjectileController> ().prefab);
-		if (prefab) {
-			Destroy (prefab);
-		}
-		projectileActive = false;
-		collided = false;
+		counter += Time.deltaTime;
+		if (counter >= timer)
+			Destroy (this.gameObject);
 	}
 
 	void OnCollisionEnter(Collision col){
@@ -46,7 +34,7 @@ public class ProjectileController : MonoBehaviour {
 			collisionParent.attacked (basicProjectileImpact);
 		}
 
-		collided = true;
+		Destroy (this.gameObject);
 
 //		var objectsScript = c.GetComponent<GameObjectScript>();
 //		print(objectsScript);

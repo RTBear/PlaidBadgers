@@ -378,7 +378,8 @@ MonoBehaviour:
   attack_HitBoxes:
   - {fileID: 65233436381798912}
   healthTextFromCanvas: {fileID: 0}
-  tetherCollisionLocation: {fileID: 0}
+  isTethered: 0
+  tetherCollisionLocation: {x: 0, y: 0, z: 0}
   tetherHoldTimer: 2
 --- !u!114 &114234885912970022
 MonoBehaviour:
@@ -440,7 +441,7 @@ MonoBehaviour:
   tetherPrefab: {fileID: 0}
   tether: {fileID: 114811079407193662, guid: f1210bd6dbdacf44789721a34e327f1a, type: 2}
   firePoint: {fileID: 4216196871952520}
-  crosshair: {fileID: 1950631918348926}
+  crosshair: {fileID: 0}
 --- !u!136 &136323493362202108
 CapsuleCollider:
   m_ObjectHideFlags: 1
