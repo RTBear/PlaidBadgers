@@ -13,7 +13,9 @@ public class Char_Code : GameObjectScript {
 	public Text healthTextFromCanvas;
 	GameObject healthTextObject;
 	GameObject targetEnemy;
-	public float attackMultiplier = 0;
+    Animator anim;
+    float anim_vel;
+    public float attackMultiplier = 0;
 	public bool chargeAttackStarted = false;
 	SpecialAttack specialAttack;
 
@@ -29,7 +31,8 @@ public class Char_Code : GameObjectScript {
 		input.SetController(playerNumber);
 		rb = GetComponent<Rigidbody> ();
 
-		specialAttack = gameObject.AddComponent<SpecialAttackRobot>();
+        anim = GetComponentInChildren<Animator>();
+        specialAttack = gameObject.AddComponent<SpecialAttackRobot>();
     }
 	
 	// Update is called once per frame
@@ -37,11 +40,12 @@ public class Char_Code : GameObjectScript {
 	void Update () {
 		RespondToInputs();
 		SetHealthText ();
-//		Debug.Log (pc.tetherEmitter.tether.m_tetherToPlanet);
-//		if(pc.tetherEmitter.tether.m_tetherToPlanet){
-//			tetherToPlanet();
-//		}
-	}
+        UpdateAnimation();
+        //		Debug.Log (pc.tetherEmitter.tether.m_tetherToPlanet);
+        //		if(pc.tetherEmitter.tether.m_tetherToPlanet){
+        //			tetherToPlanet();
+        //		}
+    }
 
 	//tether player to planet
 //	public void tetherToPlanet(){
@@ -150,7 +154,13 @@ public class Char_Code : GameObjectScript {
 		}
 	}
 
-	void OnTriggerExit(Collider col)
+    void UpdateAnimation()
+    {
+        anim_vel = rb.velocity.sqrMagnitude;
+        anim.SetFloat("velocity", anim_vel);
+        anim.SetBool("facingClockwise", pc.isFacingClockwise());
+    }
+        void OnTriggerExit(Collider col)
 	{
 		if (col.tag != "Planet") {
 			targetEnemy = null;
