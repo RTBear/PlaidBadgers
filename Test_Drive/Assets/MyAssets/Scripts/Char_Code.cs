@@ -38,6 +38,7 @@ public class Char_Code : GameObjectScript {
 		if (!isTethered)
 			RespondToInputs();
 		SetHealthText ();
+
 //		Debug.Log (pc.tetherEmitter.tether.m_tetherToPlanet);
 //		if(pc.tetherEmitter.tether.m_tetherToPlanet){
 //			tetherToPlanet();
@@ -88,7 +89,7 @@ public class Char_Code : GameObjectScript {
 		else
 		{
 			if (crosshair) {
-				if (!crosshair.GetComponent<Crosshair> ().shootingTether) {
+				if (!crosshair.GetComponent<Crosshair> ().shootingTether && !crosshair.GetComponent<Crosshair>().shootingProjectile) {
 					Destroy (crosshair.gameObject);
 				}
 			}
@@ -108,7 +109,8 @@ public class Char_Code : GameObjectScript {
 //		}
 
 		if (input.isReceivingProjectileFiringInput () && crosshair) {
-			crosshair.GetComponent<Crosshair>().launchProjectile ();
+			if(!crosshair.GetComponent<Crosshair>().shootingProjectile)
+				crosshair.GetComponent<Crosshair>().launchProjectile ();
 		}
 
 		//if (Input.GetKeyDown ("joystick button 2"))
