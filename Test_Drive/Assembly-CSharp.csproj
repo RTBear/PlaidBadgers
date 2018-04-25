@@ -51,13 +51,13 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-     <Compile Include="Assets\Crosshair.cs" />
      <Compile Include="Assets\MyAssets\Scripts\Attack.cs" />
      <Compile Include="Assets\MyAssets\Scripts\Char_Code.cs" />
      <Compile Include="Assets\MyAssets\Scripts\CharacterAttributes.cs" />
      <Compile Include="Assets\MyAssets\Scripts\CharacterSelection.cs" />
      <Compile Include="Assets\MyAssets\Scripts\CharacterSpawn.cs" />
      <Compile Include="Assets\MyAssets\Scripts\CharacterType.cs" />
+     <Compile Include="Assets\MyAssets\Scripts\Crosshair.cs" />
      <Compile Include="Assets\MyAssets\Scripts\GameManager.cs" />
      <Compile Include="Assets\MyAssets\Scripts\GameObjectScript.cs" />
      <Compile Include="Assets\MyAssets\Scripts\MapSelect.cs" />
@@ -69,10 +69,10 @@
      <Compile Include="Assets\MyAssets\Scripts\Rotation.cs" />
      <Compile Include="Assets\MyAssets\Scripts\SphericalGravity.cs" />
      <Compile Include="Assets\MyAssets\Scripts\StartScreen.cs" />
+     <Compile Include="Assets\MyAssets\Scripts\Tether.cs" />
      <Compile Include="Assets\MyAssets\Scripts\TetherController.cs" />
      <Compile Include="Assets\MyAssets\Scripts\TetherEmitterController.cs" />
      <Compile Include="Assets\MyAssets\Scripts\Timers.cs" />
-     <Compile Include="Assets\Tether.cs" />
  <Reference Include="UnityEngine.UI">
  <HintPath>C:/Program Files/Unity/Editor/Data/UnityExtensions/Unity/GUISystem/UnityEngine.UI.dll</HintPath>
  </Reference>

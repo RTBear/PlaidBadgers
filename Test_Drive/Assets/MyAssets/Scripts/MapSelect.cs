@@ -70,7 +70,7 @@ public class MapSelect : MonoBehaviour {
 			currentMapSelection = availableMaps.Length - 1;
 
 		foreach (GameObject map in availableMaps)
-			map.GetComponent<Transform>().Rotate (0, 90 * value, 0);
+			map.transform.Rotate (0, 90 * value, 0);
 
 		Debug.Log("Current map: " + availableMaps[currentMapSelection].name);
 	}
