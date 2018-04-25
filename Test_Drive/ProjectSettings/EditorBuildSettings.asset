@@ -17,6 +17,9 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/NewMap 1.unity
     guid: a443ba70e5f25e84cafad4751f676503
+  - enabled: 1
+    path: Assets/WinScreen.unity
+    guid: b2e8905438b660f49967e49ddca53aa8
   - enabled: 0
     path: 
     guid: 00000000000000000000000000000000

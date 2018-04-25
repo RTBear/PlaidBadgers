@@ -14,6 +14,7 @@ public class CharacterAttributes{
 	public GameObject m_Prefab;
 	public Material m_Material = Resources.Load("Materials/BaseMaterial") as Material;
 	public CharacterType m_CharacterType;
+	public int lives = 2;
 
 	public void SetPrefab ()
 	{
